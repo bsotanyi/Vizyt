@@ -27,6 +27,6 @@ if ($_CONFIG['debug']) {
     error_reporting(E_ALL); 
 }
 
-// DB::connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_CHARSET);
+$DB = DB::connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_CHARSET);
 
 // ============================================================================ //
