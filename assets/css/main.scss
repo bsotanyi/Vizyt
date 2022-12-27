@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+$primary: #e60f00;
+$dark: darken($primary, 41%);
+$text: #eee;
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.bg-primary {
+    background-color: darken($primary, 10) !important;
+    color: $text !important;
+
+    &:hover {
+        background-color: darken($primary, 20) !important;
+    }
+}
+.form-control, .form-select {
+    background-color: transparent !important;
+    color: $text !important;
+    border-color: darken($color: $text, $amount: 70);
+
+    &::placeholder {
+        color: darken($color: $text, $amount: 50)
+    }
+    &:focus {
+        border-color: $primary;
+        box-shadow: none !important;
+    }
+}
+.table {
+    color: $text;
+    
+    th, td {
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200;
+    background-color: $dark;
+    color: $text;
+    overflow-x: hidden;
+    transition: transform .15s;
+
+    display: grid;
+    grid-template-columns: 17rem auto;
+    grid-template-rows: 5.5rem auto;
+    grid-template-areas:
+        "sidenav nav"
+        "sidenav main"
+        "sidenav footer";
+
+    &::before {
+        position: absolute;
+        content: '';
+        display: block;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: $primary;
+        height: 3px;
+    }
+
+    nav#navigation {
+        grid-area: nav;
+        padding: 2rem;
+        svg {
+            cursor: pointer;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .buttons a {
+            margin: 1rem;
+        }
+        .js-sidenav-toggle {
+            display: none;
+        }
+    }
+    aside#sidenav {
+        grid-area: sidenav;
+        position: relative;
+        transition: all .15s;
+
+        .sticky {
+            position: sticky;
+            top: 0;
+
+            > a {
+                color: inherit;
+                text-decoration: none;
+                padding: 2rem 3rem;
+                display: block;
+            }
+    
+            > div {
+                margin: 0 1.5rem;
+                padding: 1rem;
+                border-radius: .5rem;
+                background: linear-gradient(to bottom, $primary, $primary, adjust-hue($primary, 20deg));
+                font-weight: 400;
+                box-shadow: 0 0 3rem 1px rgba(0, 0, 0, 0.5);
+                height: 80vh;
+
+                > a {
+                    color: inherit;
+                    text-decoration: none;
+                    display: block;
+                    padding: 1.1rem;
+                    border-radius: .5rem;
+                    transition: box-shadow .1s;
+                    margin-block-end: .3rem;
+
+                    &:hover, &.active {
+                        box-shadow: 0 0 .5rem 0 rgba(0, 0, 0, 0.2);
+                    }
+                    svg {
+                        margin-right: .5em;
+                    }
+                }
+            }
+        }
+    }
+    main#content {
+        grid-area: main;
+        max-width: 100%;
+        padding-right: 1.5rem;
+        overflow: hidden;
+
+        > .parent {
+            margin-block-end: 1rem;
+            > div {
+                background-color: rgba(255, 255, 255, 0.08);
+                border-radius: .5rem;
+                padding: 1rem;
+
+                > small {
+                    opacity: 0.7;
+                }
+                > h3 {
+                    font-weight: 200;
+                }
+            }
+        }
+    }
+    footer#footer {
+        grid-area: footer;
+        padding: 1rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "nav"
+            "main"
+            "footer";
+        
+        &.sidenav-visible {
+            transform: translateX(15rem);
+            overflow-x: hidden;
+        }
+
+        nav#navigation {
+            .js-sidenav-toggle:not(.hidden) {
+                display: inline-block;
+            }
+        }
+        
+        main#content {
+            padding: 1.5rem;
+        }
+
+        aside#sidenav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: $dark;
+            height: 100%;
+            transform: translateX(-100%);
+        }
+    }
+}
+*[class^='grid'], *[class*=' grid'] {
+    display: grid;
+}
+.spread, .flex, *[class^='grid'], *[class*=' grid'] {
+    gap: 1rem;
+}
+.gapless {
+    gap: 0;
+}
+.grid-xs         { grid: auto / repeat(auto-fill, minmax(98px,  1fr)); }
+.grid-sm         { grid: auto / repeat(auto-fill, minmax(144px, 1fr)); }
+.grid-md         { grid: auto / repeat(auto-fill, minmax(192px, 1fr)); }
+.grid-lg         { grid: auto / repeat(auto-fill, minmax(248px, 1fr)); }
+.grid-xl         { grid: auto / repeat(auto-fill, minmax(310px, 1fr)); }
+.grid-xxl        { grid: auto / repeat(auto-fill, minmax(380px, 1fr)); }
+.grid-xs-fill    { grid: auto / repeat(auto-fit,  minmax(98px,  1fr)); }
+.grid-sm-fill    { grid: auto / repeat(auto-fit,  minmax(144px, 1fr)); }
+.grid-md-fill    { grid: auto / repeat(auto-fit,  minmax(192px, 1fr)); }
+.grid-lg-fill    { grid: auto / repeat(auto-fit,  minmax(248px, 1fr)); }
+.grid-xl-fill    { grid: auto / repeat(auto-fit,  minmax(310px, 1fr)); }
+.grid-xxl-fill   { grid: auto / repeat(auto-fit,  minmax(380px, 1fr)); }
+.grid-2 { grid: auto / repeat(2, 1fr); }
+.grid-3 { grid: auto / repeat(3, 1fr); }
+.grid-4 { grid: auto / repeat(4, 1fr); }
+.grid-5 { grid: auto / repeat(5, 1fr); }
+.grid-6 { grid: auto / repeat(6, 1fr); }

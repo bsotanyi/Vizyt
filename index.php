@@ -3,6 +3,6 @@
 require_once('config.php');
 require_once('functions.php');
 
-view('elements', [
-    'title' => 'Hellobello',
+view('layout', [
+    'title' => 'Adminers',
 ]);
