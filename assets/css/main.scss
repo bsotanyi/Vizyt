@@ -1,0 +1,56 @@
+/*!
+
+ =========================================================
+ * Black Dashboard - v1.0.0
+ =========================================================
+
+ * Product Page: https://www.creative-tim.com/product/black-dashboard
+ * Copyright 2018 Creative Tim (http://www.creative-tim.com)
+
+ * Designed by www.invisionapp.com Coded by www.creative-tim.com
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
+
+@import 'components/variables';
+@import 'components/mixins';
+
+// Plugins CSS
+@import "components/plugins/plugin-animate-bootstrap-notify";
+@import "components/plugins/plugin-perfect-scrollbar";
+
+// Core CSS
+@import "components/buttons";
+@import "components/inputs";
+@import "components/typography";
+@import "components/misc";
+@import "components/checkboxes-radio";
+
+// components
+@import "components/navbar";
+@import "components/page-header";
+@import "components/dropdown";
+@import "components/alerts";
+@import "components/images";
+@import "components/tables";
+@import "components/sidebar-and-main-panel";
+@import "components/footers";
+@import "components/fixed-plugin";
+@import "components/rtl";
+
+// cards
+@import "components/cards";
+@import "components/cards/card-plain";
+@import "components/cards/card-chart";
+@import "components/cards/card-user";
+@import "components/cards/card-map";
+@import "components/cards/card-task";
+
+@import "components/responsive";
+
+// Dashboard white class
+
+@import 'components/white-content';
