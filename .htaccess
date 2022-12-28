@@ -1,0 +1,29 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteRule "^(.*/)?\.git/" - [F,L]
+
+# -- Disable directory browsing
+
+Options All -Indexes
+
+# -- Removing trailing slash --
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=302]    # TODO change to 301 on production
+
+# -- Forcing HTTPS --
+
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=302,NE]
+
+# -- Routing --
+
+RewriteRule ^$ index.php?route=HomeController:home [QSA]
+RewriteRule ^profile$ index.php?route=HomeController:profile [QSA]
+RewriteRule ^table$ index.php?route=HomeController:table [QSA]
+
+# RewriteRule ^posts/(.*)$ controllers/PostController.php?method=list&id=$1 [QSA]
+# RewriteRule ^admin/([a-z-]*)/edit/(.*)$ index.php?page=$1&edit_id=$2 [QSA]
