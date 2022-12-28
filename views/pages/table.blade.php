@@ -1,0 +1,61 @@
+@extends('layout')
+
+@section('title', 'Table')
+
+@section('content')
+    <div class="parent grid">
+        <div>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Color</th>
+                        <th>Something</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lorem.</td>
+                        <td>Quas?</td>
+                        <td>Voluptatibus!</td>
+                    </tr>
+                    <tr>
+                        <td>Pariatur.</td>
+                        <td>Assumenda.</td>
+                        <td>Ipsam.</td>
+                    </tr>
+                    <tr>
+                        <td>Repellendus!</td>
+                        <td>Placeat?</td>
+                        <td>Aut?</td>
+                    </tr>
+                    <tr>
+                        <td>Quod.</td>
+                        <td>Possimus!</td>
+                        <td>Eligendi.</td>
+                    </tr>
+                    <tr>
+                        <td>Voluptates?</td>
+                        <td>Voluptatibus.</td>
+                        <td>Quaerat.</td>
+                    </tr>
+                    <tr>
+                        <td>Consequuntur?</td>
+                        <td>Mollitia.</td>
+                        <td>Tempore.</td>
+                    </tr>
+                    <tr>
+                        <td>Ea?</td>
+                        <td>Doloribus!</td>
+                        <td>Laborum?</td>
+                    </tr>
+                    <tr>
+                        <td>Excepturi.</td>
+                        <td>Accusantium!</td>
+                        <td>Eos?</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endsection

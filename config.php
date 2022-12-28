@@ -16,8 +16,9 @@ spl_autoload_register(function($class_name) {
 
 $_CONFIG = [
     'debug' => true,
-    'app_name' => 'my.framework',
+    'app_name' => 'Adminers',
 ];
+
 define('NOW', date('Y-m-d H:i:s'));
 define('TODAY', date('Y-m-d'));
 

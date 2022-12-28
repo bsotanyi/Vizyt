@@ -1,28 +1,17 @@
 <aside id="sidenav">
     <div class="sticky">
         <a href="#">
-            <strong>DASHBOARD</strong>
+            <strong>{{ $title }}</strong>
         </a>
         <div>
-            <a href="#" class="active">
-                <i icon-name="gauge"></i>
-                Dashboard
+            <a href="/" class="{{ ($active_page ?? '') == 'home' ? 'active' : '' }}">
+                <i icon-name="home"></i>Home
             </a>
-            <a href="#">
-                <i icon-name="users"></i>
-                Users
+            <a href="/profile" class="{{ ($active_page ?? '') == 'profile' ? 'active' : '' }}">
+                <i icon-name="user"></i>Profile
             </a>
-            <a href="#">
-                <i icon-name="calendar-days"></i>
-                Events
-            </a>
-            <a href="#">
-                <i icon-name="map"></i>
-                Map
-            </a>
-            <a href="#">
-                <i icon-name="cog"></i>
-                Settings
+            <a href="/table" class="{{ ($active_page ?? '') == 'table' ? 'active' : '' }}">
+                <i icon-name="table"></i>Table
             </a>
         </div>
     </div>
