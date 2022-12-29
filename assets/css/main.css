@@ -30,6 +30,12 @@
   box-shadow: none !important;
 }
 
+.pristine-error {
+  color: red;
+  font-weight: 300;
+  margin-top: 0.3em;
+}
+
 .nowrap {
   width: 1px;
   white-space: nowrap;
@@ -150,6 +156,17 @@ body main#content > .parent > div > small {
 body footer#footer {
   grid-area: footer;
   padding: 1rem;
+}
+
+.box {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.square {
+  height: 3em;
+  aspect-ratio: 1/1;
 }
 
 @media screen and (max-width: 768px) {

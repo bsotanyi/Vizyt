@@ -29,6 +29,11 @@ $text: #eee;
         box-shadow: none !important;
     }
 }
+.pristine-error {
+    color: red;
+    font-weight: 300;
+    margin-top: .3em;
+}
 .nowrap {
     width: 1px;
     white-space: nowrap;
@@ -160,6 +165,15 @@ body {
         grid-area: footer;
         padding: 1rem;
     }
+}
+.box {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: .5rem;
+    padding: 1rem;
+}
+.square {
+    height: 3em;
+    aspect-ratio: 1 / 1;
 }
 
 @media screen and (max-width: 768px) {
