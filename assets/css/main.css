@@ -3,11 +3,11 @@
   box-sizing: border-box;
 }
 
-.bg-primary {
+.bg-primary, .btn-primary {
   background-color: #b30c00 !important;
   color: #eee !important;
 }
-.bg-primary:hover {
+.bg-primary:hover, .btn-primary:hover {
   background-color: #800800 !important;
 }
 

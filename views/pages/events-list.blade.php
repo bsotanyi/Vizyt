@@ -3,7 +3,7 @@
 @section('title', $title)
 
 @section('content')
-    <a href="" class="btn btn-success float-end">
+    <a href="" class="btn bg-primary float-end">
         <i icon-name="calendar-plus"></i>
         Create new event
     </a>

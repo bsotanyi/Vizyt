@@ -16,6 +16,9 @@
             <a href="/events" class="@if ($active_page == 'events') active @endif">
                 <i icon-name="calendar-days"></i>Events
             </a>
+            <a href="/admin/dashboard" class="@if ($active_page == 'admin-dashboard') active @endif">
+                <i icon-name="gauge"></i>Dashboard
+            </a>
         </div>
     </div>
 </aside>

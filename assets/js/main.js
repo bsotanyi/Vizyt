@@ -18,6 +18,9 @@ window.addEventListener('DOMContentLoaded', function() {
     qs('.js-sidenav-toggle').onclick = function() {
         document.body.classList.toggle('sidenav-visible');
     }
+    if (pageScript) {
+        pageScript();
+    }
 });
 
 function initPristineValidation() {
