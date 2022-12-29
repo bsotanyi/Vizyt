@@ -6,6 +6,7 @@
     <title>@yield('title') • {{ $_CONFIG['app_name'] }}</title>
     <link rel="stylesheet" href="/assets/lib/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/lib/aos/aos.css">
+    <link rel="stylesheet" href="/assets/lib/SimpleDataTables/style.min.css">
     <link rel="stylesheet" href="/assets/css/main.min.css?{{ microtime(true) }}">
 </head>
 <body>
@@ -21,8 +22,10 @@
     <script src="/assets/lib/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/assets/lib/lucide/lucide.min.js"></script>
     <script src="/assets/lib/aos/aos.js"></script>
+    <script src="/assets/lib/SimpleDataTables/simple-datatables.js"></script>
     <script src="/assets/lib/chartjs/chart.umd.min.js"></script>
     <script src="/assets/lib/PristineJS/pristine.js"></script>
     <script src="/assets/js/main.js?{{ microtime(true) }}"></script>
+    @stack('scripts')
 </body>
 </html>

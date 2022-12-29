@@ -7,4 +7,11 @@ class AdminController {
             'active_page' => 'admin-dashboard',
         ]);
     }
+
+    public static function users() {
+        view('pages/admin-users', [
+            'title' => 'Users',
+            'active_page' => 'admin-users',
+        ]);
+    }
 }

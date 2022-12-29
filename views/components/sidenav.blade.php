@@ -19,6 +19,9 @@
             <a href="/admin/dashboard" class="@if ($active_page == 'admin-dashboard') active @endif">
                 <i icon-name="gauge"></i>Dashboard
             </a>
+            <a href="/admin/users" class="@if ($active_page == 'admin-users') active @endif">
+                <i icon-name="users"></i>Users
+            </a>
         </div>
     </div>
 </aside>

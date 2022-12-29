@@ -49,7 +49,7 @@
                     </div>
                     <div class="box">
                         <div class="js-repeatable">
-                            <button type="button" class="btn btn-primary float-end js-repeatable-add">
+                            <button type="button" class="btn bg-primary float-end js-repeatable-add">
                                 <i icon-name="plus"></i>
                                 Add
                             </button>
