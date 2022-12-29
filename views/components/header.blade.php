@@ -4,8 +4,14 @@
         <a href="#">
             <i icon-name="search"></i>
         </a>
-        <a href="#">
-            <i icon-name="user"></i>
-        </a>
+        <div class="dropdown">
+            <i icon-name="user" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Log in</a></li>
+              <li><a class="dropdown-item" href="#">Register</a></li>
+            </ul>
+        </div>
     </div>
 </nav>

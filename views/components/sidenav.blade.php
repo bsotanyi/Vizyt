@@ -13,6 +13,9 @@
             <a href="/table" class="@if ($active_page == 'table') active @endif">
                 <i icon-name="table"></i>Table
             </a>
+            <a href="/events" class="@if ($active_page == 'events') active @endif">
+                <i icon-name="calendar-days"></i>Events
+            </a>
         </div>
     </div>
 </aside>

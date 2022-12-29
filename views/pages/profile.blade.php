@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Profile')
+@section('title', $title)
 
 @section('content')
     <div class="parent grid">
