@@ -12,6 +12,7 @@ AOS.init({
 });
 
 window.addEventListener('DOMContentLoaded', function() {
+    document.body.classList.add('loaded');
     initPristineValidation();
     initRepeatables();
     lucide.createIcons();

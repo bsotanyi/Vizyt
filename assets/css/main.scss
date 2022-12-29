@@ -71,9 +71,14 @@ body {
         display: block;
         top: 0;
         left: 0;
-        width: 100%;
         background-color: $primary;
         height: 3px;
+        width: 0;
+        transition: width 1s ease-in-out;
+    }
+
+    &.loaded::before {
+        width: 100%;
     }
 
     nav#navigation {
