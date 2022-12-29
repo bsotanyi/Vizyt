@@ -8,6 +8,31 @@ $text: #eee;
     box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+::-webkit-scrollbar-thumb {
+    background: $primary;
+    border-radius: 1rem;
+    transition: background .15s;
+
+    &:active, &:hover {
+        background: lighten($primary, 30);
+    }
+}
+::-webkit-scrollbar-track {
+    background: $dark;
+    border-radius: 1rem;
+}
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
 .bg-primary, .btn-primary {
     background-color: darken($primary, 10) !important;
     color: $text !important;
