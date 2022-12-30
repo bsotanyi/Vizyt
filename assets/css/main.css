@@ -4,8 +4,8 @@
 }
 
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-button {
@@ -29,11 +29,10 @@
 
 ::-webkit-scrollbar-track {
   background: #e60f00;
-  border-radius: 1rem;
 }
 
 ::-webkit-scrollbar-corner {
-  background: transparent;
+  background: #e60f00;
 }
 
 .bg-primary, .btn-primary {

@@ -9,8 +9,8 @@ $text: #eee;
 }
 
 ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
 }
 ::-webkit-scrollbar-button {
     width: 0px;
@@ -31,10 +31,9 @@ $text: #eee;
 }
 ::-webkit-scrollbar-track {
     background: $primary;
-    border-radius: 1rem;
 }
 ::-webkit-scrollbar-corner {
-    background: transparent;
+    background: $primary;
 }
 
 .bg-primary, .btn-primary {
