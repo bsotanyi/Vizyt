@@ -3,6 +3,14 @@
   box-sizing: border-box;
 }
 
+::-moz-selection {
+  background-color: #e60f00;
+}
+
+::selection {
+  background-color: #e60f00;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -211,10 +219,36 @@ body main#content > .parent div#event-thumbnail div.list-event #e-links {
 }
 body main#content > .parent div#event-thumbnail div.list-event a {
   color: var(--bs-heading-color, inherit);
+  padding-top: 1rem;
 }
 body main#content > .parent div#event-thumbnail div.list-event:hover {
   background: #e60f00;
   cursor: pointer;
+}
+body #loginModal {
+  color: #eee;
+}
+body #loginModal label {
+  display: block;
+}
+body #loginModal input[type=email], body #loginModal input[type=password] {
+  display: block;
+  margin-bottom: 1rem;
+}
+body #loginModal input[type=submit] {
+  border: 1px solid #e60f00 !important;
+}
+body #loginModal a {
+  color: #eee;
+}
+body #loginModal .modal-content {
+  background-color: #150100;
+}
+body #loginModal .btn-close {
+  filter: invert(1);
+}
+body .dropdown-menu-dark, body .dropdown-menu {
+  --bs-dropdown-link-active-bg: #e60f00 !important;
 }
 body footer#footer {
   grid-area: footer;

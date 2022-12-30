@@ -8,6 +8,10 @@ $text: #eee;
     box-sizing: border-box;
 }
 
+::selection {
+    background-color: $primary;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -195,7 +199,8 @@ body {
             }
             div#event-thumbnail {
                 height: 20rem;
-                overflow: auto;                
+                overflow: auto;
+
                 div.list-event {
                     padding: 1rem;
                     border-radius: .5rem;
@@ -212,21 +217,53 @@ body {
                     }
                     a {
                         color: var(--bs-heading-color,inherit);
+                        padding-top: 1rem;
                     }
                 }
+
                 div.list-event:hover {
-                    background: #e60f00;
+                    background: $primary;
                     cursor: pointer;
                 }
             }
         }
     }
     
+    #loginModal {
+        color: $text;
+        label {
+            display: block;
+        }
+        input[type=email], input[type=password] {
+            display: block;
+            margin-bottom: 1rem
+        }
+        input[type=submit] {
+            border: 1px solid $primary !important;
+        }
+        a {
+            color: $text;
+        }
+        .modal-content {
+            background-color: $dark;
+        }
+        .btn-close {
+            filter: invert(1);
+        }
+
+
+    }
+
+    .dropdown-menu-dark, .dropdown-menu {
+        --bs-dropdown-link-active-bg: #e60f00 !important;
+    }
 
     footer#footer {
         grid-area: footer;
         padding: 1rem;
     }
+
+
 }
 .box {
     background-color: rgba(255, 255, 255, 0.08);

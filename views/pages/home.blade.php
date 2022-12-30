@@ -16,8 +16,8 @@
                 <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
                 <h3 class="e-name">The Big New Year Party</h3>
                 <div id="e-links">
-                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                    <i icon-name="users"></i><small><a href='' class="e-participants">42 participants</a></small>
+                    <i icon-name="calendar"></i><small class="e-comments">2022.12.31.</small>
                 </div>
             </div>
             <div class="list-event">
@@ -25,7 +25,7 @@
                 <h3 class="e-name">The Big Christmas Party for Csantaver People</h3>
                 <div id="e-links">
                     <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                    <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
                 </div>
             </div>
             <div class="list-event">
@@ -33,7 +33,7 @@
                 <h3 class="e-name">Hello world!</h3>
                 <div id="e-links">
                     <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                    <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
                 </div>
             </div>
             <div class="list-event">
@@ -41,7 +41,7 @@
                 <h3 class="e-name">Lorum Ipse</h3>
                 <div id="e-links">
                     <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                    <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
                 </div>
             </div>
             <div class="list-event">
@@ -49,7 +49,7 @@
                 <h3 class="e-name">Adam's Birthday</h3>
                 <div id="e-links">
                     <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                    <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
                 </div>
             </div>
         </div>
