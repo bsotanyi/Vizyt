@@ -14,17 +14,21 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #e60f00;
+  background: #150100;
   border-radius: 1rem;
   -webkit-transition: background 0.15s;
   transition: background 0.15s;
+  border: 1px solid #e60f00;
 }
-::-webkit-scrollbar-thumb:active, ::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   background: #ff8880;
+}
+::-webkit-scrollbar-thumb:active {
+  border: 1px solid #150100;
 }
 
 ::-webkit-scrollbar-track {
-  background: #150100;
+  background: #e60f00;
   border-radius: 1rem;
 }
 
@@ -185,6 +189,33 @@ body main#content > .parent > div {
 }
 body main#content > .parent > div > small {
   opacity: 0.7;
+}
+body main#content > .parent div#event-thumbnail {
+  height: 20rem;
+  overflow: auto;
+}
+body main#content > .parent div#event-thumbnail div.list-event {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #150100;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  margin: 0 0 1rem 0;
+  transition: background 0.2s;
+}
+body main#content > .parent div#event-thumbnail div.list-event .e-owner span {
+  font-weight: bold;
+}
+body main#content > .parent div#event-thumbnail div.list-event #e-links {
+  text-align: center;
+}
+body main#content > .parent div#event-thumbnail div.list-event a {
+  color: var(--bs-heading-color, inherit);
+}
+body main#content > .parent div#event-thumbnail div.list-event:hover {
+  background: #e60f00;
+  cursor: pointer;
 }
 body footer#footer {
   grid-area: footer;

@@ -9,10 +9,49 @@
             <h3>Deleniti, iure quae.</h3>
             <p>Nihil nulla asperiores eum ab obcaecati quidem ipsum aliquid dignissimos aut corporis, sit, a eaque fugiat repudiandae. Non obcaecati, et quam, nulla, sed officia voluptate molestiae perspiciatis rerum maiores libero.</p>
         </div>
-        <div>
-            <small>Eos, nesciunt.</small>
-            <h3>Id, neque quis.</h3>
-            <p>Fuga mollitia veniam doloremque ducimus, voluptatibus nesciunt nostrum iste odio aperiam incidunt, atque pariatur. Quam, vero consequatur. Amet commodi illum eius voluptate pariatur ex tempora nesciunt. Ullam, fuga nostrum. Eveniet?</p>
+        <div id="event-thumbnail">
+            <small>There are 9 public events near your location</small>
+            <h3>Public events</h3>
+            <div class="list-event">
+                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                <h3 class="e-name">The Big New Year Party</h3>
+                <div id="e-links">
+                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
+                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                </div>
+            </div>
+            <div class="list-event">
+                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                <h3 class="e-name">The Big Christmas Party for Csantaver People</h3>
+                <div id="e-links">
+                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
+                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                </div>
+            </div>
+            <div class="list-event">
+                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                <h3 class="e-name">Hello world!</h3>
+                <div id="e-links">
+                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
+                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                </div>
+            </div>
+            <div class="list-event">
+                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                <h3 class="e-name">Lorum Ipse</h3>
+                <div id="e-links">
+                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
+                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                </div>
+            </div>
+            <div class="list-event">
+                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                <h3 class="e-name">Adam's Birthday</h3>
+                <div id="e-links">
+                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
+                    <i icon-name="message-circle"></i><a href='' class="e-comments">18 comments</a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="parent grid-xl-fill">
