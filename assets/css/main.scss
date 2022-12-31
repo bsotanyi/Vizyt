@@ -244,6 +244,7 @@ body {
             border: 1px solid $primary !important;
         }
         a {
+            display: block;
             color: $text;
         }
         .modal-content {
@@ -251,11 +252,6 @@ body {
         }
         .btn-close {
             filter: invert(1);
-        }
-        .form-group {
-            display: inline-block;
-            margin-right: 1rem;
-            
         }
     }
 

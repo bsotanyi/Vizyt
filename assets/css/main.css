@@ -241,6 +241,7 @@ body #loginModal input[type=submit], body #registerModal input[type=submit], bod
   border: 1px solid #e60f00 !important;
 }
 body #loginModal a, body #registerModal a, body #forgotModal a {
+  display: block;
   color: #eee;
 }
 body #loginModal .modal-content, body #registerModal .modal-content, body #forgotModal .modal-content {
@@ -248,10 +249,6 @@ body #loginModal .modal-content, body #registerModal .modal-content, body #forgo
 }
 body #loginModal .btn-close, body #registerModal .btn-close, body #forgotModal .btn-close {
   filter: invert(1);
-}
-body #loginModal .form-group, body #registerModal .form-group, body #forgotModal .form-group {
-  display: inline-block;
-  margin-right: 1rem;
 }
 body .dropdown-menu-dark, body .dropdown-menu {
   --bs-dropdown-link-active-bg: #e60f00 !important;

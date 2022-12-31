@@ -29,21 +29,30 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
         <form action="" method="post" class="js-validate">
-            <div class="modal-body">
-              <div class="form-group col-sm-5">
+            <div class="modal-body row">
+
+              <div class="form-group col-md-6">
                 <label for="fnameModal">Firstname </label><input type="text" id="fnameModal" name="fname" class="form-control col-xs-2">
               </div>
-              <div class="form-group col-sm-5">
+
+              <div class="form-group col-md-6">
                 <label for="lnameModal">Lastname </label><input type="text" id="lnameModal" name="lname" class="form-control">
               </div>
-              <label for="emailRegisterModal">Email </label><input type="email" id="emailRegisterModal" name="email" class="form-control">
-              <div class="form-group col-sm-5">
+
+              <div class="form-group col-md-12">
+                <label for="emailRegisterModal">Email </label><input type="email" id="emailRegisterModal" name="email" class="form-control">
+              </div>
+
+              <div class="form-group col-md-6">
                 <label for="passwordRegisterModal">Password </label><input type="password" id="passwordRegisterModal" name="password" class="form-control">
               </div>
-              <div class="form-group col-sm-5">
+
+              <div class="form-group col-md-6">
                 <label for="passwordConfirmModal">Password </label><input type="password" id="passwordConfirmModal" name="password" class="form-control">
               </div>
+
                 <a href="" data-bs-toggle="modal" data-bs-target="#loginModal">Already registered?</a>
+
             </div>
         <div class="modal-footer">
             <input type="submit" class="btn btn-primary" value="Register" name="submit">
