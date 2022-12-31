@@ -225,27 +225,33 @@ body main#content > .parent div#event-thumbnail div.list-event:hover {
   background: #e60f00;
   cursor: pointer;
 }
-body #loginModal {
+body #loginModal, body #registerModal, body #forgotModal {
   color: #eee;
 }
-body #loginModal label {
+body #loginModal label, body #registerModal label, body #forgotModal label {
   display: block;
 }
-body #loginModal input[type=email], body #loginModal input[type=password] {
-  display: block;
+body #loginModal input[type=text], body #registerModal input[type=text], body #forgotModal input[type=text] {
+  display: inline-block;
+}
+body #loginModal input[type=email], body #loginModal input[type=password], body #loginModal input[type=text], body #registerModal input[type=email], body #registerModal input[type=password], body #registerModal input[type=text], body #forgotModal input[type=email], body #forgotModal input[type=password], body #forgotModal input[type=text] {
   margin-bottom: 1rem;
 }
-body #loginModal input[type=submit] {
+body #loginModal input[type=submit], body #registerModal input[type=submit], body #forgotModal input[type=submit] {
   border: 1px solid #e60f00 !important;
 }
-body #loginModal a {
+body #loginModal a, body #registerModal a, body #forgotModal a {
   color: #eee;
 }
-body #loginModal .modal-content {
+body #loginModal .modal-content, body #registerModal .modal-content, body #forgotModal .modal-content {
   background-color: #150100;
 }
-body #loginModal .btn-close {
+body #loginModal .btn-close, body #registerModal .btn-close, body #forgotModal .btn-close {
   filter: invert(1);
+}
+body #loginModal .form-group, body #registerModal .form-group, body #forgotModal .form-group {
+  display: inline-block;
+  margin-right: 1rem;
 }
 body .dropdown-menu-dark, body .dropdown-menu {
   --bs-dropdown-link-active-bg: #e60f00 !important;

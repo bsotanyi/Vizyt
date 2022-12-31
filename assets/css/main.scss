@@ -229,13 +229,15 @@ body {
         }
     }
     
-    #loginModal {
+    #loginModal, #registerModal, #forgotModal {
         color: $text;
         label {
             display: block;
         }
-        input[type=email], input[type=password] {
-            display: block;
+        input[type=text] {
+            display: inline-block;
+        }
+        input[type=email], input[type=password], input[type=text] {
             margin-bottom: 1rem
         }
         input[type=submit] {
@@ -250,8 +252,11 @@ body {
         .btn-close {
             filter: invert(1);
         }
-
-
+        .form-group {
+            display: inline-block;
+            margin-right: 1rem;
+            
+        }
     }
 
     .dropdown-menu-dark, .dropdown-menu {
