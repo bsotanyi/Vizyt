@@ -12,46 +12,56 @@
         <div id="event-thumbnail">
             <small>There are 9 public events near your location</small>
             <h3>Public events</h3>
-            <div class="list-event">
-                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                <h3 class="e-name">The Big New Year Party</h3>
-                <div id="e-links">
-                    <i icon-name="users"></i><small><a href='' class="e-participants">42 participants</a></small>
-                    <i icon-name="calendar"></i><small class="e-comments">2022.12.31.</small>
+            <a href="{{ SITE_ROOT }}/event-details">
+                <div class="list-event">
+                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                    <h3 class="e-name">The Big New Year Party</h3>
+                    <div id="e-links">
+                        <i icon-name="users"></i><small><a href='' class="e-participants">42 participants</a></small>
+                        <i icon-name="calendar"></i><small class="e-comments">2022.12.31.</small>
+                    </div>
                 </div>
-            </div>
-            <div class="list-event">
-                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                <h3 class="e-name">The Big Christmas Party for Csantaver People</h3>
-                <div id="e-links">
-                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                    <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
+            </a>
+            <a href="{{ SITE_ROOT }}/event-details">
+                <div class="list-event">
+                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                    <h3 class="e-name">The Big Christmas Party for Csantaver People</h3>
+                    <div id="e-links">
+                        <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
+                        <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
+                    </div>
                 </div>
-            </div>
-            <div class="list-event">
-                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                <h3 class="e-name">Hello world!</h3>
-                <div id="e-links">
-                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                    <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
+            </a>
+            <a href="{{ SITE_ROOT }}/event-details">
+                <div class="list-event">
+                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                    <h3 class="e-name">Hello world!</h3>
+                    <div id="e-links">
+                        <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
+                        <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
+                    </div>
                 </div>
-            </div>
-            <div class="list-event">
-                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                <h3 class="e-name">Lorum Ipse</h3>
-                <div id="e-links">
-                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                    <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
+            </a>
+            <a href="{{ SITE_ROOT }}/event-details">
+                <div class="list-event">
+                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                    <h3 class="e-name">Lorum Ipse</h3>
+                    <div id="e-links">
+                        <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
+                        <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
+                    </div>
                 </div>
-            </div>
-            <div class="list-event">
-                <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                <h3 class="e-name">Adam's Birthday</h3>
-                <div id="e-links">
-                    <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                    <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
+            </a>
+            <a href="{{ SITE_ROOT }}/event-details">
+                <div class="list-event">
+                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
+                    <h3 class="e-name">Adam's Birthday</h3>
+                    <div id="e-links">
+                        <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
+                        <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     <div class="parent grid-xl-fill">

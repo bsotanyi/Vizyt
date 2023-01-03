@@ -7,4 +7,11 @@ class EventController {
             'active_page' => 'events',
         ]);
     }
+
+    public static function details() {
+        view('pages/event-details', [
+            'title' => 'Details',
+            'active_page' => 'details',
+        ]);
+    }
 }

@@ -189,6 +189,9 @@ body main#content > .parent {
   -webkit-margin-after: 1rem;
           margin-block-end: 1rem;
 }
+body main#content > .parent a {
+  color: var(--bs-heading-color, inherit);
+}
 body main#content > .parent > div {
   background-color: rgba(255, 255, 255, 0.08);
   border-radius: 0.5rem;
@@ -217,13 +220,12 @@ body main#content > .parent div#event-thumbnail div.list-event .e-owner span {
 body main#content > .parent div#event-thumbnail div.list-event #e-links {
   text-align: center;
 }
-body main#content > .parent div#event-thumbnail div.list-event a {
-  color: var(--bs-heading-color, inherit);
-  padding-top: 1rem;
-}
 body main#content > .parent div#event-thumbnail div.list-event:hover {
   background: #e60f00;
   cursor: pointer;
+}
+body main#content > .parent div#event-thumbnail a {
+  text-decoration: none;
 }
 body #loginModal, body #registerModal, body #forgotModal {
   color: #eee;
