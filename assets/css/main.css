@@ -227,6 +227,22 @@ body main#content > .parent div#event-thumbnail div.list-event:hover {
 body main#content > .parent div#event-thumbnail a {
   text-decoration: none;
 }
+body main#content > .parent .wishlist a {
+  text-decoration: none;
+  background-color: #e60f00;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 7rem;
+  transition: background-color, 0.2s;
+}
+body main#content > .parent .wishlist a:hover {
+  background-color: rgba(230, 15, 0, 0.8);
+}
 body #loginModal, body #registerModal, body #forgotModal {
   color: #eee;
 }

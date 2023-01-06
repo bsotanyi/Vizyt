@@ -10,6 +10,18 @@
             <p>(description)Vitae optio, rerum nobis magni ullam quasi maxime voluptatem, quibusdam minus laudantium quia, enim vel ut consequatur laborum vero hic blanditiis perferendis unde voluptas sunt. Aperiam expedita a ut dolorum.</p> 
             <small>2 days until the start of the event</small>
         </div>
+        <div>
+            <small>Wishlist</small>
+            <div class="parent  wishlist">
+                <a href="https://placeholder.com" target="_blank" class="wl-content">Minecraft Java Edition</a>
+                <a href="https://placeholder.com" target="_blank" class="wl-content">Minecraft</a>
+                <a href="https://placeholder.com" target="_blank" class="wl-content">Fortnite Battle-Royale</a>
+                <a href="https://placeholder.com" target="_blank" class="wl-content">GTA5</a>
+                <a href="https://placeholder.com" target="_blank" class="wl-content">Logitech G Pro Wireless</a>
+                <a href="https://placeholder.com" target="_blank" class="wl-content">Logitech G Pro Wireless</a>
+
+            </div>
+        </div>
     </div>
     <div class="parent grid-xl-fill">
         <div>
