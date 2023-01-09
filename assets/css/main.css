@@ -271,6 +271,13 @@ body #loginModal .btn-close, body #registerModal .btn-close, body #forgotModal .
 body .dropdown-menu-dark, body .dropdown-menu {
   --bs-dropdown-link-active-bg: #e60f00 !important;
 }
+body .dataTable-pagination a {
+  color: #eee;
+}
+body .dataTable-pagination li.active a, body .dataTable-pagination li a:hover {
+  background-color: #e60f00 !important;
+  border-radius: 0.5rem;
+}
 body footer#footer {
   grid-area: footer;
   padding: 1rem;

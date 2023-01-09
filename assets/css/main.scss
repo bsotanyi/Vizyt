@@ -283,6 +283,16 @@ body {
         --bs-dropdown-link-active-bg: #e60f00 !important;
     }
 
+    .dataTable-pagination {
+        a {
+            color: $text;
+        }
+        li.active a, li a:hover {
+            background-color: $primary !important;
+            border-radius: .5rem;
+        }
+    }
+
     footer#footer {
         grid-area: footer;
         padding: 1rem;
