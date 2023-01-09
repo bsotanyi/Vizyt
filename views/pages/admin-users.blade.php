@@ -43,10 +43,6 @@
 @push('scripts')
     <script>
         const users_table = new simpleDatatables.DataTable('#users_table', {
-            layout: {
-                top: '',
-                bottom: '{info}{pager}{select}',
-            }
         });
     </script>
 @endpush

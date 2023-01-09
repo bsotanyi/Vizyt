@@ -46,7 +46,7 @@ class DB {
     }
 
     public static function fetchValue($sql, $vars = []) {
-        return self::query($sql, $vars, null, 'fetchColumn');
+        return self::query($sql, $vars, PDO::FETCH_NUM, 'fetch')[0];
     }
 
     public static function fetchRow($sql, $vars = []) {

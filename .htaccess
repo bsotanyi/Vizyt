@@ -30,5 +30,8 @@ RewriteRule ^admin/dashboard$ index.php?route=AdminController:dashboard [QSA]
 RewriteRule ^admin/dashboard$ index.php?route=AdminController:dashboard [QSA]
 RewriteRule ^admin/users$ index.php?route=AdminController:users [QSA]
 
-# RewriteRule ^posts/(.*)$ controllers/PostController.php?method=list&id=$1 [QSA]
+
+RewriteRule ^user/register$ index.php?route=UserController:register [QSA]
+
+# RewriteRule ^posts/([0-9]+)$ index.php?route=AdminController:users?method=list&id=$1 [QSA]
 # RewriteRule ^admin/([a-z-]*)/edit/(.*)$ index.php?page=$1&edit_id=$2 [QSA]

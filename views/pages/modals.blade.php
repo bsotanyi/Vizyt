@@ -13,9 +13,9 @@
                 <a href="" data-bs-toggle="modal" data-bs-target="#forgotModal">Forgot Password?</a>
             </div>
         <div class="modal-footer">
-            <input type="submit" class="btn btn-primary" value="Log in" name="submit">
-        </form>
-      </div>
+            <input type="submit" class="btn btn-primary" value="Log in">
+        </div>
+    </form>
     </div>
   </div>
 </div>
@@ -28,36 +28,36 @@
         <h1 class="modal-title fs-5" id="registerModal">Register</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <form action="" method="post" class="js-validate">
+        <form action="{{ SITE_ROOT }}/user/register" method="post" class="js-validate">
             <div class="modal-body row">
 
               <div class="form-group col-md-6">
-                <label for="fnameModal">Firstname </label><input type="text" id="fnameModal" name="fname" class="form-control col-xs-2">
+                <label for="fnameModal">Firstname </label><input type="text" id="fnameModal" name="fname" class="form-control col-xs-2" required>
               </div>
 
               <div class="form-group col-md-6">
-                <label for="lnameModal">Lastname </label><input type="text" id="lnameModal" name="lname" class="form-control">
+                <label for="lnameModal">Lastname </label><input type="text" id="lnameModal" name="lname" class="form-control" required>
               </div>
 
               <div class="form-group col-md-12">
-                <label for="emailRegisterModal">Email </label><input type="email" id="emailRegisterModal" name="email" class="form-control">
+                <label for="emailRegisterModal">Email </label><input type="email" id="emailRegisterModal" name="email" class="form-control" required>
               </div>
 
               <div class="form-group col-md-6">
-                <label for="passwordRegisterModal">Password </label><input type="password" id="passwordRegisterModal" name="password" class="form-control">
+                <label for="passwordRegisterModal">Password </label><input type="password" id="passwordRegisterModal" name="password" class="form-control" required>
               </div>
 
               <div class="form-group col-md-6">
-                <label for="passwordConfirmModal">Password </label><input type="password" id="passwordConfirmModal" name="password" class="form-control">
+                <label for="passwordConfirmModal">Password </label><input type="password" id="passwordConfirmModal" name="password_confirm" class="form-control" required data-pristine-equals="#passwordRegisterModal">
               </div>
 
                 <a href="" data-bs-toggle="modal" data-bs-target="#loginModal">Already registered?</a>
 
             </div>
         <div class="modal-footer">
-            <input type="submit" class="btn btn-primary" value="Register" name="submit">
-        </form>
-      </div>
+            <input type="submit" class="btn btn-primary" value="Register">
+        </div>
+    </form>
     </div>
   </div>
 </div>
@@ -76,9 +76,25 @@
                 <label for="emailForgotModal">Email </label><input type="email" id="emailForgotModal" name="email" class="form-control">
             </div>
         <div class="modal-footer">
-            <input type="submit" class="btn btn-primary" value="Continue" name="submit">
-        </form>
-      </div>
+            <input type="submit" class="btn btn-primary" value="Continue">
+        </div>
+    </form>
     </div>
   </div>
 </div>
+
+@if (!empty($messages))
+    <div class="modal fade" id="messagesModal" tabindex="-1" aria-labelledby="messagesModal" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="forgotModalLabel">Forgotten password</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @foreach ($messages as $msg)
+                <p>{{ $msg }}</p>
+            @endforeach
+        </div>
+        </div>
+    </div>
+@endif

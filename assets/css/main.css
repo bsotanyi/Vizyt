@@ -211,6 +211,7 @@ body main#content > .parent div#event-thumbnail div.list-event {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
+  max-width: 100%;
   margin: 0 0 1rem 0;
   transition: background 0.2s;
 }
@@ -243,29 +244,29 @@ body main#content > .parent .wishlist a {
 body main#content > .parent .wishlist a:hover {
   background-color: rgba(230, 15, 0, 0.8);
 }
-body #loginModal, body #registerModal, body #forgotModal {
+body .modal {
   color: #eee;
 }
-body #loginModal label, body #registerModal label, body #forgotModal label {
+body .modal label {
   display: block;
 }
-body #loginModal input[type=text], body #registerModal input[type=text], body #forgotModal input[type=text] {
+body .modal input[type=text] {
   display: inline-block;
 }
-body #loginModal input[type=email], body #loginModal input[type=password], body #loginModal input[type=text], body #registerModal input[type=email], body #registerModal input[type=password], body #registerModal input[type=text], body #forgotModal input[type=email], body #forgotModal input[type=password], body #forgotModal input[type=text] {
+body .modal input[type=email], body .modal input[type=password], body .modal input[type=text] {
   margin-bottom: 1rem;
 }
-body #loginModal input[type=submit], body #registerModal input[type=submit], body #forgotModal input[type=submit] {
+body .modal input[type=submit] {
   border: 1px solid #e60f00 !important;
 }
-body #loginModal a, body #registerModal a, body #forgotModal a {
+body .modal a {
   display: block;
   color: #eee;
 }
-body #loginModal .modal-content, body #registerModal .modal-content, body #forgotModal .modal-content {
+body .modal .modal-content {
   background-color: #150100;
 }
-body #loginModal .btn-close, body #registerModal .btn-close, body #forgotModal .btn-close {
+body .modal .btn-close {
   filter: invert(1);
 }
 body .dropdown-menu-dark, body .dropdown-menu {

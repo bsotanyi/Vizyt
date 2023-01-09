@@ -24,6 +24,12 @@ window.addEventListener('DOMContentLoaded', function() {
     if (typeof pageScript === 'function') {
         pageScript();
     }
+    if (qs('#messagesModal')) {
+        const myModalAlternative = new bootstrap.Modal(qs('#messagesModal'), {
+            focus: true
+        });
+        myModalAlternative.show();
+    }
 });
 
 function initPristineValidation() {
@@ -33,6 +39,7 @@ function initPristineValidation() {
             item.addEventListener('submit', function (e) {
                 e.preventDefault();
                 if (p.validate()) {
+                    console.log(this);
                     this.submit();
                 }
             });

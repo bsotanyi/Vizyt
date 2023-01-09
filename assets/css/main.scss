@@ -210,6 +210,7 @@ body {
                     border-radius: .5rem;
                     background-color: $dark;
                     width: max-content;
+                    max-width: 100%;
                     margin: 0 0 1rem 0;
                     transition: background .2s;
 
@@ -253,7 +254,7 @@ body {
         }
     }
     
-    #loginModal, #registerModal, #forgotModal {
+    .modal {
         color: $text;
         label {
             display: block;
