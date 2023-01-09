@@ -189,7 +189,7 @@ body main#content > .parent {
   -webkit-margin-after: 1rem;
           margin-block-end: 1rem;
 }
-body main#content > .parent a {
+body main#content > .parent div#event-thumbnail a, body main#content > .parent a.wl-content {
   color: var(--bs-heading-color, inherit);
 }
 body main#content > .parent > div {
