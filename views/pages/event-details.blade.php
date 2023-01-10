@@ -92,6 +92,17 @@
             </div>
         </div> --}}
     </div>
+    <div class="parent grid-xxl-fill">
+        <div id="newComment">
+            <form action="{{ SITE_ROOT }}/events/comment" method="post">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="comment"></textarea>
+                    <label for="floatingTextarea">Comment</label>
+                </div>
+                <input type="submit" value="Post" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

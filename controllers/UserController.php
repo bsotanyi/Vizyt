@@ -47,7 +47,7 @@ class UserController {
             $_SESSION['messages'] = [
                 'User created successfully. We have sent you an email with an activation link.',
             ];
-            sendMail($_POST['email']);
+            sendMail($_POST['email'], $_POST['$fname'] . $_POST['$lname']);
         }
 
         header('Location: /');

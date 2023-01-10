@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -11,7 +12,8 @@ use PHPMailer\PHPMailer\Exception;
  * 
  * @return void
  */
-function view($view_path = '', $data = []) {
+function view($view_path = '', $data = [])
+{
     global $_CONFIG, $__all_vars;
 
     $parts = explode('/', 'views/' . $view_path);
@@ -19,7 +21,7 @@ function view($view_path = '', $data = []) {
     $original_fname = array_pop($parts) . '.blade.php';
     $original_path = join('/', $parts) . '/';
     $original_fullpath = $original_path . $original_fname;
-    
+
     $compiled_path = str_replace('views/', 'views_compiled/', $original_path);
     $compiled_fname = str_replace('.blade', '', $original_fname);
     $compiled_fullpath = $compiled_path . $compiled_fname;
@@ -45,7 +47,8 @@ function view($view_path = '', $data = []) {
  * Compiles a blade file to a executable php file
  * Supported keywords: include, if-endif, elseif, else, foreach-endforeach, forelse-empty-endforelse, {{  }}, {{--  --}}, {!!  !!}
  */
-function bladeCompile($original_path, $original_fname, $compiled_path, $compiled_fname) {
+function bladeCompile($original_path, $original_fname, $compiled_path, $compiled_fname)
+{
     $content = file_get_contents($original_path . $original_fname);
 
     $enclosed =         '(\((?:(?:\'.*?\')|(?:".*")|[^()]|(?1)*)*\))';
@@ -92,7 +95,8 @@ function bladeCompile($original_path, $original_fname, $compiled_path, $compiled
  * 
  * @return string  Escaped string
  */
-function e($str) {
+function e($str)
+{
     if (!is_array($str)) {
         $str = htmlspecialchars($str);
     }
@@ -104,13 +108,13 @@ function e($str) {
  * 
  * @param array $values
  */
-function sqlIn($array, $force_strings = false) {
+function sqlIn($array, $force_strings = false)
+{
     $all = [];
-    foreach($array as $in_item) {
+    foreach ($array as $in_item) {
         if (is_numeric($in_item) && !$force_strings) {
             $all[] = $in_item;
-        }
-        else {
+        } else {
             $all[] = "'$in_item'";
         }
     }
@@ -122,10 +126,11 @@ function sqlIn($array, $force_strings = false) {
  * 
  * ...@param mixed  Any number of paramaters to output. 
  */
-function dump() {
+function dump()
+{
     printDebugCss();
     $trace = debug_backtrace();
-    foreach(func_get_args() as $arg) {
+    foreach (func_get_args() as $arg) {
         echo '<pre class="debug-box">';
         echo '<span class="trace">' . $trace[0]['file'] . ' : ' . $trace[0]['line'] . '</span>';
         prettyPrint(null, $arg);
@@ -139,10 +144,11 @@ function dump() {
  * 
  * ...@param mixed  Any number of paramaters to output. 
  */
-function dd() {
+function dd()
+{
     printDebugCss();
     $trace = debug_backtrace();
-    foreach(func_get_args() as $arg) {
+    foreach (func_get_args() as $arg) {
         echo '<pre class="debug-box">';
         echo '<span class="trace">' . $trace[0]['file'] . ' : ' . $trace[0]['line'] . '</span>';
         prettyPrint(null, $arg);
@@ -159,21 +165,22 @@ function dd() {
  * @param int    $depth  Current depth   
  * 
  */
-function prettyPrint($key, $val, $first = true) {
+function prettyPrint($key, $val, $first = true)
+{
     ob_start();
     $is_obj = false;
-    $key_str = is_null($key) ? '' : '<u debug>'.$key.'</u> => ';
+    $key_str = is_null($key) ? '' : '<u debug>' . $key . '</u> => ';
     if (gettype($val) === 'object') {
         $is_obj = true;
         $val = get_object_vars($val);
-        $key_str = is_null($key) ? '' : '<u class="obj" debug>'.$key.'</u> => ';
+        $key_str = is_null($key) ? '' : '<u class="obj" debug>' . $key . '</u> => ';
     }
     if (is_array($val)) {
         $type_str = 'array(' . count($val) . ')';
         if ($is_obj) {
             $type_str = 'object';
         }
-        echo '<details debug open style="display:inline;margin-left: '.($first?0:1.5).'rem" class="'.(empty($val)?'empty':'').'"><summary debug>'.$key_str.'<span class="opaque">'.$type_str.'</span></summary>';
+        echo '<details debug open style="display:inline;margin-left: ' . ($first ? 0 : 1.5) . 'rem" class="' . (empty($val) ? 'empty' : '') . '"><summary debug>' . $key_str . '<span class="opaque">' . $type_str . '</span></summary>';
         foreach ($val as $vkey => $vval) {
             prettyPrint($vkey, $vval, false);
         }
@@ -185,7 +192,7 @@ function prettyPrint($key, $val, $first = true) {
             $class = 'string';
         }
         $val = is_null($val) ? 'null' : $val;
-        echo '<samp style="margin-left: '.($first?0:1.5).'rem">'.$key_str.'<b debug class="'.$class.'">'.htmlspecialchars($val).'</b></samp>';
+        echo '<samp style="margin-left: ' . ($first ? 0 : 1.5) . 'rem">' . $key_str . '<b debug class="' . $class . '">' . htmlspecialchars($val) . '</b></samp>';
     }
     echo (ob_get_clean()) . "\n";
 }
@@ -193,7 +200,8 @@ function prettyPrint($key, $val, $first = true) {
 /**
  * Output the debug css
  */
-function printDebugCss() {
+function printDebugCss()
+{
     echo '
     <style>
         summary[debug] {
@@ -296,9 +304,10 @@ function slugify($text, $length = null)
     return $text;
 }
 
-function sendMail($to) {
+function sendMail($to, $recipient_name)
+{
     require_once 'config.php';
-    require 'vendor/autoload.php';
+    require_once 'vendor/autoload.php';
 
     $mail = new PHPMailer(true);
 
@@ -315,11 +324,11 @@ function sendMail($to) {
 
 
         //Recipients
-        $mail->setFrom('adminers@adminers.stud.vts.su.ac.rs', 'Adam');
-        $mail->addAddress($to, 'User');     //Add a recipient
+        $mail->setFrom('adminers@adminers.stud.vts.su.ac.rs', 'adminers');
+        $mail->addAddress($to, $recipient_name);     //Add a recipient
         //$mail->addAddress('ellen@example.com');               //Name is optional
-        $mail->addReplyTo('adminers@adminers.stud.vts.su.ac.rs', 'Information0-');
-        
+        $mail->addReplyTo('adminers@adminers.stud.vts.su.ac.rs', 'noreply');
+
         // if (substr_count($cc, ',') > 0) {
         //     for ($i=0; $i < substr_count($cc, ',') + 1; $i++) {
         //         $mail->addCC($ccArray[$i]);
@@ -341,7 +350,7 @@ function sendMail($to) {
         //Content
         $mail->isHTML(true);                                //Set email format to HTML
         $mail->Subject = 'Adminers - Registration';
-        $mail->Body    = "Thanks for your registration at Adminers. Click on the link to confirm your registration: <a href='localhost".SITE_ROOT . "user/validate/?token=$token" . "'>Click!</a>";
+        $mail->Body    = "Thank you for your registration at Adminers. Click on the link to confirm your registration: <a href='localhost" . SITE_ROOT . "user/validate/?token=$token" . "'>Click!</a>";
         // $mail->AltBody = strip_tags($text);
 
         $mail->send();

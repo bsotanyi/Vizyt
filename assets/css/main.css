@@ -256,9 +256,6 @@ body .modal input[type=text] {
 body .modal input[type=email], body .modal input[type=password], body .modal input[type=text] {
   margin-bottom: 1rem;
 }
-body .modal input[type=submit] {
-  border: 1px solid #e60f00 !important;
-}
 body .modal a {
   display: block;
   color: #eee;
@@ -269,6 +266,9 @@ body .modal .modal-content {
 body .modal .btn-close {
   filter: invert(1);
 }
+body .btn-primary {
+  border: 1px solid #e60f00 !important;
+}
 body .dropdown-menu-dark, body .dropdown-menu {
   --bs-dropdown-link-active-bg: #e60f00 !important;
 }
@@ -278,6 +278,10 @@ body .dataTable-pagination a {
 body .dataTable-pagination li.active a, body .dataTable-pagination li a:hover {
   background-color: #e60f00 !important;
   border-radius: 0.5rem;
+}
+body div#newComment textarea {
+  margin-bottom: 1rem;
+  height: 10rem;
 }
 body footer#footer {
   grid-area: footer;

@@ -265,9 +265,6 @@ body {
         input[type=email], input[type=password], input[type=text] {
             margin-bottom: 1rem
         }
-        input[type=submit] {
-            border: 1px solid $primary !important;
-        }
         a {
             display: block;
             color: $text;
@@ -278,6 +275,10 @@ body {
         .btn-close {
             filter: invert(1);
         }
+    }
+
+    .btn-primary {
+        border: 1px solid $primary !important;
     }
 
     .dropdown-menu-dark, .dropdown-menu {
@@ -291,6 +292,13 @@ body {
         li.active a, li a:hover {
             background-color: $primary !important;
             border-radius: .5rem;
+        }
+    }
+
+    div#newComment {
+        textarea {
+            margin-bottom: 1rem;
+            height: 10rem;
         }
     }
 
