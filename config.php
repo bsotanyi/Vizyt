@@ -6,6 +6,7 @@ date_default_timezone_set('Europe/Belgrade');
 // ============================================================================ //
 
 require_once('env.php');
+require_once('vendor/autoload.php');
 
 spl_autoload_register(function($class_name) {
     $file_path = stream_resolve_include_path('class/' . $class_name . '.php');

@@ -157,6 +157,18 @@ function dd()
     exit;
 }
 
+function report($data) {
+    if (!is_dir('logs')) {
+        mkdir('logs', 775);
+    }
+    $filename = 'log-' . date('Y-m-d') . '.txt';
+    file_put_contents(
+        'logs/' . $filename,
+        PHP_EOL . date('[Y-m-d H:i:s] ') . print_r($data, true),
+        FILE_APPEND | LOCK_EX,
+    );
+}
+
 /**
  * Recursively print values
  * 
@@ -306,39 +318,24 @@ function slugify($text, $length = null)
 
 function sendMail($to, $recipient_name)
 {
-    require_once 'config.php';
-    require_once 'vendor/autoload.php';
-
+    global $_CONFIG;
     $mail = new PHPMailer(true);
 
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-        $mail->isSMTP();                                            //Send using SMTP
-        $mail->Host       = 'adminers.stud.vts.su.ac.rs';                     //Set the SMTP server to send through
-        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'adminers';                     //SMTP username
-        $mail->Password   = 'btUvDre6Pb8BW85';                               //SMTP password
-        $mail->SMTPSecure = 'tls';
-        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure =     PHPMailer::ENCRYPTION_STARTTLS`
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->isSMTP();
+        $mail->Host       = PHPMAILER_HOST;
+        $mail->SMTPAuth   = true;
+        $mail->Username   = PHPMAILER_USERNAME;
+        $mail->Password   = PHPMAILER_PASSWORD;
+        $mail->Port       = PHPMAILER_PORT;
 
 
         //Recipients
-        $mail->setFrom('adminers@adminers.stud.vts.su.ac.rs', 'adminers');
-        $mail->addAddress($to, $recipient_name);     //Add a recipient
-        //$mail->addAddress('ellen@example.com');               //Name is optional
-        $mail->addReplyTo('adminers@adminers.stud.vts.su.ac.rs', 'noreply');
-
-        // if (substr_count($cc, ',') > 0) {
-        //     for ($i=0; $i < substr_count($cc, ',') + 1; $i++) {
-        //         $mail->addCC($ccArray[$i]);
-        //     }
-        // }
-        // if (substr_count($bcc, ',') > 0) {
-        //     for ($i=0; $i < substr_count($cc, ',') + 1; $i++) {
-        //         $mail->addBCC($bccArray[$i]);
-        //     }
-        // }
+        $mail->setFrom(MAIL_FROM, 'noreply');
+        $mail->addAddress($to, $recipient_name);
+        $mail->addReplyTo(MAIL_FROM, 'noreply');
 
         // if ($uploadSuccess)
         //     $mail->addAttachment($uploaddir . $newest_file,'Uploaded file');
@@ -347,19 +344,21 @@ function sendMail($to, $recipient_name)
             'email' => $to,
         ]);
 
-        //Content
-        $mail->isHTML(true);                                //Set email format to HTML
+        $mail->isHTML(true);
         $mail->Subject = 'Adminers - Registration';
-        $mail->Body    = "Thank you for your registration at Adminers. Click on the link to confirm your registration: <a href='localhost" . SITE_ROOT . "user/validate/?token=$token" . "'>Click!</a>";
+        $mail->Body    = "Thank you for your registration at Adminers. Click on the link to confirm your registration: <a href='" . SITE_URL . "/user/validate/?token=$token" . "'>Click!</a>";
         // $mail->AltBody = strip_tags($text);
 
-        $mail->send();
+        if ($mail->send()) {
+            report('Mail sent succesfully to ' . $to);
+        } else {
+            report('Mail error');
+        }
         // $sql = "INSERT INTO mails (ip_address, country_code, subject, receiver, cc, bcc, is_Html, text, file, status, date_time)     VALUES (?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
         // $stmt= $pdo->prepare($sql);
         // $stmt->execute([$ip, $countryCode['country'], $subject, $to, $cc, $bcc, $isHtml, $text, $_FILES['picture']['name'], "sent"]);
-        echo 'Message has been sent';
     } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        report("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
         // $sql = "INSERT INTO mails (ip_address, country_code, subject, receiver, cc, bcc, is_Html, text, file, status, date_time)     VALUES (?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
         // $stmt= $pdo->prepare($sql);
         // $stmt->execute([$ip, $countryCode['country'], $subject, $to, $cc, $bcc, $isHtml, $text, $_FILES['picture']['name'], "error"]);

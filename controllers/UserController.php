@@ -47,10 +47,10 @@ class UserController {
             $_SESSION['messages'] = [
                 'User created successfully. We have sent you an email with an activation link.',
             ];
-            sendMail($_POST['email'], $_POST['$fname'] . $_POST['$lname']);
+            sendMail($_POST['email'], $_POST['fname'] . $_POST['lname']);
         }
 
-        header('Location: /');
+        header('Location: '.SITE_PATH);
         exit;
     }
 
@@ -93,7 +93,9 @@ class UserController {
                 'token' => $_GET['token'],
             ]);
             if ($token_exists) {
-                DB::query("UPDATE users SET token='', active=1");
+                DB::query("UPDATE users SET token='', active=1 WHERE token=:token", [
+                    'token' => $_GET['token'],
+                ]);
                 $_SESSION['messages'] = ['Email address confirmed successfully.',];
             } else {
                 $errors[] = "Failed to confirm email address! (This token doesn't exist.)";
@@ -106,7 +108,7 @@ class UserController {
             $_SESSION['messages'] = $errors;
         }
 
-        header("Location: /");
+        header("Location: ".SITE_PATH);
         die;
     }
 }
