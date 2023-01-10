@@ -1,5 +1,5 @@
 env.php
 
 views_compiled/*
-
+logs/
 vendor/
