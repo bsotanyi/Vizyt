@@ -346,7 +346,7 @@ function sendMail($to, $recipient_name)
 
         $mail->isHTML(true);
         $mail->Subject = 'Adminers - Registration';
-        $mail->Body    = "Thank you for your registration at Adminers. Click on the link to confirm your registration: <a href='" . SITE_URL . "/user/validate/?token=$token" . "'>Click!</a>";
+        $mail->Body    = "Thank you for your registration at Adminers. Click on the link to confirm your registration: <a href='" . SITE_URL . "user/validate/?token=$token" . "'>Click!</a>";
         // $mail->AltBody = strip_tags($text);
 
         if ($mail->send()) {

@@ -41,7 +41,7 @@ class UserController {
                 'firstname' => $_POST['fname'],
                 'lastname' => $_POST['lname'],
                 'email' => $_POST['email'],
-                'password' => password_hash($_POST['fname'], PASSWORD_BCRYPT),
+                'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
                 'token' => $token,
             ]);
             $_SESSION['messages'] = [
@@ -71,19 +71,31 @@ class UserController {
             $errors[] = 'Incorrect email format.';
         }
 
-        $email_exists = DB::fetchValue("SELECT COUNT(*) FROM users WHERE email=:email", [
+        $user = DB::fetchRow("SELECT * FROM users WHERE email=:email", [
             'email' => $_POST['email'],
         ]);
 
-        if (empty($email_exists)) {
+        if (empty($user)) {
             $errors[] = 'This email address is not yet registered.';
+        } else {
+            if (password_verify($_POST['password'], $user['password'])) {
+                $_SESSION['user'] = $user;
+                $errors[] = 'Logged in successfully.';
+            } else {
+                $errors[] = 'Incorrect password';
+            }
         }
 
-        if (!empty($errors)) {
-            $_SESSION['messages'] = $errors;
-        } else {
-            //TODO finish login
-        }
+        $_SESSION['messages'] = $errors;
+        header('Location: '.SITE_PATH);
+        exit;
+    }
+
+    public static function logout() {
+        unset($_SESSION['user']);
+        $_SESSION['messages'] = ['Logged out succesfully'];
+        header('Location: '.SITE_PATH);
+        exit;
     }
 
     public static function validateToken() {
