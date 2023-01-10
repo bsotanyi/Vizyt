@@ -1,4 +1,7 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 /**
  * View a template php file and finish execution
@@ -291,4 +294,71 @@ function slugify($text, $length = null)
         $text = rtrim(substr($text, 0, $length), '-');
 
     return $text;
+}
+
+function sendMail($to) {
+    require_once 'config.php';
+    require 'vendor/autoload.php';
+
+    $mail = new PHPMailer(true);
+
+    try {
+        //Server settings
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'adminers.stud.vts.su.ac.rs';                     //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = 'adminers';                     //SMTP username
+        $mail->Password   = 'btUvDre6Pb8BW85';                               //SMTP password
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure =     PHPMailer::ENCRYPTION_STARTTLS`
+
+
+        //Recipients
+        $mail->setFrom('adminers@adminers.stud.vts.su.ac.rs', 'Adam');
+        $mail->addAddress($to, 'User');     //Add a recipient
+        //$mail->addAddress('ellen@example.com');               //Name is optional
+        $mail->addReplyTo('adminers@adminers.stud.vts.su.ac.rs', 'Information0-');
+        
+        // if (substr_count($cc, ',') > 0) {
+        //     for ($i=0; $i < substr_count($cc, ',') + 1; $i++) {
+        //         $mail->addCC($ccArray[$i]);
+        //     }
+        // }
+        // if (substr_count($bcc, ',') > 0) {
+        //     for ($i=0; $i < substr_count($cc, ',') + 1; $i++) {
+        //         $mail->addBCC($bccArray[$i]);
+        //     }
+        // }
+
+        // if ($uploadSuccess)
+        //     $mail->addAttachment($uploaddir . $newest_file,'Uploaded file');
+
+        $token = DB::fetchValue("SELECT token FROM users WHERE email=:email", [
+            'email' => $to,
+        ]);
+
+        //Content
+        $mail->isHTML(true);                                //Set email format to HTML
+        $mail->Subject = 'Adminers - Registration';
+        $mail->Body    = "Thanks for your registration at Adminers. Click on the link to confirm your registration: <a href='localhost".SITE_ROOT . "user/validate/?token=$token" . "'>Click!</a>";
+        // $mail->AltBody = strip_tags($text);
+
+        $mail->send();
+        // $sql = "INSERT INTO mails (ip_address, country_code, subject, receiver, cc, bcc, is_Html, text, file, status, date_time)     VALUES (?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
+        // $stmt= $pdo->prepare($sql);
+        // $stmt->execute([$ip, $countryCode['country'], $subject, $to, $cc, $bcc, $isHtml, $text, $_FILES['picture']['name'], "sent"]);
+        echo 'Message has been sent';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        // $sql = "INSERT INTO mails (ip_address, country_code, subject, receiver, cc, bcc, is_Html, text, file, status, date_time)     VALUES (?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
+        // $stmt= $pdo->prepare($sql);
+        // $stmt->execute([$ip, $countryCode['country'], $subject, $to, $cc, $bcc, $isHtml, $text, $_FILES['picture']['name'], "error"]);
+
+        // $id = $pdo->lastInsertId;
+
+        // $sql = "INSERT INTO errors (id_mail, message, date_time) VALUES (?,?,CURRENT_TIMESTAMP)";
+        // $stmt= $pdo->prepare($sql);
+        // $stmt->execute([$id, $text]);
+    }
 }

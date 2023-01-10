@@ -47,7 +47,7 @@ class UserController {
             $_SESSION['messages'] = [
                 'User created successfully. We have sent you an email with an activation link.',
             ];
-            //TODO send activation email link
+            sendMail($_POST['email']);
         }
 
         header('Location: /');
@@ -55,6 +55,58 @@ class UserController {
     }
 
     public static function login() {
-        
+        $errors = [];
+        $required = [
+            'email',
+            'password'
+        ];
+
+        foreach ($required as $field) {
+            if (!isset($_POST[$field]) && !strlen(trim($_POST[$field]))) {
+                $errors[] = "The field '$field' is required";
+            }
+        }
+
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Incorrect email format.';
+        }
+
+        $email_exists = DB::fetchValue("SELECT COUNT(*) FROM users WHERE email=:email", [
+            'email' => $_POST['email'],
+        ]);
+
+        if (empty($email_exists)) {
+            $errors[] = 'This email address is not yet registered.';
+        }
+
+        if (!empty($errors)) {
+            $_SESSION['messages'] = $errors;
+        } else {
+            //TODO finish login
+        }
+    }
+
+    public static function validateToken() {
+        $errors = [];
+        if (strlen(trim($_GET['token']))) {
+            $token_exists = DB::fetchValue("SELECT COUNT(*) FROM users WHERE token=:token", [
+                'token' => $_GET['token'],
+            ]);
+            if ($token_exists) {
+                DB::query("UPDATE users SET token='', active=1");
+                $_SESSION['messages'] = ['Email address confirmed successfully.',];
+            } else {
+                $errors[] = "Failed to confirm email address! (This token doesn't exist.)";
+            }
+        } else {
+            $errors[] = "Failed to confirm email address! (No token given.)";
+        }
+
+        if (!empty($errors)) {
+            $_SESSION['messages'] = $errors;
+        }
+
+        header("Location: /");
+        die;
     }
 }

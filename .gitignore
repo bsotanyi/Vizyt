@@ -1,3 +1,5 @@
 env.php
 
 views_compiled/*
+
+vendor/
