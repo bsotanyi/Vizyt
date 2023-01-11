@@ -145,7 +145,7 @@ class UserController {
         DB::insertOrUpdate('password_tokens', [
             'email' => $_POST['email'],
             'token' => $token,
-            'expires' => $expires,
+            'expires' => $expires['date']
         ]);
 
         $result = sendMail(
