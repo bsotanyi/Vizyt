@@ -15,6 +15,26 @@ class EventController {
         ]);
     }
 
+    public static function edit() {
+
+        if (empty($_GET['id'])) {
+            header('Location: /events');
+            exit;
+        }
+
+        if (is_numeric($_GET['id'])) {
+            $event = DB::fetchRow("SELECT * FROM events WHERE id=:id", [
+                'id' => $_GET['id'],
+            ]);
+        }
+
+        view('pages/event-edit', [
+            'title' => 'Edit event',
+            'active_page' => 'events',
+            'model' => $event ?? [],
+        ]);
+    }
+
     public static function comment() {
         $errors = [];
         if (!isset($_POST['comment']) && !strlen(trim($_POST['comment']))) {
