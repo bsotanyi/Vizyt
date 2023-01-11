@@ -12,3 +12,5 @@ $controller = end($controller);
 
 $instance = new $controller;
 $instance::$method();
+
+logPageView();

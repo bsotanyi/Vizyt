@@ -66,23 +66,47 @@ class DB {
         return array_combine(array_column($data, $key), array_values($data));
     }
 
-    // DB::insertOrUpdate('table', [
-    //     'id' => 14,
-    //     'name' => '[555]',
-    // ]);
-    public static function insertOrUpdate($table, $vars) {
-        $columns = array_keys($vars);
-        $columns_string = join(', ', array_keys($vars));
+    /**
+     * Insert or update a row
+     * 
+     * @param $table
+     * @param $seach_vars - Associative array to search for, if any record exists. Example: ['id' => 5, 'email' => 'user@example.org']
+     * @param $update_vars - Associative array of values to update
+     * 
+     * Note - when no record is found, then the search and update variables both get inserted.
+     * Example usage:
+        DB::insertOrUpdate('users',
+            [
+                'id' => $_SESSION['user']['id'],
+            ],
+            [
+                'firstname' => $_POST['firstname'],
+                'lastname' => $_POST['lastname'],
+                'email' => $_POST['email'],
+            ],
+        );
+     */
+    public static function insertOrUpdate($table, $search_vars, $update_vars) {
+        $fields = [];
+        foreach ($search_vars as $column => $value) {
+            $fields[] = "$column=:$column";
+        }
+        $search_sql = join(' AND ', $fields);
+        $count = self::fetchValue("SELECT COUNT(*) FROM $table WHERE $search_sql", $search_vars);
 
-        $value_keys = join(', ', array_map(function($item) {
-            return ':' . $item;
-        }, $columns));
-
-        $update_strings = join(', ', array_map(function($item) {
-            return "$item = VALUES($item)"; 
-        }, $columns));
-
-        $sql = "INSERT INTO $table ($columns_string) VALUES ($value_keys) ON DUPLICATE KEY UPDATE $update_strings";
-        return self::query($sql, $vars);
+        if (empty($count)) {
+            foreach ($update_vars as $column => $value) {
+                $fields[] = "$column=:$column";
+            }
+            $update_sql = join(', ', $fields);
+            return self::query("INSERT INTO $table SET $update_sql", array_merge($search_vars, $update_vars));
+        } else {
+            $update_fields = [];
+            foreach ($update_vars as $column => $value) {
+                $update_fields[] = "$column=:$column";
+            }
+            $update_sql = join(', ', $update_fields);
+            return self::query("UPDATE $table SET $update_sql WHERE $search_sql", array_merge($search_vars, $update_vars));
+        }
     }
 }

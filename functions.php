@@ -370,3 +370,21 @@ function sendMail($to, $recipient_name)
         // $stmt->execute([$id, $text]);
     }
 }
+
+function logPageView() {
+    $url_path = strtok($_SERVER['REQUEST_URI'], '?');
+    $detect = new Detection\MobileDetect();
+    $ip = $_SERVER['REMOTE_ADDR'];
+
+    if (!in_array($ip, ['127.0.0.1', '::1'])) {
+        $geo_data = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$_SERVER['REMOTE_ADDR']));
+        $country = $geo_data['geoplugin_countryCode'];
+    }
+
+    DB::query("INSERT INTO page_views SET url=:url, device=:device, country=:country, ip=:ip", [
+        'url' => $url_path,
+        'device' => $detect->isMobile() ? 'mobile' : 'desktop',
+        'ip' => $_SERVER['REMOTE_ADDR'],
+        'country' => $country ?? ''
+    ]);
+}

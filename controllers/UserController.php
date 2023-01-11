@@ -123,4 +123,86 @@ class UserController {
         header("Location: ".SITE_PATH);
         die;
     }
+
+    public static function profile() {
+        if (empty($_SESSION['user'])) {
+            $_SESSION['messages'] = ['You are not logged in'];
+            header("Location: " . SITE_PATH);
+            exit;
+        }
+
+        view('pages/profile', [
+            'title' => 'Profile',
+            'active_page' => 'profile',
+            'user' => $_SESSION['user'],
+        ]);
+    }
+
+    public static function save() {
+        $errors = [];
+        $required = [
+            'firstname',
+            'lastname',
+            'email',
+        ];
+
+        foreach ($required as $field) {
+            if (!isset($_POST[$field]) && !strlen(trim($_POST[$field]))) {
+                $errors[] = "The field '$field' is required";
+            }
+        }
+
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Incorrect email format.';
+        }
+
+        $user = DB::fetchValue("SELECT COUNT(*) FROM users WHERE email=:email AND id <> :id", [
+            'email' => $_POST['email'],
+            'id' => $_SESSION['user']['id'],
+        ]);
+
+        if (!empty($user)) {
+            $errors[] = 'This email address is already taken by another user.';
+        }
+
+        if ($_POST['password'] !== $_POST['password_again']) {
+            $errors[] = 'Passwords do not match.';
+        }
+
+        if (empty($errors)) {
+            $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_BCRYPT) : $_SESSION['user']['password'];
+            $wishlist = [];
+            foreach ($_POST['wishlist_items'] ?? [] as $key => $name) {
+                if (empty($name)) continue;
+                $wishlist[] = [
+                    'name' => $name,
+                    'url' => $_POST['wishlist_urls'][$key] ?? '',
+                ];
+            }
+            $wishlist = json_encode($wishlist);
+
+            DB::insertOrUpdate('users',
+                [
+                    'id' => $_SESSION['user']['id'],
+                ],
+                [
+                    'firstname' => $_POST['firstname'],
+                    'lastname' => $_POST['lastname'],
+                    'email' => $_POST['email'],
+                    'password' => $password,
+                    'wishlist' => $wishlist,
+                ],
+            );
+
+            // also reset user data in session
+            $user = DB::fetchRow("SELECT * FROM users WHERE id=:id", [
+                'id' => $_SESSION['user']['id'],
+            ]);
+            $_SESSION['user'] = $user;
+            $_SESSION['messages'] = ['Successful update!'];
+        }
+
+        header('Location: '.SITE_PATH.'user/profile');
+        exit;
+    }
 }

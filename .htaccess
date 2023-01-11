@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /adminers/
+RewriteBase /
 
 RewriteRule "^(.*/)?\.git/" - [F,L]
 
@@ -22,7 +22,6 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=302,NE]
 # -- Routing --
 
 RewriteRule ^$ index.php?route=HomeController:home [QSA]
-RewriteRule ^profile$ index.php?route=HomeController:profile [QSA]
 RewriteRule ^table$ index.php?route=HomeController:table [QSA]
 RewriteRule ^events$ index.php?route=EventController:list [QSA]
 RewriteRule ^events/comment$ index.php?route=EventController:comment [QSA]
@@ -31,11 +30,12 @@ RewriteRule ^admin/dashboard$ index.php?route=AdminController:dashboard [QSA]
 RewriteRule ^admin/dashboard$ index.php?route=AdminController:dashboard [QSA]
 RewriteRule ^admin/users$ index.php?route=AdminController:users [QSA]
 
-
 RewriteRule ^user/register$ index.php?route=UserController:register [QSA]
 RewriteRule ^user/validate$ index.php?route=UserController:validateToken [QSA] 
 RewriteRule ^user/login$ index.php?route=UserController:login [QSA]
 RewriteRule ^user/logout$ index.php?route=UserController:logout [QSA]
+RewriteRule ^user/profile$ index.php?route=UserController:profile [QSA]
+RewriteRule ^user/save$ index.php?route=UserController:save [QSA]
 
 # RewriteRule ^posts/([0-9]+)$ index.php?route=AdminController:users?method=list&id=$1 [QSA]
 # RewriteRule ^admin/([a-z-]*)/edit/(.*)$ index.php?page=$1&edit_id=$2 [QSA]

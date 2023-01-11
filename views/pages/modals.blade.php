@@ -44,7 +44,7 @@
               </div>
 
               <div class="form-group col-md-6">
-                <label for="passwordRegisterModal">Password </label><input type="password" id="passwordRegisterModal" name="password" class="form-control" required>
+                <label for="passwordRegisterModal">Password </label><input type="password" id="passwordRegisterModal" name="password" class="form-control" required minlength="6">
               </div>
 
               <div class="form-group col-md-6">
@@ -83,18 +83,23 @@
   </div>
 </div>
 
-@if (!empty($messages))
+@if (!empty($_SESSION['messages'] ?? []))
     <div class="modal fade" id="messagesModal" tabindex="-1" aria-labelledby="messagesModal" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h1 class="modal-title fs-5" id="forgotModalLabel">Forgotten password</h1>
+            <h1 class="modal-title fs-5" id="forgotModalLabel">Attention</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            @foreach ($messages as $msg)
-                <p>{{ $msg }}</p>
-            @endforeach
+            <div class="modal-body">
+                @foreach ($_SESSION['messages'] as $msg)
+                    <p>{{ $msg }}</p>
+                @endforeach
+            </div>
         </div>
         </div>
     </div>
+    @php
+        unset($_SESSION['messages']);
+    @endphp
 @endif

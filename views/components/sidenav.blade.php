@@ -7,7 +7,7 @@
             <a href="{{ SITE_ROOT }}/" class="@if ($active_page == 'home') active @endif">
                 <i icon-name="home"></i>Home
             </a>
-            <a href="{{ SITE_ROOT }}/profile" class="@if ($active_page == 'profile') active @endif">
+            <a href="{{ SITE_ROOT }}/user/profile" class="@if ($active_page == 'profile') active @endif">
                 <i icon-name="user"></i>Profile
             </a>
             <a href="{{ SITE_ROOT }}/table" class="@if ($active_page == 'table') active @endif">
