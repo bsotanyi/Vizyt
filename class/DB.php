@@ -86,15 +86,19 @@ class DB {
             ],
         );
      */
-    public static function insertOrUpdate($table, $search_vars, $update_vars) {
+    public static function insertOrUpdate($table, $search_vars, $update_vars = []) {
         $fields = [];
-        foreach ($search_vars as $column => $value) {
-            $fields[] = "$column=:$column";
+        if (empty($seach_vars)) {
+            $update_vars = $search_vars;
+        } else {
+            foreach ($search_vars as $column => $value) {
+                $fields[] = "$column=:$column";
+            }
+            $search_sql = join(' AND ', $fields);
+            $count = self::fetchValue("SELECT COUNT(*) FROM $table WHERE $search_sql", $search_vars);
         }
-        $search_sql = join(' AND ', $fields);
-        $count = self::fetchValue("SELECT COUNT(*) FROM $table WHERE $search_sql", $search_vars);
 
-        if (empty($count)) {
+        if (empty($count ?? 0)) {
             foreach ($update_vars as $column => $value) {
                 $fields[] = "$column=:$column";
             }

@@ -12,29 +12,29 @@
             font-family: 'Poppins', sans-serif;
             text-align: center;
         }
-        #outer {
-            margin-top: 2rem;
-            display: inline-block;
-            width: 70vw;
-        }
         @media only screen and (max-width: 600px) {
             #outer {
                 width: 95vw;
             }
         }
+        .card {
+            border-color: #111;
+            border-radius: .5rem;
+            margin-top: 2rem;
+            display: inline-block;
+            width: 70vw;
+        }
     </style>
 </head>
 <body>
-    <div id="outer">
-        <main class="card text-center">
-            <div class="card-header">
-                <strong>@yield('subject')</strong>
-            </div>
-            <div class="card-body" style="text-align: left;">
-                @yield('content')
-            </div>
-            <div class="card-footer text-muted">Copyright &copy; {{ date('Y') . ' ' . $_CONFIG['app_name'] }}</div>
-        </main>
-    </div>
+    <main class="card">
+        <div class="card-header">
+            <strong>@yield('subject')</strong>
+        </div>
+        <div class="card-body" style="text-align: left;">
+            @yield('content')
+        </div>
+        <div class="card-footer text-muted">Copyright &copy; {{ date('Y') . ' ' . $_CONFIG['app_name'] }}</div>
+    </main>
 </body>
 </html>
