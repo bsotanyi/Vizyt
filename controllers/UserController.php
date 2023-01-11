@@ -132,6 +132,27 @@ class UserController {
         die;
     }
 
+    public static function forgotPassword() {
+        $errors = [];
+        if (strlen(trim($_POST['email']))) {
+            $token = md5(time());
+            $expires = strtotime("+30 minutes");
+            DB::insertOrUpdate('password_tokens', [
+                'token' => $token,
+                'expires' => $expires,
+            ]);
+        }
+        sendMail(
+            $_POST['email'],
+            $_POST['fname'] . $_POST['lname'],
+            'Adminers - Password Reset',
+            'emails/email-forgot',
+            [
+                'token' => $token
+            ],
+        );
+    }
+
     public static function profile() {
         if (empty($_SESSION['user'])) {
             $_SESSION['messages'] = ['You are not logged in'];
@@ -210,7 +231,7 @@ class UserController {
             $_SESSION['messages'] = ['Successful update!'];
         }
 
-        header('Location: /'.'user/profile');
+        header('Location: /user/profile');
         exit;
     }
 }
