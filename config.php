@@ -17,7 +17,7 @@ spl_autoload_register(function($class_name) {
 
 $_CONFIG = [
     'debug' => true,
-    'app_name' => 'Adminers',
+    'app_name' => 'Vizyt',
 ];
 
 define('NOW', date('Y-m-d H:i:s'));

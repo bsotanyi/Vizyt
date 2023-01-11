@@ -50,7 +50,7 @@ class UserController {
             sendMail(
                 $_POST['email'],
                 $_POST['fname'] . $_POST['lname'],
-                'Adminers - Registration',
+                'Vizyt - Registration',
                 'emails/email-confirmation',
                 [
                     'token' => $token
@@ -151,7 +151,7 @@ class UserController {
         $result = sendMail(
             $_POST['email'],
             $user['firstname'] . $user['lastname'],
-            'Adminers - Password Reset',
+            'Vizyt - Password Reset',
             'emails/email-forgot',
             [
                 'token' => $token,

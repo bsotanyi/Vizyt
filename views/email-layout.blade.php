@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('subject') • {{ $_CONFIG['app_name'] }}</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Monoton&display=swap');
         
         body {
             font-family: 'Poppins', sans-serif;
@@ -31,7 +31,7 @@
             padding: 1rem;
             background-color: #eee;
         }
-        .card-header h1 {
+        .card-header {
             margin: 0;
             font-weight: 300;
             font-size: 25px;
@@ -42,19 +42,28 @@
             border-bottom: 1px solid #bbb;
             text-align: left;
         }
+        .card-footer {
+            color: #666;
+        }
+        .logo {
+            font-weight: 200;
+            letter-spacing: .1em;
+            display: inline-block;
+            user-select: none;
+            font-family: 'Monoton', sans-serif;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
     <main class="card">
         <div class="card-header">
-            <strong>
-                <h1>@yield('subject')</h1>
-            </strong>
+            <h2 class="logo">{{ $_CONFIG['app_name'] }}</h2>
         </div>
         <div class="card-body">
             @yield('content')
         </div>
-        <div class="card-footer text-muted">Copyright &copy; {{ date('Y') . ' ' . $_CONFIG['app_name'] }}</div>
+        <div class="card-footer">Copyright &copy; {{ date('Y') . ' ' . $_CONFIG['app_name'] }}</div>
     </main>
 </body>
 </html>

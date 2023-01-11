@@ -1,4 +1,5 @@
 <nav id="navigation">
+    <h2 class="logo">{{ $_CONFIG['app_name'] }}</h2>
     <i icon-name="menu" class="js-sidenav-toggle"></i>
     <div class="buttons float-end">
         @if (!empty($_SESSION['user']))
