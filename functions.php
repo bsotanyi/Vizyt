@@ -316,7 +316,7 @@ function slugify($text, $length = null)
     return $text;
 }
 
-function sendMail($to, $recipient_name)
+function sendMail($to, $recipient_name, $subject, $view, $view_data = [])
 {
     global $_CONFIG;
     $mail = new PHPMailer(true);
@@ -345,8 +345,16 @@ function sendMail($to, $recipient_name)
         ]);
 
         $mail->isHTML(true);
-        $mail->Subject = 'Adminers - Registration';
-        $mail->Body    = "Thank you for your registration at Adminers. Click on the link to confirm your registration: <a href='" . SITE_URL . "user/validate/?token=$token" . "'>Click!</a>";
+        $mail->Subject = $subject;
+        if (!isset($view_data['subject'])) {
+            $view_data['subject'] = $subject;
+        }
+
+        ob_start();
+        view($view, $view_data);
+        $html = ob_get_clean();
+
+        $mail->Body = $html;
         // $mail->AltBody = strip_tags($text);
 
         if ($mail->send()) {
