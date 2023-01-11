@@ -4,7 +4,7 @@ require_once('config.php');
 require_once('functions.php');
 
 $route = $_GET['route'] ?? 'HomeController:home';
-list($controller, $method) = explode(':', $route);
+list($controller, $method) = explode(':', $route); 
 
 require_once "controllers/$controller.php";
 $controller = explode('/', $controller);
