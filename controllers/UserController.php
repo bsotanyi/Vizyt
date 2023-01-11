@@ -58,7 +58,7 @@ class UserController {
             );
         }
 
-        header('Location: '.SITE_PATH);
+        header('Location: /');
         exit;
     }
 
@@ -95,14 +95,14 @@ class UserController {
         }
 
         $_SESSION['messages'] = $errors;
-        header('Location: '.SITE_PATH);
+        header('Location: /');
         exit;
     }
 
     public static function logout() {
         unset($_SESSION['user']);
         $_SESSION['messages'] = ['Logged out succesfully'];
-        header('Location: '.SITE_PATH);
+        header('Location: /');
         exit;
     }
 
@@ -128,14 +128,14 @@ class UserController {
             $_SESSION['messages'] = $errors;
         }
 
-        header("Location: ".SITE_PATH);
+        header('Location: /');
         die;
     }
 
     public static function profile() {
         if (empty($_SESSION['user'])) {
             $_SESSION['messages'] = ['You are not logged in'];
-            header("Location: " . SITE_PATH);
+            header('Location: /');
             exit;
         }
 
@@ -210,7 +210,7 @@ class UserController {
             $_SESSION['messages'] = ['Successful update!'];
         }
 
-        header('Location: '.SITE_PATH.'user/profile');
+        header('Location: /'.'user/profile');
         exit;
     }
 }

@@ -23,7 +23,7 @@ class EventController {
 
         if (!empty($errors)) {
             $_SESSION['messages'] = $errors;
-            header('Location: '.SITE_ROOT.'/events/details');
+            header('Location: /events/details');
             die;
         } else {
             //TODO ADAM event_id and user_id needed

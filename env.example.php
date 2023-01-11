@@ -6,9 +6,7 @@ define('DB_USERNAME', 'root');
 define('DB_PASSWORD', 'password');
 define('DB_CHARSET', 'utf8mb4');
 
-define('SITE_ROOT', ''); //  or adminers/
-define('SITE_PATH', '/' . SITE_ROOT);
-define('SITE_URL', 'https://school.adminers.test' . SITE_PATH);
+define('SITE_URL', 'https://school.adminers.test');
 
 define('PHPMAILER_HOST', 'smtp.mailtrap.io');
 define('PHPMAILER_PORT', 2525);

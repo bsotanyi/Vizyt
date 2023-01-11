@@ -5,7 +5,7 @@
 @section('content')
     <div class="parent grid">
         <div>
-            <form action="{{ SITE_ROOT }}/user/save" method="post" class="js-validate">
+            <form action="/user/save" method="post" class="js-validate">
                 <small>View & Edit</small>
                 <h3>User profile</h3>
                 <hr>

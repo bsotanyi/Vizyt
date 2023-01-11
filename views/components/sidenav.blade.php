@@ -4,22 +4,22 @@
             <strong>{{ $title }}</strong>
         </a>
         <div>
-            <a href="{{ SITE_ROOT }}/" class="@if ($active_page == 'home') active @endif">
+            <a href="/" class="@if ($active_page == 'home') active @endif">
                 <i icon-name="home"></i>Home
             </a>
-            <a href="{{ SITE_ROOT }}/user/profile" class="@if ($active_page == 'profile') active @endif">
+            <a href="/user/profile" class="@if ($active_page == 'profile') active @endif">
                 <i icon-name="user"></i>Profile
             </a>
-            <a href="{{ SITE_ROOT }}/table" class="@if ($active_page == 'table') active @endif">
+            <a href="/table" class="@if ($active_page == 'table') active @endif">
                 <i icon-name="table"></i>Table
             </a>
-            <a href="{{ SITE_ROOT }}/events" class="@if ($active_page == 'events') active @endif">
+            <a href="/events" class="@if ($active_page == 'events') active @endif">
                 <i icon-name="calendar-days"></i>Events
             </a>
-            <a href="{{ SITE_ROOT }}/admin/dashboard" class="@if ($active_page == 'admin-dashboard') active @endif">
+            <a href="/admin/dashboard" class="@if ($active_page == 'admin-dashboard') active @endif">
                 <i icon-name="gauge"></i>Dashboard
             </a>
-            <a href="{{ SITE_ROOT }}/admin/users" class="@if ($active_page == 'admin-users') active @endif">
+            <a href="/admin/users" class="@if ($active_page == 'admin-users') active @endif">
                 <i icon-name="users"></i>Users
             </a>
         </div>

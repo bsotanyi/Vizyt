@@ -6,7 +6,7 @@
         <h1 class="modal-title fs-5" id="loginModalLabel">Log in</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <form action="{{ SITE_ROOT }}/user/login" method="post" class="js-validate">
+        <form action="/user/login" method="post" class="js-validate">
             <div class="modal-body">
                 <label for="emailLoginModal">Email </label><input type="email" id="emailLoginModal" name="email" class="form-control">
                 <label for="passwordLoginModal">Password </label><input type="password" id="passwordLoginModal" name="password" class="form-control">
@@ -28,7 +28,7 @@
         <h1 class="modal-title fs-5" id="registerModal">Register</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <form action="{{ SITE_ROOT }}/user/register" method="post" class="js-validate">
+        <form action="/user/register" method="post" class="js-validate">
             <div class="modal-body row">
 
               <div class="form-group col-md-6">

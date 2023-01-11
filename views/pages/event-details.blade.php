@@ -94,7 +94,7 @@
     </div>
     <div class="parent grid-xxl-fill">
         <div id="newComment">
-            <form action="{{ SITE_ROOT }}/events/comment" method="post">
+            <form action="/events/comment" method="post">
                 <div class="form-floating">
                     <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="comment"></textarea>
                     <label for="floatingTextarea">Comment</label>

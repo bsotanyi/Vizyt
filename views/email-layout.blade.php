@@ -25,7 +25,6 @@
     </style>
 </head>
 <body>
-    {{-- TODO - We can not really use classes in emails, so we have to achieve some similar styling by only using inline style tags on each element --}}
     <div id="outer">
         <main class="card text-center">
             <div class="card-header">
