@@ -5,6 +5,6 @@
 @section('content')
     <p>
         Your can create a new password by clicking
-        <a href='{{ SITE_URL . 'user/validate/' . $token }}'>Here!</a>
+        <a href='{{ SITE_URL . '/user/reset-password/' . $token . '/' . $email }}'>Here!</a>
     </p>
 @endsection

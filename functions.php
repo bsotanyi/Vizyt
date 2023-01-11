@@ -359,6 +359,7 @@ function sendMail($to, $recipient_name, $subject, $view, $view_data = [])
 
         if ($mail->send()) {
             report('Mail sent succesfully to ' . $to);
+            return true;
         } else {
             report('Mail error');
         }
@@ -377,6 +378,7 @@ function sendMail($to, $recipient_name, $subject, $view, $view_data = [])
         // $stmt= $pdo->prepare($sql);
         // $stmt->execute([$id, $text]);
     }
+    return false;
 }
 
 function logPageView() {

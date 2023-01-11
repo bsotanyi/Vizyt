@@ -132,25 +132,92 @@ class UserController {
         die;
     }
 
-    public static function forgotPassword() {
-        $errors = [];
-        if (strlen(trim($_POST['email']))) {
-            $token = md5(time());
-            $expires = strtotime("+30 minutes");
-            DB::insertOrUpdate('password_tokens', [
-                'token' => $token,
-                'expires' => $expires,
-            ]);
-        }
-        sendMail(
+    public static function forgotPasswordMail() {
+        $user = DB::fetchRow("SELECT firstname, lastname FROM users WHERE email=:email", [
+            'email' => $_POST['email']
+        ]);
+
+        $token = md5(time());
+        $timestamp = time()+30*60;
+        $expiresObj = new DateTime('@' . $timestamp);
+        $expires = (array) $expiresObj;
+
+        DB::insertOrUpdate('password_tokens', [
+            'email' => $_POST['email'],
+            'token' => $token,
+            'expires' => $expires,
+        ]);
+
+        $result = sendMail(
             $_POST['email'],
-            $_POST['fname'] . $_POST['lname'],
+            $user['firstname'] . $user['lastname'],
             'Adminers - Password Reset',
             'emails/email-forgot',
             [
-                'token' => $token
+                'token' => $token,
+                'email' => $_POST['email']
             ],
         );
+
+        if ($result) {
+            $_SESSION['messages'] = ['Email sent!'];
+        } else {
+            $_SESSION['messages'] = ['Failed to send email!'];
+        }
+        header('Location: /');
+        die;
+    }
+
+    public static function resetPassword() {
+        if (strlen(trim($_GET['token']))) {
+            $token_exists = DB::fetchValue("SELECT COUNT(*) FROM password_tokens WHERE token=:token", [
+                'token' => $_GET['token'],
+            ]);
+        }
+
+        if ($token_exists) {
+            DB::query("UPDATE password_tokens SET token = '', expires = '' WHERE token = '{$_GET['token']}'");
+            view('pages/reset-password', [
+                'title' => 'Reset Password',
+                'active_page' => 'Reset Password',
+            ]);
+        } else {
+            $_SESSION['messages'] = ['Invalid token!'];
+            header('Location: /');
+            die;
+        }
+    }
+
+    public static function forgotPassword() {
+        $errors = [];
+        $required = [
+            'email',
+            'password',
+            'passwordConfirm'
+        ];
+
+        foreach ($required as $field) {
+            if (!isset($_POST[$field]) && !strlen(trim($_POST[$field]))) {
+                $errors[] = "The field '$field' is required";
+            }
+        }
+
+        if ($_POST['password'] !== $_POST['passwordConfirm']) {
+            $errors[] = "The passwords do not match!";
+        }
+
+        if (empty($errors)) {
+            DB::query("UPDATE users SET password = :password WHERE email = :email", 
+            [
+                'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
+                'email' => $_POST['email']
+            ]);
+            $_SESSION['messages'] = ['Your password have been changed successfully!'];
+        } else {
+            $_SESSION['messages'] = $errors;
+        }
+        header('Location: /');
+        die;
     }
 
     public static function profile() {
@@ -229,6 +296,8 @@ class UserController {
             ]);
             $_SESSION['user'] = $user;
             $_SESSION['messages'] = ['Successful update!'];
+        } else {
+            $_SESSION['messages'] = $errors;
         }
 
         header('Location: /user/profile');

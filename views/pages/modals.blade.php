@@ -70,7 +70,7 @@
         <h1 class="modal-title fs-5" id="forgotModalLabel">Forgotten password</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <form action="" method="post" class="js-validate">
+        <form action="/user/forgot-password-mail" method="post" class="js-validate">
             <div class="modal-body">
                 <p>Enter the email address associated with your account and we'll send you a link to reset your password.</p>
                 <label for="emailForgotModal">Email </label><input type="email" id="emailForgotModal" name="email" class="form-control">
