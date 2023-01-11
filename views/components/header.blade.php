@@ -1,6 +1,8 @@
 <nav id="navigation">
-    <h2 class="logo">{{ $_CONFIG['app_name'] }}</h2>
-    <i icon-name="menu" class="js-sidenav-toggle"></i>
+    <h2 class="logo">
+        <i icon-name="menu" class="js-sidenav-toggle"></i>
+        {{ $_CONFIG['app_name'] }}
+    </h2>
     <div class="buttons float-end">
         @if (!empty($_SESSION['user']))
             <a href="#">{{ $_SESSION['user']['firstname'] .' '. $_SESSION['user']['lastname'] }}</a>
