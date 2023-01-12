@@ -138,10 +138,10 @@ class UserController {
         ]);
 
         $token = md5(time());
-        $timestamp = time()+30*60;
+        $timestamp = time()+90*60;
         $expiresObj = new DateTime('@' . $timestamp);
         $expires = (array) $expiresObj;
-
+        
         DB::insertOrUpdate('password_tokens', [
             'email' => $_POST['email'],
             'token' => $token,
@@ -171,18 +171,24 @@ class UserController {
     public static function resetPassword() {
         if (strlen(trim($_GET['token']))) {
             $token_exists = DB::fetchValue("SELECT COUNT(*) FROM password_tokens WHERE token=:token", [
-                'token' => $_GET['token'],
+                'token' => $_GET['token']
             ]);
-        }
 
-        if ($token_exists) {
-            DB::query("UPDATE password_tokens SET token = '', expires = '' WHERE token = '{$_GET['token']}'");
+            if ($token_exists) {
+                $expires = DB::fetchValue("SELECT expires FROM password_tokens WHERE token = :token", [
+                    'token' => $_GET['token']
+                ]);
+                $expires = strtotime($expires);
+            }
+        }
+    
+        if ($token_exists && time() < $expires) {
             view('pages/reset-password', [
                 'title' => 'Reset Password',
                 'active_page' => 'Reset Password',
             ]);
         } else {
-            $_SESSION['messages'] = ['Invalid token!'];
+            $_SESSION['messages'] = ['Your token is invalid or expired!'];
             header('Location: /');
             die;
         }
@@ -207,6 +213,7 @@ class UserController {
         }
 
         if (empty($errors)) {
+            DB::query("DELETE FROM password_tokens WHERE email = :email", [ 'email' => $_POST['email'] ]);
             DB::query("UPDATE users SET password = :password WHERE email = :email", 
             [
                 'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
