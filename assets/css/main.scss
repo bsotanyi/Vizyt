@@ -255,6 +255,10 @@ body {
         }
     }
     
+    input[type=email], input[type=password], input[type=text] {
+        margin-bottom: 1rem
+    }
+
     .modal {
         color: $text;
         label {
@@ -262,9 +266,6 @@ body {
         }
         input[type=text] {
             display: inline-block;
-        }
-        input[type=email], input[type=password], input[type=text] {
-            margin-bottom: 1rem
         }
         a {
             display: block;

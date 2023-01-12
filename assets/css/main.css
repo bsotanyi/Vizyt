@@ -244,6 +244,9 @@ body main#content > .parent .wishlist a {
 body main#content > .parent .wishlist a:hover {
   background-color: rgba(230, 15, 0, 0.8);
 }
+body input[type=email], body input[type=password], body input[type=text] {
+  margin-bottom: 1rem;
+}
 body .modal {
   color: #eee;
 }
@@ -252,9 +255,6 @@ body .modal label {
 }
 body .modal input[type=text] {
   display: inline-block;
-}
-body .modal input[type=email], body .modal input[type=password], body .modal input[type=text] {
-  margin-bottom: 1rem;
 }
 body .modal a {
   display: block;
