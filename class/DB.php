@@ -88,7 +88,7 @@ class DB {
      */
     public static function insertOrUpdate($table, $search_vars, $update_vars = []) {
         $fields = [];
-        if (empty($seach_vars)) {
+        if (empty($update_vars)) {
             $update_vars = $search_vars;
         } else {
             foreach ($search_vars as $column => $value) {

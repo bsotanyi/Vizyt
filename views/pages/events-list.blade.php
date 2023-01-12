@@ -14,6 +14,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Event name</th>
                         <th>Date</th>
                         <th>Invitees</th>
@@ -21,27 +22,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 0; $i < 6; $i++)
+                    @forelse ($events as $item)
                         <tr>
-                            <td>Epic party {{ rand() }}</td>
-                            <td>2023.05.12</td>
-                            <td>{{ rand(5, 30) }}</td>
+                            <td>{{ $item['id'] }}</td>
+                            <td>{{ $item['name'] }}</td>
+                            <td>{{ $item['datetime'] }}</td>
+                            <td>{{ count(json_decode($item['invites'], true)) }}</td>
                             <td class="nowrap">
-                                <a href="#" class="btn btn-warning" role="button">
+                                <a href="/events/details/{{ $item['id'] }}" class="btn btn-warning" role="button">
                                     <i icon-name="eye"></i> Details
                                 </a>
                                 <a href="#" class="btn btn-secondary" role="button">
                                     <i icon-name="printer"></i> PDF
                                 </a>
-                                <a href="#" class="btn btn-light" role="button">
+                                <a href="/events/edit/{{ $item['id'] }}" class="btn btn-light" role="button">
                                     <i icon-name="edit"></i> Edit
                                 </a>
-                                <a href="#" class="btn btn-danger" role="button">
+                                <a href="/events/delete/{{ $item['id'] }}" class="btn btn-danger" role="button" onclick="return confirm('Are you sure you want to delete this item?')">
                                     <i icon-name="trash-2"></i>
                                 </a>
                             </td>
                         </tr>
-                    @endfor
+                    @empty
+                        <tr>
+                            <td colspan="5">You have no active events.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -52,6 +58,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Event name</th>
                         <th>Date</th>
                         <th>Invitees</th>
@@ -59,18 +66,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 0; $i < 6; $i++)
+                    @forelse ($archive as $item)
                         <tr>
-                            <td>Epic party {{ rand() }}</td>
-                            <td>2023.05.12</td>
-                            <td>{{ rand(5, 30) }}</td>
+                            <td>{{ $item['id'] }}</td>
+                            <td>{{ $item['name'] }}</td>
+                            <td>{{ $item['datetime'] }}</td>
+                            <td>{{ 0 }}</td>{{-- TODO: add correct invitee count --}}
                             <td class="nowrap">
-                                <a href="#" class="btn btn-warning" role="button">
+                                <a href="/events/details/{{ $item['id'] }}" class="btn btn-warning" role="button">
                                     <i icon-name="eye"></i> Details
+                                </a>
+                                <a href="#" class="btn btn-secondary" role="button">
+                                    <i icon-name="printer"></i> PDF
                                 </a>
                             </td>
                         </tr>
-                    @endfor
+                    @empty
+                        <tr>
+                            <td colspan="5">Your archive is empty.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

@@ -18,6 +18,8 @@ spl_autoload_register(function($class_name) {
 $_CONFIG = [
     'debug' => true,
     'app_name' => 'Vizyt',
+    'latitude' => '46.09459384627474',
+    'longitude' => '19.662043154239658',
 ];
 
 define('NOW', date('Y-m-d H:i:s'));

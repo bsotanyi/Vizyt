@@ -398,3 +398,11 @@ function logPageView() {
         'country' => $country ?? ''
     ]);
 }
+
+function checkLogin() {
+    if (empty($_SESSION['user'])) {
+        $_SESSION['messages'] = ['You are not logged in.'];
+        header('Location: /');
+        exit;
+    }
+}
