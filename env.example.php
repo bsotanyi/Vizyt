@@ -8,11 +8,19 @@ define('DB_CHARSET', 'utf8mb4');
 
 define('SITE_URL', 'https://school.adminers.test');
 
-define('PHPMAILER_HOST', 'smtp.mailtrap.io');
-define('PHPMAILER_PORT', 2525);
-define('PHPMAILER_USERNAME', '60207f43b807fe');
-define('PHPMAILER_PASSWORD', '44e126b58a7d64');
-define('MAIL_FROM', 'admin@site.adminers.test');
+/* Mailtrap
+* tadan61778@usharer.com
+* adminers
+*/
+// define('PHPMAILER_HOST', 'smtp.mailtrap.io');
+// define('PHPMAILER_PORT', 2525);
+// define('PHPMAILER_USERNAME', '60207f43b807fe');
+// define('PHPMAILER_PASSWORD', '44e126b58a7d64');
+// define('MAIL_FROM', 'admin@site.adminers.test');
 
-// tadan61778@usharer.com
-// adminers
+define('PHPMAILER_HOST', 'adminers.stud.vts.su.ac.rs');
+define('PHPMAILER_PORT', 587);
+define('PHPMAILER_USERNAME', 'adminers');
+define('PHPMAILER_PASSWORD', 'btUvDre6Pb8BW85');
+define('MAIL_FROM', 'adminers');
+

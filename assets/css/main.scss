@@ -191,6 +191,13 @@ body {
         > .parent {
             margin-block-end: 1rem;
 
+            div#geoloc {
+                button {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
             div#event-thumbnail a, a.wl-content {
                 color: var(--bs-heading-color,inherit);
             }
