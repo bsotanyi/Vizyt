@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Monoton&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo+Play:wght@500;900&display=swap");
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -308,7 +309,7 @@ body footer#footer {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  font-family: "Monoton", sans-serif;
+  font-family: "Cairo Play", cursive;
 }
 
 @media screen and (max-width: 768px) {

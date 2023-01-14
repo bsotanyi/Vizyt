@@ -90,7 +90,7 @@
         var map_instance;
         var latitude = {{ !empty($model['latitude']) ? $model['latitude'] : $_CONFIG['latitude'] }};
         var longitude = {{ !empty($model['longitude']) ? $model['longitude'] : $_CONFIG['longitude'] }};
-
+        
         qs('#latitude').value = latitude;
         qs('#longitude').value = longitude;
 

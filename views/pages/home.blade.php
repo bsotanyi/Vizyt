@@ -3,87 +3,59 @@
 @section('title', $title)
 
 @section('content')
-    <div class="parent grid-xxl-fill">
-        <div>
-            <small>Officiis, nobis.</small>
-            <h3>Deleniti, iure quae.</h3>
-            <p>Nihil nulla asperiores eum ab obcaecati quidem ipsum aliquid dignissimos aut corporis, sit, a eaque fugiat repudiandae. Non obcaecati, et quam, nulla, sed officia voluptate molestiae perspiciatis rerum maiores libero.</p>
-        </div>
-        <div id="event-thumbnail">
-            <small>There are 9 public events near your location</small>
-            <h3>Public events</h3>
-            <a href="/events/details">
-                <div class="list-event">
-                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                    <h3 class="e-name">The Big New Year Party</h3>
-                    <div id="e-links">
-                        <i icon-name="users"></i><small>42 participants</small>
-                        <i icon-name="calendar"></i><small class="e-comments">2022.12.31.</small>
-                    </div>
-                </div>
-            </a>
-            <a href="/events/details">
-                <div class="list-event">
-                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                    <h3 class="e-name">The Big Christmas Party for Csantaver People</h3>
-                    <div id="e-links">
-                        <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                        <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
-                    </div>
-                </div>
-            </a>
-            <a href="/events/details">
-                <div class="list-event">
-                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                    <h3 class="e-name">Hello world!</h3>
-                    <div id="e-links">
-                        <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                        <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
-                    </div>
-                </div>
-            </a>
-            <a href="/events/details">
-                <div class="list-event">
-                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                    <h3 class="e-name">Lorum Ipse</h3>
-                    <div id="e-links">
-                        <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                        <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
-                    </div>
-                </div>
-            </a>
-            <a href="/events/details">
-                <div class="list-event">
-                    <small class="e-owner">Created 9 hours ago by <span>Tolcser Adam</span></small>
-                    <h3 class="e-name">Adam's Birthday</h3>
-                    <div id="e-links">
-                        <i icon-name="users"></i><a href='' class="e-participants">42 participants</a>
-                        <i icon-name="calendar"></i><span class="e-comments">2022.12.31.</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
     <div class="parent grid-xl-fill">
-        <div>
-            <small>Quasi, iste!</small>
+        <div id="geoloc">
+            {{-- <small>Quasi, iste!</small>
             <h3>Ipsam, aliquid odit.</h3>
-            <p>Unde iste quae, similique quod aliquam aliquid praesentium magnam corrupti, sunt aut quisquam iusto commodi illum minus inventore et aperiam sed suscipit reprehenderit laudantium! Unde omnis doloribus totam voluptas placeat.</p>
+            <p>Unde iste quae, similique quod aliquam aliquid praesentium magnam corrupti, sunt aut quisquam iusto commodi illum minus inventore et aperiam sed suscipit reprehenderit laudantium! Unde omnis doloribus totam voluptas placeat.</p> --}}
+            <button onclick="getLocation()">See nearby events</button>
         </div>
         <div>
             <small>Aspernatur, nisi?</small>
             <h3>Earum, a? Libero?</h3>
-            <p>Vitae optio, rerum nobis magni ullam quasi maxime voluptatem, quibusdam minus laudantium quia, enim vel ut consequatur laborum vero hic blanditiis perferendis unde voluptas sunt. Aperiam expedita a ut dolorum.</p>
-        </div>
-        <div>
-            <small>Facilis, ut.</small>
-            <h3>Obcaecati, ut eum.</h3>
-            <p>Velit corrupti reiciendis voluptates, quidem ut iure corporis a deleniti harum eius? Laboriosam tenetur, aut animi veniam quis quam fugiat delectus ex fuga ipsam veritatis repellendus ab adipisci quod hic!</p>
-        </div>
-        <div>
-            <small>Corporis, ullam.</small>
-            <h3>Quidem, iusto quo!</h3>
-            <p>Id culpa vero, quae rem error in dolorum, tempore inventore, consequatur fugit ea deserunt eligendi adipisci architecto ratione saepe repudiandae quisquam! Voluptate nam, quos illum magnam beatae nobis possimus similique.</p>
+            <p>Vitae optio, rerum nobis magni ullam quasi maxime voluptatem, quibusdam minus laudantium quia, enim vel ut consequatur  laborum vero hic blanditiis perferendis unde voluptas sunt. Aperiam expedita a ut dolorum.</p>
         </div>
     </div>
+    @if ($_SESSION['nearby'])
+    <div class="parent grid-xl-fill">
+        <div id="event-thumbnail">
+            <small>There are {{ count($_SESSION['nearby']) }} public events near your location</small>
+            <h3>Public events</h3>
+            @foreach ($_SESSION['nearby'] as $item)
+                <a href="/events/details">
+                    <div class="list-event">
+                        <small class="e-owner">Created {{ time_elapsed($item['created_date']) }} by <span>{{ getUserNameFromId($item['user_id']) }}</span></small>
+                        <h3 class="e-name">{{ $item['name'] }}</h3>
+                        <div id="e-links">
+                            <i icon-name="users"></i><small> participants</small>
+                            <i icon-name="calendar"></i><small class="e-comments">{{ $item['datetime'] }}</small>
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    </div>
+        
+    @endif
+    
 @endsection
+@push('scripts')
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+                geoloc.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            console.log(latitude);
+            console.log(longitude);
+            window.location.href = "/events/nearby/" + position.coords.latitude + "/" + position.coords.longitude;
+
+        }
+    </script>
+@endpush

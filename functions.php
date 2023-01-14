@@ -406,3 +406,62 @@ function checkLogin() {
         exit;
     }
 }
+
+/**
+ * Calculates the great-circle distance between two points, with
+ * the Haversine formula.
+ * @param float $latitudeFrom Latitude of start point in [deg decimal]
+ * @param float $longitudeFrom Longitude of start point in [deg decimal]
+ * @param float $latitudeTo Latitude of target point in [deg decimal]
+ * @param float $longitudeTo Longitude of target point in [deg decimal]
+ * @param float $earthRadius Mean earth radius in [m]
+ * @return float Distance between points in [m] (same as earthRadius)
+ */
+function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000) {
+    // convert from degrees to radians
+    $latFrom = deg2rad($latitudeFrom);
+    $lonFrom = deg2rad($longitudeFrom);
+    $latTo = deg2rad($latitudeTo);
+    $lonTo = deg2rad($longitudeTo);
+  
+    $latDelta = $latTo - $latFrom;
+    $lonDelta = $lonTo - $lonFrom;
+  
+    $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
+      cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+    return $angle * $earthRadius;
+}
+
+function time_elapsed($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = (array) $now->diff($ago);
+
+    $diff['w'] = floor($diff['d'] / 7);
+    $diff['d'] -= $diff['w'] * 7;
+
+    $string = array(
+        'y' => 'year',
+        'm' => 'month',
+        'w' => 'week',
+        'd' => 'day',
+        'h' => 'hour',
+        'i' => 'minute',
+        's' => 'second',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff[$k]) {
+            $v = $diff[$k] . ' ' . $v . ($diff[$k] > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
+}
+
+function getUserNameFromId ($id) {
+    $name = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname' FROM users u INNER JOIN events e ON e.user_id = u.id WHERE u.id = :id", [ 'id' => $id ]);
+    return $name['fname'] . ' ' . $name['lname'];
+}

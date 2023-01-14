@@ -137,6 +137,45 @@ class EventController {
         exit;
     }
 
+    public static function nearby () {
+        $errors = [];
+        $required = [
+            'latitude',
+            'longitude'
+        ];
+        unset($_SESSION['nearby']);
+
+        foreach ($required as $field) {
+            if (!isset($_GET[$field]) && !strlen(trim($_GET[$field]))) {
+                $errors[] = "The field '$field' is required";
+            }
+        }
+
+        if (empty($errors)) {
+            $events = DB::query("SELECT id, latitude, longitude FROM events");
+            // $eventsCount = DB::query("SELECT COUNT(*) FROM events");
+
+            foreach ($events as $item) {
+                $distance = haversineGreatCircleDistance($_GET['latitude'], $_GET['longitude'], $item['latitude'], $item['longitude']) / 1000;
+
+                if ($distance <= 50) {
+                    $data[] = DB::fetchRow("SELECT * FROM events WHERE id=:id AND is_public = 1 AND is_active = 1 AND datetime > CURRENT_TIMESTAMP", [ 'id' => $item['id'] ]);
+                }
+            }
+
+            foreach ($data as $item) {
+                if (!empty($item))
+                    $_SESSION['nearby'][] = $item;
+            }   
+                     
+        } else {
+            $_SESSION['messages'] = $errors;
+        }
+
+        header('Location: /');
+            die;
+    }
+
     public static function comment() {
         $errors = [];
         if (!isset($_POST['comment']) && !strlen(trim($_POST['comment']))) {
@@ -156,7 +195,7 @@ class EventController {
             //     datetime => CURRENT_TIMESTAMP
         
             // ]);
-            header('Location: /');
+            header('Location: /events/details');
             die;
         }
     }
