@@ -25,7 +25,7 @@
             <small>There are {{ count($_SESSION['nearby']) }} public events near your location</small>
             <h3>Public events</h3>
             @foreach ($_SESSION['nearby'] as $item)
-                <a href="/events/details">
+                <a href="/events/{{ $item['id'] }}">
                     <div class="list-event">
                         <small class="e-owner">Created {{ time_elapsed($item['created_date']) }} by <span>{{ getUserNameFromId($item['user_id']) }}</span></small>
                         <h3 class="e-name">{{ $item['name'] }}</h3>

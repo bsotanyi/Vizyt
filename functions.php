@@ -418,7 +418,6 @@ function checkLogin() {
  * @return float Distance between points in [m] (same as earthRadius)
  */
 function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000) {
-    // convert from degrees to radians
     $latFrom = deg2rad($latitudeFrom);
     $lonFrom = deg2rad($longitudeFrom);
     $latTo = deg2rad($latitudeTo);
@@ -461,7 +460,16 @@ function time_elapsed($datetime, $full = false) {
     return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
 
+function time_until($datetime) {
+    $now = new DateTime();
+    $future_date = new DateTime($datetime);
+
+    $interval = $future_date->diff($now);
+
+    return $interval->format("%a days"); //TODO write hours or mintues if its in less than a day
+}
+
 function getUserNameFromId ($id) {
-    $name = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname' FROM users u INNER JOIN events e ON e.user_id = u.id WHERE u.id = :id", [ 'id' => $id ]);
-    return $name['fname'] . ' ' . $name['lname'];
+    $name = DB::fetchRow("SELECT firstname, lastname FROM users WHERE id = :id", [ 'id' => $id ]);
+    return $name['firstname'] . ' ' . $name['lastname'];
 }

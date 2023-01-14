@@ -12,7 +12,7 @@ class UserController {
         ];
 
         foreach ($required as $field) {
-            if (!isset($_POST[$field]) && !strlen(trim($_POST[$field]))) {
+            if (!isset($_POST[$field]) || !strlen(trim($_POST[$field]))) {
                 $errors[] = "The field '$field' is required";
             }
         }
@@ -70,7 +70,7 @@ class UserController {
         ];
 
         foreach ($required as $field) {
-            if (!isset($_POST[$field]) && !strlen(trim($_POST[$field]))) {
+            if (!isset($_POST[$field]) || !strlen(trim($_POST[$field]))) {
                 $errors[] = "The field '$field' is required";
             }
         }
@@ -203,7 +203,7 @@ class UserController {
         ];
 
         foreach ($required as $field) {
-            if (!isset($_POST[$field]) && !strlen(trim($_POST[$field]))) {
+            if (!isset($_POST[$field]) || !strlen(trim($_POST[$field]))) {
                 $errors[] = "The field '$field' is required";
             }
         }
@@ -250,7 +250,7 @@ class UserController {
         ];
 
         foreach ($required as $field) {
-            if (!isset($_POST[$field]) && !strlen(trim($_POST[$field]))) {
+            if (!isset($_POST[$field]) || !strlen(trim($_POST[$field]))) {
                 $errors[] = "The field '$field' is required";
             }
         }

@@ -8,8 +8,8 @@
       </div>
         <form action="/user/login" method="post" class="js-validate">
             <div class="modal-body">
-                <label for="emailLoginModal">Email </label><input type="email" id="emailLoginModal" name="email" class="form-control">
-                <label for="passwordLoginModal">Password </label><input type="password" id="passwordLoginModal" name="password" class="form-control">
+                <label for="emailLoginModal">Email </label><input type="email" id="emailLoginModal" name="email" class="form-control" required>
+                <label for="passwordLoginModal">Password </label><input type="password" id="passwordLoginModal" name="password" class="form-control" required>
                 <a href="" data-bs-toggle="modal" data-bs-target="#forgotModal">Forgot Password?</a>
             </div>
         <div class="modal-footer">
@@ -73,7 +73,7 @@
         <form action="/user/forgot-password-mail" method="post" class="js-validate">
             <div class="modal-body">
                 <p>Enter the email address associated with your account and we'll send you a link to reset your password.</p>
-                <label for="emailForgotModal">Email </label><input type="email" id="emailForgotModal" name="email" class="form-control">
+                <label for="emailForgotModal">Email </label><input type="email" id="emailForgotModal" name="email" class="form-control" required>
             </div>
         <div class="modal-footer">
             <input type="submit" class="btn btn-primary" value="Continue">

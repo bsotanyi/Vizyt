@@ -20,9 +20,20 @@ class EventController {
     }
 
     public static function details() {
+        $errors = [];
+        
+        if (!isset($_GET['id']) || !strlen(trim($_GET['id']))) {
+            $errors[] = "The field 'id' is required";
+        }
+
+        $data = DB::fetchRow("SELECT * FROM events WHERE id = :id", [ 'id' => $_GET['id'] ]);
+        $comments = DB::query("SELECT * FROM comments WHERE event_id = :id", [ 'id' => $_GET['id'] ]);
+
         view('pages/event-details', [
             'title' => 'Details',
             'active_page' => 'details',
+            'comments' => $comments,
+            'data' => $data
         ]);
     }
 
@@ -75,7 +86,7 @@ class EventController {
         ];
         
         foreach ($required as $field) {
-            if (!isset($_POST[$field]) && !strlen(trim($_POST[$field]))) {
+            if (!isset($_POST[$field]) || !strlen(trim($_POST[$field]))) {
                 $errors[] = "The field '$field' is required";
             }
         }
@@ -146,7 +157,7 @@ class EventController {
         unset($_SESSION['nearby']);
 
         foreach ($required as $field) {
-            if (!isset($_GET[$field]) && !strlen(trim($_GET[$field]))) {
+            if (!isset($_GET[$field]) || !strlen(trim($_GET[$field]))) {
                 $errors[] = "The field '$field' is required";
             }
         }
@@ -167,7 +178,7 @@ class EventController {
                 if (!empty($item))
                     $_SESSION['nearby'][] = $item;
             }   
-                     
+
         } else {
             $_SESSION['messages'] = $errors;
         }
@@ -177,26 +188,30 @@ class EventController {
     }
 
     public static function comment() {
+        checkLogin();
+
         $errors = [];
-        if (!isset($_POST['comment']) && !strlen(trim($_POST['comment']))) {
-            $errors[] = 'Empty comment!';
+        $required = [
+            'comment',
+            'id'
+        ];
+
+        foreach ($required as $field) {
+            if (!isset($_POST[$field]) || !strlen(trim($_POST[$field]))) {
+                $errors[] = "The field '$field' is required";
+            }
         }
 
-        if (!empty($errors)) {
-            $_SESSION['messages'] = $errors;
-            header('Location: /events/details');
-            die;
+        if (empty($errors)) {
+            DB::query("INSERT INTO comments (event_id, user_id, comment, datetime) VALUES (:event, :user, :comment, CURRENT_TIMESTAMP)", [ 
+                'event' => $_POST['id'],
+                'user' => $_SESSION['user']['id'],
+                'comment' => $_POST['comment']        
+            ]);
         } else {
-            //TODO ADAM event_id and user_id needed
-            // DB::query("INSERT INTO comments (event_id, user_id, comment, datetime) VALUES (:event, :user, :comment, :datetime)", [ 
-            //     event => ,
-            //     user => ,
-            //     comment => $_POST['comment'],
-            //     datetime => CURRENT_TIMESTAMP
-        
-            // ]);
-            header('Location: /events/details');
-            die;
+            $_SESSION['messages'] = $errors;
         }
+        header('Location: /events/' . $_POST['id']);
+        die;
     }
 }
