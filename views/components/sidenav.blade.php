@@ -10,9 +10,6 @@
             <a href="/user/profile" class="@if ($active_page == 'profile') active @endif">
                 <i icon-name="user"></i>Profile
             </a>
-            <a href="/table" class="@if ($active_page == 'table') active @endif">
-                <i icon-name="table"></i>Table
-            </a>
             <a href="/events" class="@if ($active_page == 'events') active @endif">
                 <i icon-name="calendar-days"></i>Events
             </a>

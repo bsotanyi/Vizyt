@@ -3,6 +3,12 @@
 @section('title', $title)
 
 @section('content')
+    <div class="parent headline">
+        <div>
+            <h1>The <span class="color-primary">#1</span> event management software</h1>
+            <p class="subtitle">For all your planning needs</p>
+        </div>
+    </div>
     <div class="parent grid-xl-fill">
         @if (!empty($_SESSION['nearby']))
         <div id="geoloc">
@@ -14,9 +20,9 @@
         </div>
         @endif
         <div>
-            <small>Aspernatur, nisi?</small>
-            <h3>Earum, a? Libero?</h3>
-            <p>Vitae optio, rerum nobis magni ullam quasi maxime voluptatem, quibusdam minus laudantium quia, enim vel ut consequatur  laborum vero hic blanditiis perferendis unde voluptas sunt. Aperiam expedita a ut dolorum.</p>
+            <h3>Do you have an upcoming party?</h3>
+            <p>Vizyt is <u>the</u> event management tool that enables users to organize events online without much hassle.<br>It is designed for people who want to see nearby events based on their location and get reminders for upcoming events. Vizyt also allows users to add a custom wishlist to their events.</p>
+            <p class="text-center">Register now and start organizing!</p>
         </div>
     </div>
     @if (!empty($_SESSION['nearby']))
