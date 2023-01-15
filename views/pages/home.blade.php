@@ -22,7 +22,9 @@
         <div>
             <h3>Do you have an upcoming party?</h3>
             <p>Vizyt is <u>the</u> event management tool that enables users to organize events online without much hassle.<br>It is designed for people who want to see nearby events based on their location and get reminders for upcoming events. Vizyt also allows users to add a custom wishlist to their events.</p>
-            <p class="text-center">Register now and start organizing!</p>
+            <p class="text-center">
+                <a href="#" class="color-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register now</a> and start organizing!
+            </p>
         </div>
     </div>
     @if (!empty($_SESSION['nearby']))
