@@ -354,6 +354,7 @@ body {
     clip-path: inset(0px round 2px);
     animation: huerotate 6s infinite linear;
     filter: hue-rotate(360deg);
+    backdrop-filter: blur(10px);
     overflow: hidden;
 
     > div {

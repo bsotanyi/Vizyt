@@ -17,7 +17,9 @@ window.addEventListener('DOMContentLoaded', function() {
     initRepeatables();
     lucide.createIcons();
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl, {
+        trigger: 'hover'
+    }));
     qs('.js-sidenav-toggle').onclick = function() {
         document.body.classList.toggle('sidenav-visible');
     }
