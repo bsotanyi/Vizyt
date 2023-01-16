@@ -121,6 +121,7 @@ class EventController {
                 'is_public' => empty($_POST['is_public']) ? 0 : 1,
                 'is_commentable' => empty($_POST['is_commentable']) ? 0 : 1,
                 'is_template' => empty($_POST['is_template']) ? 0 : 1,
+                'wishlist_visible' => empty($_POST['wishlist_visible']) ? 0 : 1,
                 'longitude' => $_POST['longitude'],
                 'latitude' => $_POST['latitude'],
                 'datetime' => $_POST['datetime'],
@@ -136,7 +137,7 @@ class EventController {
                 'event_id' => $insert_id,
             ], 'receiver_email');
             foreach ($invites as $invite) {
-                if (!isset($existing_invites[$invite['email']])) {
+                if (!isset($existing_invites[$invite['email']])) { // only send invites to people who havent already got one
                     $token = md5(time() . mt_rand());
 
                     sendMail(
@@ -257,5 +258,47 @@ class EventController {
         }
         header('Location: /events/' . $_POST['id']);
         die;
+    }
+
+    public static function inviteLink() {
+        $token = $_GET['token'];
+
+        $event = DB::fetchRow("
+            SELECT
+                i.receiver_email, i.response, i.selected_wishlist_item, e.*, CONCAT(u.firstname, ' ', u.lastname) AS creator, u.wishlist
+            FROM events AS e
+            LEFT JOIN invites AS i ON i.event_id = e.id
+            LEFT JOIN users AS u ON u.id = e.user_id
+            WHERE i.token=:token",
+            [
+                'token' => $token,
+            ]
+        );
+
+        if (empty($event)) {
+            $_SESSION['messages'] = ['The invite link is invalid, or the event has been deleted.'];
+            header('Location: /');
+            exit;
+        }
+
+        $wishlist = json_decode($event['wishlist'], true);
+        $taken_items = DB::fetchColumn("SELECT selected_wishlist_item FROM invites WHERE event_id=:event_id AND selected_wishlist_item IS NOT NULL", [
+            'event_id' => $event['id'],
+        ]);
+
+        foreach ($taken_items as $taken_item) {
+            foreach ($wishlist as $key => $item) {
+                if ($taken_item === $item['name']) {
+                    $wishlist[$key]['taken'] = true;
+                }
+            }
+        }
+
+        $event['wishlist'] = $wishlist;
+
+        view('pages/events-invitation-form', [
+            'title' => 'Event invitation',
+            'event' => $event,
+        ]);
     }
 }

@@ -62,6 +62,9 @@ $text: #eee;
         box-shadow: none !important;
     }
 }
+.form-select {
+    background-color: $dark !important;
+}
 .pristine-error {
     color: red;
     font-weight: 300;
@@ -421,6 +424,9 @@ body {
 }
 .gapless {
     gap: 0;
+}
+.center-items {
+    place-items: center;
 }
 .grid-xs         { grid: auto / repeat(auto-fill, minmax(98px,  1fr)); }
 .grid-sm         { grid: auto / repeat(auto-fill, minmax(144px, 1fr)); }

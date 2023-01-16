@@ -12,11 +12,11 @@
     <div class="parent grid-xl-fill">
         @if (!empty($_SESSION['nearby']))
         <div id="geoloc">
-            <button class="btn btn-primary" onclick="getLocation()">Nearby events are being shown</button>
+            <button class="btn bg-primary" onclick="getLocation()">Nearby events are being shown</button>
         </div>
         @else
         <div id="geoloc">
-            <button class="btn btn-primary">See nearby events</button>
+            <button class="btn bg-primary">See nearby events</button>
         </div>
         @endif
         <div>

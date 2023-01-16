@@ -71,6 +71,10 @@
   box-shadow: none !important;
 }
 
+.form-select {
+  background-color: #150100 !important;
+}
+
 .pristine-error {
   color: red;
   font-weight: 300;
@@ -403,6 +407,10 @@ body footer#footer {
 
 .gapless {
   gap: 0;
+}
+
+.center-items {
+  place-items: center;
 }
 
 .grid-xs {

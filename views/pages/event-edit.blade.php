@@ -36,7 +36,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="description">Description *</label>
-                            <textarea class="form-control" id="description" rows="5" name="description" required>{{ $model['description'] ?? '' }}</textarea>
+                            <textarea class="form-control" id="description" rows="7" name="description" required>{{ $model['description'] ?? '' }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -56,6 +56,10 @@
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_commentable" id="is_commentable" value="1" @if(!empty($model['is_commentable'])) checked @endif>
                             <label class="form-check-label" for="is_commentable">People can comment after the event</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" name="wishlist_visible" id="wishlist_visible" value="1" @if(!empty($model['wishlist_visible'])) checked @endif>
+                            <label class="form-check-label" for="wishlist_visible">My wishlist is visible at this event</label>
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_template" id="is_template" value="1" @if(!empty($model['is_template'])) checked @endif>
