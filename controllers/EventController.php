@@ -27,12 +27,14 @@ class EventController {
         }
 
         $data = DB::fetchRow("SELECT * FROM events WHERE id = :id", [ 'id' => $_GET['id'] ]);
-        $comments = DB::query("SELECT * FROM comments WHERE event_id = :id", [ 'id' => $_GET['id'] ]);
+        $comments = DB::query("SELECT u.firstname AS 'fname', u.lastname AS 'lname', c.comment AS 'comment', c.datetime AS 'datetime' FROM comments c INNER JOIN users u ON c.user_id = u.id WHERE c.event_id = :id", [ 'id' => $_GET['id'] ]);
+        $createdBy = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname' FROM users u INNER JOIN events e ON u.id = e.user_id WHERE u.id = :id", [ 'id' => $_GET['id']]);
 
         view('pages/event-details', [
             'title' => 'Details',
             'active_page' => 'details',
             'comments' => $comments,
+            'createdBy' => $createdBy,
             'data' => $data
         ]);
     }
@@ -202,13 +204,14 @@ class EventController {
 
         if (empty($errors)) {
             $events = DB::query("SELECT id, latitude, longitude FROM events");
-            // $eventsCount = DB::query("SELECT COUNT(*) FROM events");
-
+            
             foreach ($events as $item) {
-                $distance = haversineGreatCircleDistance($_GET['latitude'], $_GET['longitude'], $item['latitude'], $item['longitude']) / 1000;
+                if (!empty($item['latitude']) && !empty($item['longitude'])) {
+                    $distance = haversineGreatCircleDistance($_GET['latitude'], $_GET['longitude'], $item['latitude'], $item['longitude']) / 1000;
 
-                if ($distance <= 50) {
-                    $data[] = DB::fetchRow("SELECT * FROM events WHERE id=:id AND is_public = 1 AND is_active = 1 AND datetime > CURRENT_TIMESTAMP", [ 'id' => $item['id'] ]);
+                    if ($distance <= 50) {
+                        $data[] = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname', e.* FROM events e INNER JOIN users u ON e.user_id = u.id WHERE e.id=:id AND e.is_public = 1 AND e.is_active = 1 AND e.datetime > CURRENT_TIMESTAMP", [ 'id' => $item['id'] ]);
+                    }
                 }
             }
 
@@ -216,7 +219,6 @@ class EventController {
                 if (!empty($item))
                     $_SESSION['nearby'][] = $item;
             }   
-
         } else {
             $_SESSION['messages'] = $errors;
         }
@@ -241,11 +243,17 @@ class EventController {
         }
 
         if (empty($errors)) {
-            DB::query("INSERT INTO comments (event_id, user_id, comment, datetime) VALUES (:event, :user, :comment, CURRENT_TIMESTAMP)", [ 
-                'event' => $_POST['id'],
-                'user' => $_SESSION['user']['id'],
-                'comment' => $_POST['comment']        
-            ]);
+            $start = DB::fetchValue("SELECT datetime FROM events WHERE id = :id", [ 'id' => $_POST['id']]);
+            date_create($start);
+            if ($start < NOW) {
+                DB::query("INSERT INTO comments (event_id, user_id, comment, datetime) VALUES (:event, :user, :comment, CURRENT_TIMESTAMP)", [ 
+                    'event' => $_POST['id'],
+                    'user' => $_SESSION['user']['id'],
+                    'comment' => $_POST['comment']        
+                ]);
+            } else {
+                $_SESSION['messages'] = ["Comments can be posted only after the event."];
+            }
         } else {
             $_SESSION['messages'] = $errors;
         }

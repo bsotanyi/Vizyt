@@ -6,7 +6,7 @@
     <h2>{{ $data['name'] }}</h2>
     <div class="parent grid-xl-fill">
         <div>
-            <small class="e-owner">Created {{ time_elapsed($data['created_date']) }} by <span>{{ getUserNameFromId($data['user_id']) }}</span></small>
+            <small class="e-owner">Created {{ time_elapsed($data['created_date']) }} by <span>{{ $createdBy['fname'] . ' ' . $createdBy['lname'] }}</span></small>
             <p>{{ $data['description'] }}</p> 
             <small>{{ time_until($data['datetime']) }} until the start of the event</small>
         </div>
@@ -58,7 +58,7 @@
     @forelse ($comments as $comment)
     <div class="parent grid-xl-fill">
         <div>
-            <p><b>{{ getUserNameFromId($comment['user_id']) }}</b></p>
+            <p><b>{{ $comment['fname'] . ' ' . $comment['lname'] }}</b></p>
             <p>{{ $comment['comment'] }}</p>
             <small>{{ time_elapsed($comment['datetime']) }}</small>
         </div>
@@ -86,6 +86,7 @@
                 <small>31 minutes ago</small>
             </div>
         </div> --}}
+    
     <div class="parent grid-xxl-fill">
         <div id="newComment">
             <form action="/events/comment" method="post">

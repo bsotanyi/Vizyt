@@ -465,7 +465,3 @@ function time_until($datetime) {
     return $interval->format("%a days"); //TODO write hours or mintues if its in less than a day
 }
 
-function getUserNameFromId ($id) {
-    $name = DB::fetchRow("SELECT firstname, lastname FROM users WHERE id = :id", [ 'id' => $id ]);
-    return $name['firstname'] . ' ' . $name['lastname'];
-}
