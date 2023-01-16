@@ -27,7 +27,7 @@
                     @endif
                     <td></td>
                     <td class="nowrap">
-                        @if (rand() % 2 == 0)
+                        @if ($user['active'] == 1)
                             <a href="" class="btn bg-primary">
                                 <i icon-name="x-octagon"></i> Block
                             </a>
