@@ -16,25 +16,25 @@
                 </tr>
             </thead>
             <tbody>
-                @for ($i = 0; $i < 30; $i++)
-                    <tr>
-                        <td>John Doe</td>
-                        <td>user@example.org</td>
-                        <td>5</td>
-                        <td>3</td>
-                        <td class="nowrap">
-                            @if (rand() % 2 == 0)
-                                <a href="" class="btn bg-primary">
-                                    <i icon-name="x-octagon"></i> Block
-                                </a>
-                            @else
-                                <a href="" class="btn bg-success">
-                                    <i icon-name="check-circle-2"></i> Allow
-                                </a>
-                            @endif
-                        </td>
-                    </tr>
-                @endfor
+                @foreach ($users as $users)
+                <tr>
+                    <td>{{ $users['firstname'] . ' ' . $users['lastname'] }}</td>
+                    <td>{{ $users['email'] }}</td>
+                    <td>{{ getCreatedEventCount($users['id']) }}</td>
+                    <td>3</td>
+                    <td class="nowrap">
+                        @if (rand() % 2 == 0)
+                            <a href="" class="btn bg-primary">
+                                <i icon-name="x-octagon"></i> Block
+                            </a>
+                        @else
+                            <a href="" class="btn bg-success">
+                                <i icon-name="check-circle-2"></i> Allow
+                            </a>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

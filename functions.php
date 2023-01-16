@@ -469,3 +469,7 @@ function getUserNameFromId ($id) {
     $name = DB::fetchRow("SELECT firstname, lastname FROM users WHERE id = :id", [ 'id' => $id ]);
     return $name['firstname'] . ' ' . $name['lastname'];
 }
+
+function getCreatedEventCount ($id) {
+    return DB::fetchValue("SELECT COUNT(*) FROM events WHERE user_id = :id", [ 'id' => $id ]);
+}

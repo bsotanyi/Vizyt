@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/assets/lib/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/lib/aos/aos.css">
     <link rel="stylesheet" href="/assets/lib/SimpleDataTables/style.min.css">
-    <link rel="stylesheet" href="/assets/css/main.min.css?{{ microtime(true) }}">
+    <link rel="stylesheet" href="/assets/css/main.min.css?{{ microtime(true) }}">    
     @stack('styles')
 </head>
 <body>
