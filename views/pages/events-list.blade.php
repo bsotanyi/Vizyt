@@ -29,7 +29,7 @@
                             <td>{{ $item['datetime'] }}</td>
                             <td>{{ count(json_decode($item['invites'], true)) }}</td>
                             <td class="nowrap">
-                                <a href="/events/details/{{ $item['id'] }}" class="btn btn-warning" role="button">
+                                <a href="/events/{{ $item['id'] }}" class="btn btn-warning" role="button">
                                     <i icon-name="eye"></i> Details
                                 </a>
                                 <a href="#" class="btn btn-secondary" role="button">
@@ -73,7 +73,7 @@
                             <td>{{ $item['datetime'] }}</td>
                             <td>{{ 0 }}</td>{{-- TODO: add correct invitee count --}}
                             <td class="nowrap">
-                                <a href="/events/details/{{ $item['id'] }}" class="btn btn-warning" role="button">
+                                <a href="/events/{{ $item['id'] }}" class="btn btn-warning" role="button">
                                     <i icon-name="eye"></i> Details
                                 </a>
                                 <a href="#" class="btn btn-secondary" role="button">

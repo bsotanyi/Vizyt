@@ -16,12 +16,16 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $users)
+                @foreach ($users as $user)
                 <tr>
-                    <td>{{ $users['firstname'] . ' ' . $users['lastname'] }}</td>
-                    <td>{{ $users['email'] }}</td>
-                    <td>{{ getCreatedEventCount($users['id']) }}</td>
-                    <td>3</td>
+                    <td>{{ $user['firstname'] . ' ' . $user['lastname'] }}</td>
+                    <td>{{ $user['email'] }}</td>
+                    @if (array_key_exists($user['id'], $created_count))
+                    <td>{{ $created_count[$user['id']] }}</td>
+                    @else
+                    <td>0</td>
+                    @endif
+                    <td></td>
                     <td class="nowrap">
                         @if (rand() % 2 == 0)
                             <a href="" class="btn bg-primary">
