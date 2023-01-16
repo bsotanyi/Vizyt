@@ -6,7 +6,7 @@
     <h2>{{ $data['name'] }}</h2>
     <div class="parent grid-xl-fill">
         <div>
-            <small class="e-owner">Created {{ time_elapsed($data['created_date']) }} by <span>{{ $createdBy['fname'] . ' ' . $createdBy['lname'] }}</span></small>
+            <small class="e-owner">Created {{ time_elapsed($data['created_date']) }} by <span>{{ $data['fname'] . ' ' . $data['lname'] }}</span></small>
             <p>{{ $data['description'] }}</p> 
             <small>{{ time_until($data['datetime']) }} until the start of the event</small>
         </div>
