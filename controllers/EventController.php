@@ -94,13 +94,18 @@ class EventController {
         $_POST['datetime'] = date('Y-m-d H:i:s', strtotime($_POST['datetime']));
         $_POST['reminder'] = date('Y-m-d H:i:s', strtotime($_POST['reminder']));
 
+        $invites = array_filter(explode(PHP_EOL, $_POST['invites']));
+        $invites = array_filter($invites, function($item) {
+            return trim($item) !== ',';
+        });
+
         $invites = array_map(function($item) {
             $parts = explode(',', $item);
             return [
                 'email' => trim($parts[0]),
                 'name' => trim($parts[1] ?? ''),
             ];
-        }, explode(PHP_EOL, $_POST['invites']));
+        }, $invites);
 
         if (!empty($errors)) {
             $_SESSION['messages'] = $errors;
@@ -123,6 +128,39 @@ class EventController {
             ]);
             $_SESSION['messages'] = ['Succesful update.'];
             $insert_id = DB::lastId();
+            if ($insert_id === '0') $insert_id = $_GET['id'];
+
+            // send invitations
+
+            $existing_invites = DB::fetchByKey("SELECT * FROM invites WHERE event_id=:event_id", [
+                'event_id' => $insert_id,
+            ], 'receiver_email');
+            foreach ($invites as $invite) {
+                if (!isset($existing_invites[$invite['email']])) {
+                    $token = md5(time() . mt_rand());
+
+                    sendMail(
+                        $invite['email'],
+                        $invite['name'],
+                        'Vizyt - You have a new event invitation',
+                        'emails/email-invitation',
+                        [
+                            'token' => $token,
+                            'invited_name' => $invite['name'],
+                            'event_name' => $_POST['name'],
+                            'username_from' => $_SESSION['user']['firstname'] . ' ' . $_SESSION['user']['lastname'],
+                            'datetime' => $_POST['datetime'],
+                        ],
+                    );
+
+                    DB::insertOrUpdate('invites', [
+                        'event_id' => $insert_id,
+                        'receiver_email' => $invite['email'],
+                        'token' => $token,
+                    ]);
+                }
+            }
+
         }
 
         header('Location: /events/edit/' . ($insert_id ?? 'new'));

@@ -340,10 +340,6 @@ function sendMail($to, $recipient_name, $subject, $view, $view_data = [])
         // if ($uploadSuccess)
         //     $mail->addAttachment($uploaddir . $newest_file,'Uploaded file');
 
-        $token = DB::fetchValue("SELECT token FROM users WHERE email=:email", [
-            'email' => $to,
-        ]);
-
         $mail->isHTML(true);
         $mail->Subject = $subject;
         if (!isset($view_data['subject'])) {

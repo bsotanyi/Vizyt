@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('subject') • {{ $_CONFIG['app_name'] }}</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Monoton&display=swap');
         
         body {
-            font-family: 'Poppins', sans-serif;
             text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-weight: 300;
         }
         @media only screen and (max-width: 600px) {
@@ -50,7 +49,6 @@
             letter-spacing: .1em;
             display: inline-block;
             user-select: none;
-            font-family: 'Monoton', sans-serif;
             margin: 0;
         }
     </style>
