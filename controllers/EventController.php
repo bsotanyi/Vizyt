@@ -26,18 +26,26 @@ class EventController {
             $errors[] = "The field 'id' is required";
         }
 
-        $data = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname', e.* FROM events e LEFT JOIN users u ON u.id = e.user_id WHERE e.id = :id", [
+        $event = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname', u.wishlist, e.* FROM events e INNER JOIN users u ON u.id = e.user_id WHERE e.id = :id", [
             'id' => $_GET['id'],
         ]);
-        $comments = DB::query("SELECT u.firstname AS 'fname', u.lastname AS 'lname', c.comment AS 'comment', c.datetime AS 'datetime' FROM comments c LEFT JOIN users u ON c.user_id = u.id WHERE c.event_id = :id", [
+        $comments = DB::query("SELECT u.firstname AS 'fname', u.lastname AS 'lname', c.comment AS 'comment', c.datetime AS 'datetime' FROM comments c INNER JOIN users u ON c.user_id = u.id WHERE c.event_id = :id", [
             'id' => $_GET['id'],
         ]);
+
+        $invites = DB::query("SELECT CONCAT(u.firstname, ' ', u.lastname) AS name, i.* FROM invites AS i LEFT JOIN users AS u ON u.email = i.receiver_email WHERE event_id=:event_id", [
+            'event_id' => $event['id'],
+        ]);
+
+        $event['invites'] = json_decode($event['invites'], true);
+        $invites = array_combine(array_column($invites, 'receiver_email'), $invites);
 
         view('pages/event-details', [
             'title' => 'Details',
             'active_page' => 'details',
             'comments' => $comments,
-            'data' => $data
+            'event' => $event,
+            'invites' => $invites,
         ]);
     }
 

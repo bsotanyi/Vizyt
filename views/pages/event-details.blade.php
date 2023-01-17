@@ -3,12 +3,12 @@
 @section('title', $title)
 
 @section('content')
-    <h2>{{ $data['name'] }}</h2>
+    <h2>{{ $event['name'] }}</h2>
     <div class="parent grid-xl-fill">
         <div>
-            <small class="e-owner">Created {{ time_elapsed($data['created_date']) }} by <span>{{ $data['fname'] . ' ' . $data['lname'] }}</span></small>
-            <p>{{ $data['description'] }}</p> 
-            <small>{{ time_until($data['datetime']) }} until the start of the event</small>
+            <small class="e-owner">Created {{ time_elapsed($event['created_date']) }} by <span>{{ $event['fname'] . ' ' . $event['lname'] }}</span></small>
+            <p>{{ $event['description'] }}</p> 
+            <small>{{ time_until($event['datetime']) }} until the start of the event</small>
         </div>
         <div>
             <small>Wishlist</small>
@@ -32,60 +32,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 0; $i < 30; $i++)
-                        @if ($i % 3 == 0)
+                    @foreach ($event['invites'] as $item)
                         <tr>
-                            <td>Joe Biden</td>
-                            <td>Undecided</td>
+                            <td>{{ $item['name'] }}</td>
+                            <td style="text-transform: capitalize;">
+                                {!! $invites[$item['email']]['response'] ?? '<i>No answer yet</i>' !!}
+                            </td>
                         </tr>
-                        @elseif ($i % 5 == 0)
-                        <tr>
-                            <td>Joska Pista</td>
-                            <td>Will Go</td>
-                        </tr>
-                        @else
-                        <tr>
-                            <td>Elon Musk</td>
-                            <td>Won't Go</td>
-                        </tr>
-                        @endif
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
     <h3>Comments</h3>
     @forelse ($comments as $comment)
-    <div class="parent grid-xl-fill">
-        <div>
-            <p><b>{{ $comment['fname'] . ' ' . $comment['lname'] }}</b></p>
-            <p>{{ $comment['comment'] }}</p>
-            <small>{{ time_elapsed($comment['datetime']) }}</small>
+        <div class="parent grid-xl-fill">
+            <div>
+                <p><b>{{ $comment['fname'] . ' ' . $comment['lname'] }}</b></p>
+                <p>{{ $comment['comment'] }}</p>
+                <small>{{ time_elapsed($comment['datetime']) }}</small>
+            </div>
         </div>
-    </div>
     @empty
         <p>There are no comments for this event.</p>
     @endforelse
-    
-        {{-- <div>
-            <div>
-                <p><b>Tolcser Adam</b></p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime mollitia quia vero sint, quas dolore at culpa? Quam blanditiis earum provident voluptas, laboriosam eveniet dicta. Repudiandae error dolorum debitis nam!</p>
-                <small>31 minutes ago</small>
-                <hr>
-            </div>
-            <div>
-                <p><b>Tolcser Adam</b></p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime mollitia quia vero sint, quas dolore at culpa? Quam blanditiis earum provident voluptas, laboriosam eveniet dicta. Repudiandae error dolorum debitis nam!</p>
-                <small>31 minutes ago</small>
-                <hr>
-            </div>
-            <div>
-                <p><b>Tolcser Adam</b></p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime mollitia quia vero sint, quas dolore at culpa? Quam blanditiis earum provident voluptas, laboriosam eveniet dicta. Repudiandae error dolorum debitis nam!</p>
-                <small>31 minutes ago</small>
-            </div>
-        </div> --}}
     
     <div class="parent grid-xxl-fill">
         <div id="newComment">

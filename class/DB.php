@@ -22,6 +22,7 @@ class DB {
 
     public static function query($sql, $vars = [], $fetch_type = PDO::FETCH_ASSOC, $fetch_function = 'fetchAll') {
         $data = null;
+        // dump($sql, $vars);
         try {
             $stmt = self::$pdo->prepare($sql);
             $new_vars = [];
