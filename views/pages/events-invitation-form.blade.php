@@ -41,13 +41,13 @@
                 </p>
                 <div class="form-group">
                     <label for="selected_wishlist_item" class="form-label">I will bring:</label>
-                    <select name="selected_wishlist_item" id="selected_wishlist_item" class="form-select">
+                    <select name="selected_wishlist_item" id="selected_wishlist_item" class="form-select js-wishlist js-input">
                         <option selected disabled>Choose...</option>
                         @foreach ($event['wishlist'] as $item)
                             <option value="{{ $item['name'] }}" @if($event['selected_wishlist_item'] === $item['name']) selected @endif @if(!empty($item['taken'])) disabled @endif data-url="{{ $item['url'] }}">{{ $item['name'] }}</option>
                         @endforeach
                     </select>
-                    {{-- TODO : display urls dynamically --}}
+                    <p class="js-wishlist-help hidden mt-2">You can buy this item here: <a target="_blank">Link</a></p>
                 </div>
             @else
                 No wishlist was provided for this event.
@@ -56,21 +56,40 @@
         <div>
             <div class="form-group grid center-items">
                 <label for="response" class="form-label">My attendance</label>
-                <select id="response" name="response" class="form-select">
+                <select id="response" name="response" class="form-select js-input">
                     <option selected disabled>Choose...</option>
                     <option value="yes">✅ I will be there</option>
                     <option value="no">❌ I can't go</option>
                     <option value="undecided">❓ I'm not sure yet</option>
                 </select>
-                {{-- TODO save form --}}
             </div>
         </div>
     </form>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-body">✅ Your response was saved successfully.</div>
+        </div>
+      </div>
 @endsection
 
 @push('scripts')
     <script src="/assets/lib/leaflet/leaflet.js"></script>
     <script>
+        qs('.js-wishlist').oninput = function() {
+            let url = this.options[this.selectedIndex].dataset.url;
+            qs('.js-wishlist-help').classList.remove('hidden');
+            qs('.js-wishlist-help a').href = url;
+        }
+
+        for (let inp of qsa('.js-input')) {
+            inp.oninput = function() {
+                fetch(`/events/invite-save?token={{ $token }}&${this.name}=${this.value}`).then(data => {
+                    const toast = new bootstrap.Toast(qs('#liveToast'));
+                    toast.show();
+                })
+            }
+        }
+
         var map_instance;
         var latitude = {{ $event['latitude'] }};
         var longitude = {{ $event['longitude'] }};

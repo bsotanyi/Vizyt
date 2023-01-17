@@ -71,8 +71,13 @@
   box-shadow: none !important;
 }
 
-.form-select {
+.form-select, .toast-body {
   background-color: #150100 !important;
+}
+
+.toast-body {
+  box-shadow: 0 0 0 2px #e60f00;
+  border-radius: 0.375rem;
 }
 
 .pristine-error {
@@ -397,6 +402,10 @@ body footer#footer {
     transform: translateX(-100%);
   }
 }
+.hidden {
+  display: none !important;
+}
+
 *[class^=grid], *[class*=" grid"] {
   display: grid;
 }

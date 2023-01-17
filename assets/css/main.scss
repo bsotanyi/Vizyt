@@ -62,8 +62,12 @@ $text: #eee;
         box-shadow: none !important;
     }
 }
-.form-select {
+.form-select, .toast-body {
     background-color: $dark !important;
+}
+.toast-body {
+    box-shadow: 0 0 0 2px $primary;
+    border-radius: .375rem;
 }
 .pristine-error {
     color: red;
@@ -415,6 +419,9 @@ body {
             transform: translateX(-100%);
         }
     }
+}
+.hidden {
+    display: none !important;
 }
 *[class^='grid'], *[class*=' grid'] {
     display: grid;

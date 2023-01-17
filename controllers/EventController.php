@@ -282,8 +282,9 @@ class EventController {
         }
 
         $wishlist = json_decode($event['wishlist'], true);
-        $taken_items = DB::fetchColumn("SELECT selected_wishlist_item FROM invites WHERE event_id=:event_id AND selected_wishlist_item IS NOT NULL", [
+        $taken_items = DB::fetchColumn("SELECT selected_wishlist_item FROM invites WHERE event_id=:event_id AND selected_wishlist_item IS NOT NULL AND receiver_email<>:email", [
             'event_id' => $event['id'],
+            'email' => $event['receiver_email'],
         ]);
 
         foreach ($taken_items as $taken_item) {
@@ -299,6 +300,22 @@ class EventController {
         view('pages/events-invitation-form', [
             'title' => 'Event invitation',
             'event' => $event,
+            'token' => $token,
         ]);
+    }
+
+    public static function inviteSave() {
+        $data = [];
+        if (!empty($_GET['response'])) {
+            $data['response'] = $_GET['response'];
+        }
+        if (!empty($_GET['selected_wishlist_item'])) {
+            $data['selected_wishlist_item'] = $_GET['selected_wishlist_item'];
+        }
+        DB::insertOrUpdate('invites', [
+            'token' => $_GET['token'],
+        ], $data);
+
+        echo 'ok';
     }
 }

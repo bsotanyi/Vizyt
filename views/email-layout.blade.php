@@ -8,7 +8,7 @@
         
         body {
             text-align: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: sans-serif;
             font-weight: 300;
         }
         @media only screen and (max-width: 600px) {
