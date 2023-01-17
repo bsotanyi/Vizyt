@@ -49,7 +49,7 @@
     
     @if (!empty($_SESSION['user']) && $_SESSION['user']['id'] == $event['user_id'])
         <h3>Invitations</h3>
-        <p>Only you, the creator can see these</p>
+        <p>Only you, the creator can see this</p>
         <div class="parent grid-xl-fill">
             <div>
                 <table id="invitees_table">
