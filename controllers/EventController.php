@@ -71,7 +71,7 @@ class EventController {
                 'id' => $_GET['id'],
             ]);
 
-            $event['invites'] = json_decode($event['invites'], true);
+            $event['invites'] = json_decode($event['invites'] ?? '[]', true);
         }
 
         $templates = DB::fetchByKey("SELECT * FROM events WHERE is_template=1 AND user_id=:user_id", [
@@ -79,7 +79,7 @@ class EventController {
         ], 'id');
 
         array_walk($templates, function(&$t) {
-            $t['invites'] = json_decode($t['invites'], true);
+            $t['invites'] = json_decode($t['invites'] ?? '[]', true);
             $t['invites'] = array_map(function($invite) {
                 return join(',', $invite);
             }, $t['invites']);
@@ -197,8 +197,8 @@ class EventController {
             'event_id' => $event['id'],
         ]);
 
-        $event['invites'] = json_decode($event['invites'], true);
-        $event['wishlist'] = json_decode($event['wishlist'], true);
+        $event['invites'] = json_decode($event['invites'] ?? '[]', true);
+        $event['wishlist'] = json_decode($event['wishlist'] ?? '[]', true);
         $event['invites'] = array_combine(array_column($event['invites'], 'email'), $event['invites']);
 
         foreach ($invites as $invite) {
@@ -382,7 +382,7 @@ class EventController {
             exit;
         }
 
-        $wishlist = json_decode($event['wishlist'], true);
+        $wishlist = json_decode($event['wishlist'] ?? '[]', true);
         $taken_items = DB::fetchColumn("SELECT selected_wishlist_item FROM invites WHERE event_id=:event_id AND selected_wishlist_item IS NOT NULL AND receiver_email<>:email", [
             'event_id' => $event['id'],
             'email' => $event['receiver_email'],

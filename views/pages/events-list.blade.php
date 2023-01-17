@@ -27,7 +27,7 @@
                             <td>{{ $item['id'] }}</td>
                             <td>{{ $item['name'] }}</td>
                             <td>{{ $item['datetime'] }}</td>
-                            <td>{{ count(json_decode($item['invites'], true)) }}</td>
+                            <td>{{ count(json_decode($item['invites'] ?? '[]', true)) }}</td>
                             <td class="nowrap">
                                 <a href="/events/{{ $item['id'] }}" class="btn btn-warning" role="button">
                                     <i icon-name="eye"></i> Details

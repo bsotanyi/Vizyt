@@ -22,7 +22,7 @@ class AdminController {
 
         foreach ($invitesJson as $item) {
             if (!empty($item['invites']))
-                array_push($data, json_decode($item['invites']));
+                array_push($data, json_decode($item['invites'] ?? '[]'));
         }
         
 
