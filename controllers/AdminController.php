@@ -1,5 +1,7 @@
 <?php
 
+use FontLib\Table\Type\head;
+
 class AdminController {
     public static function dashboard() {
         view('pages/admin-dashboard', [
@@ -33,5 +35,18 @@ class AdminController {
             'created_count' => $created_count,
             'attended_count' => $attended_count,
         ]);
+    }
+
+    public static function updateStatus() {
+        $user_id = $_GET['id'];
+        $active = $_GET['active'];
+        DB::insertOrUpdate('users', [
+            'id' => $user_id,
+        ], [
+            'active' => $active,
+        ]);
+        
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 }

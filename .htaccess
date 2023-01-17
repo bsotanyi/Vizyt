@@ -40,6 +40,7 @@ RewriteRule ^events/self-invite$ index.php?route=EventController:selfInvite [QSA
 RewriteRule ^admin/dashboard$ index.php?route=AdminController:dashboard [QSA]
 RewriteRule ^admin/dashboard$ index.php?route=AdminController:dashboard [QSA]
 RewriteRule ^admin/users$ index.php?route=AdminController:users [QSA]
+RewriteRule ^admin/users/update-status/([0-9]+)$ index.php?route=AdminController:updateStatus&id=$1 [QSA]
 
 RewriteRule ^user/register$ index.php?route=UserController:register [QSA]
 RewriteRule ^user/validate/([a-zA-Z0-9]+)$ index.php?route=UserController:validateToken&token=$1 [QSA] 

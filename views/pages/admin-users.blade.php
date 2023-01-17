@@ -28,11 +28,11 @@
                     <td>{{ $attended_count[$user['id']] ?? 0 }}</td>
                     <td class="nowrap">
                         @if ($user['active'] == 1)
-                            <a href="" class="btn bg-primary">
+                            <a href="/admin/users/update-status/{{ $user['id'] }}?active=0" onclick="return confirm('Are you sure?')" class="btn bg-primary">
                                 <i icon-name="x-octagon"></i> Block
                             </a>
                         @else
-                            <a href="" class="btn bg-success">
+                            <a href="/admin/users/update-status/{{ $user['id'] }}?active=1" onclick="return confirm('Are you sure?')" class="btn bg-success">
                                 <i icon-name="check-circle-2"></i> Allow
                             </a>
                         @endif
