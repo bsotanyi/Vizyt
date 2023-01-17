@@ -74,6 +74,8 @@
         </div>
     @endif
 
+    
+
     <h3>Comments</h3>
     @forelse ($comments as $comment)
         <div class="parent grid-xl-fill">
@@ -91,7 +93,7 @@
         <div id="newComment">
             <form action="/events/comment" method="post">
                 <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="comment"></textarea>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="comment" spellcheck="false"></textarea>
                     <input type="hidden" name="id" value="{{ $_GET['id'] }}">
                     <label for="floatingTextarea">Comment</label>
                 </div>
@@ -99,6 +101,7 @@
             </form>
         </div>
     </div>
+
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
           <div class="toast-body js-toast-text"></div>
@@ -119,12 +122,15 @@
                 });
             }
         }
-        const users_table = new simpleDatatables.DataTable('#invitees_table', {
-            layout: {
-                top: '',
-                bottom: '{info}{pager}{select}',
-            }
-        });
+
+        if (qs('#invitees_table')) {
+            const users_table = new simpleDatatables.DataTable('#invitees_table', {
+                layout: {
+                    top: '',
+                    bottom: '{info}{pager}{select}',
+                }
+            });
+        }
 
         var map_instance;
         var latitude = {{ $event['latitude'] }};
