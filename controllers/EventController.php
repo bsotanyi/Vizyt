@@ -38,7 +38,16 @@ class EventController {
         ]);
 
         $event['invites'] = json_decode($event['invites'], true);
+        $event['wishlist'] = json_decode($event['wishlist'], true);
         $invites = array_combine(array_column($invites, 'receiver_email'), $invites);
+
+        foreach ($invites as $invite) {
+            foreach ($event['wishlist'] as $key => $item) {
+                if ($item['name'] === $invite['selected_wishlist_item']) {
+                    $event['wishlist'][$key]['taken'] = true;
+                }
+            }
+        }
 
         view('pages/event-details', [
             'title' => 'Details',

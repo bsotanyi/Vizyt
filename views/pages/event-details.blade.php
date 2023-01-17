@@ -12,16 +12,22 @@
         </div>
         <div>
             <small>Wishlist</small>
-            <div class="parent  wishlist">
-                <a href="https://placeholder.com" target="_blank" class="wl-content">Minecraft Java Edition</a>
-                <a href="https://placeholder.com" target="_blank" class="wl-content">Minecraft</a>
-                <a href="https://placeholder.com" target="_blank" class="wl-content">Fortnite Battle-Royale</a>
-                <a href="https://placeholder.com" target="_blank" class="wl-content">GTA5</a>
-                <a href="https://placeholder.com" target="_blank" class="wl-content">Logitech G Pro Wireless</a>
-                <a href="https://placeholder.com" target="_blank" class="wl-content">Logitech G Pro Wireless</a>
-            </div>
+            @if (!empty($event['wishlist_visible']))
+                <div class="parent wishlist">
+                    @foreach ($event['wishlist'] as $item)
+                        <a href="{{ $item['url'] }}" target="_blank" class="wl-content">{{ $item['name'] }}</a>
+                    @endforeach
+                </div>
+            @else
+                <p>Wishilst is not visible at this event.</p>
+            @endif
         </div>
     </div>
+    @if (!empty($event['is_public']))
+        <div class="parent grid">
+            <a href="" class="btn bg-primary">I want to participate</a>
+        </div>    
+    @endif
     <div class="parent grid-xl-fill">
         <div>
             <table id="invitees_table">
