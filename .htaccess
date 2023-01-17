@@ -52,5 +52,7 @@ RewriteRule ^user/forgot-password-mail$ index.php?route=UserController:forgotPas
 RewriteRule ^user/reset-password/([a-zA-Z0-9]+)/([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+))*$ index.php?route=UserController:resetPassword&token=$1&email=$2 [QSA]
 RewriteRule ^user/forgot-password$ index.php?route=UserController:forgotPassword [QSA]
 
+RewriteRule ^api/.*$ index.php?route=ApiController:api [QSA]
+
 # RewriteRule ^posts/([0-9]+)$ index.php?route=AdminController:users?method=list&id=$1 [QSA]
 # RewriteRule ^admin/([a-z-]*)/edit/(.*)$ index.php?page=$1&edit_id=$2 [QSA]

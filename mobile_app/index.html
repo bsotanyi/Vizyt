@@ -3,38 +3,87 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>QR Scanner Demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vizyt</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
+        :root,
+        * {
+            --primary: #e60f00 !important;
+            --text: #eee !important;
+        }
+
+        body {
+            margin: 1rem;
+            background-color: #180200;
+            color: var(--text);
+        }
+
+        .form-control,
+        .form-select {
+            background-color: transparent !important;
+            color: var(--text) !important;
+            border-color: var(--primary)
+        }
+
+        .btn-primary,
+        .btn-primary:hover,
+        .btn-primary:visited,
+        .btn-primary:active {
+            background-color: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+
+        .btn-primary:active {
+            opacity: 80%;
+        }
+
         video {
-            width: 50%;
-            height: 50%;
+            width: 100%;
+            height: 100%;
+        }
+
+        .invisible {
+            display: none;
         }
     </style>
 </head>
 
 <body>
-    <b>Detected QR code: </b>
-    <span id="cam-qr-result">None</span>
-    <br>
-    <div id="video-container">
-        <video id="qr-video"></video>
+    <div id="login" class="invisible">
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
-    <button id="start-button">Start</button>
-    <button id="stop-button">Stop</button>
+
+    <div id="scan">
+        <b>Detected QR code: </b>
+        <span id="cam-qr-result">None</span>
+        <br>
+        <div id="video-container">
+            <video id="qr-video"></video>
+        </div>
+        <button id="start-button" class="btn btn-primary">Start</button>
+        <button id="stop-button" class="btn btn-primary">Stop</button>
+    </div>
 
     <script type="module">
         import QrScanner from '/mobile_app/node_modules/qr-scanner/qr-scanner.min.js';
 
         const video = document.getElementById('qr-video');
-        const videoContainer = document.getElementById('video-container');
-        const camHasCamera = document.getElementById('cam-has-camera');
         const camList = document.getElementById('cam-list');
-        const camHasFlash = document.getElementById('cam-has-flash');
-        const flashToggle = document.getElementById('flash-toggle');
-        const flashState = document.getElementById('flash-state');
         const camQrResult = document.getElementById('cam-qr-result');
-        const fileSelector = document.getElementById('file-selector');
-        const fileQrResult = document.getElementById('file-qr-result');
 
         function setResult(label, result) {
             console.log(result.data);
@@ -52,6 +101,7 @@
             },
             highlightScanRegion: true,
             highlightCodeOutline: true,
+            maxScansPerSecond: 1
         });
 
         scanner.start().then(() => {
@@ -74,6 +124,15 @@
         });
 
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
     <style>
         div {
