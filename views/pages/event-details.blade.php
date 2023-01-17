@@ -2,6 +2,16 @@
 
 @section('title', $title)
 
+@push('styles')
+    <link rel="stylesheet" href="/assets/lib/leaflet/leaflet.min.css">
+    <style>
+        #map {
+            border-radius: .375rem;
+            min-height: 300px;
+        }
+    </style>
+@endpush
+
 @section('content')
     <h2>{{ $event['name'] }}</h2>
     <div class="parent grid-xl-fill">
@@ -27,6 +37,9 @@
                 <p>Wishlist is not visible at this event.</p>
             @endif
         </div>
+    </div>
+    <div class="parent grid">
+        <div id="map"></div>
     </div>
     @if (!empty($event['is_public']))
         <div class="parent grid">
@@ -90,6 +103,7 @@
 @endsection
 
 @push('scripts')
+    <script src="/assets/lib/leaflet/leaflet.js"></script>
     <script>
         qs('.js-participate').onclick = () => {
             let email = prompt('Please enter your email:');
@@ -107,5 +121,18 @@
                 bottom: '{info}{pager}{select}',
             }
         });
+
+        var map_instance;
+        var latitude = {{ $event['latitude'] }};
+        var longitude = {{ $event['longitude'] }};
+
+        map_instance = L.map('map').setView([latitude, longitude], 14);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map_instance);
+
+        var marker = L.marker([latitude, longitude]).addTo(map_instance);
     </script>
 @endpush
