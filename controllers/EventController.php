@@ -324,7 +324,7 @@ class EventController {
         }
 
         header('Location: /');
-            die;
+        die;
     }
 
     public static function comment() {
