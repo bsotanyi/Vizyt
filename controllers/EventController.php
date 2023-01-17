@@ -37,8 +37,8 @@ class EventController {
             'event_id' => $event['id'],
         ]);
 
-        $event['invites'] = json_decode($event['invites'], true);
-        $event['wishlist'] = json_decode($event['wishlist'], true);
+        $event['invites'] = json_decode($event['invites'] ?? '[]', true);
+        $event['wishlist'] = json_decode($event['wishlist'] ?? '[]', true);
         $event['invites'] = array_combine(array_column($event['invites'], 'email'), $event['invites']);
 
         foreach ($invites as $invite) {
