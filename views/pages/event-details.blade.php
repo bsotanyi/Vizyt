@@ -46,30 +46,34 @@
             <a class="btn bg-primary js-participate">I want to participate</a>
         </div>    
     @endif
-    <div class="parent grid-xl-fill">
-        <div>
-            <table id="invitees_table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>E-mail</th>
-                        <th>Response</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($invites as $invite)
+    
+    @if (!empty($_SESSION['user']) && $_SESSION['user']['id'] == $event['user_id'])
+        <div class="parent grid-xl-fill">
+            <div>
+                <table id="invitees_table">
+                    <thead>
                         <tr>
-                            <td>{{ !empty($event['invites'][$invite['receiver_email']]) ? $event['invites'][$invite['receiver_email']]['name'] : 'Guest'  }}</td>
-                            <td>{{ $invite['receiver_email'] }}</td>
-                            <td style="text-transform: capitalize;">
-                                {!! $invite['response'] ?? '<i>No answer yet</i>' !!}
-                            </td>
+                            <th>Name</th>
+                            <th>E-mail</th>
+                            <th>Response</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($invites as $invite)
+                            <tr>
+                                <td>{{ !empty($event['invites'][$invite['receiver_email']]) ? $event['invites'][$invite['receiver_email']]['name'] : 'Guest'  }}</td>
+                                <td>{{ $invite['receiver_email'] }}</td>
+                                <td style="text-transform: capitalize;">
+                                    {!! $invite['response'] ?? '<i>No answer yet</i>' !!}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    @endif
+
     <h3>Comments</h3>
     @forelse ($comments as $comment)
         <div class="parent grid-xl-fill">
