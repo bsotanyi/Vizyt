@@ -39,7 +39,7 @@ class EventController {
 
         $event['invites'] = json_decode($event['invites'], true);
         $event['wishlist'] = json_decode($event['wishlist'], true);
-        $invites = array_combine(array_column($invites, 'receiver_email'), $invites);
+        $event['invites'] = array_combine(array_column($event['invites'], 'email'), $event['invites']);
 
         foreach ($invites as $invite) {
             foreach ($event['wishlist'] as $key => $item) {
@@ -186,6 +186,59 @@ class EventController {
         }
 
         header('Location: /events/edit/' . ($insert_id ?? 'new'));
+    }
+
+    public static function selfInvite() {
+        $email = $_GET['email'];
+        $return = 'ok';
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $return = 'Incorrect email format.';
+        }
+        $existing_invites = DB::fetchByKey("SELECT * FROM invites WHERE event_id=:event_id AND receiver_email=:email", [
+            'event_id' => $_GET['event_id'],
+            'email' => $email,
+        ], 'receiver_email');
+
+        $event = DB::fetchRow("SELECT CONCAT(u.firstname, ' ', u.lastname) AS creator, e.* FROM events e LEFT JOIN users u ON u.id = e.user_id WHERE e.id=:id", [
+            'id' => $_GET['event_id'] ?? '-1',
+        ]);
+
+        if (empty($event)) {
+            $return = 'Invalid event';
+        }
+
+        if (isset($existing_invites[$email])) {
+            $return = 'An invitation was already sent to this address';
+        }
+
+        if ($return === 'ok') {
+            $token = md5(time() . mt_rand());
+
+            sendMail(
+                $email,
+                'Guest',
+                'Vizyt - You joined an event',
+                'emails/email-invitation',
+                [
+                    'token' => $token,
+                    'invited_name' => 'Guest',
+                    'event_name' => $event['name'],
+                    'username_from' => $event['creator'],
+                    'datetime' => $event['datetime'],
+                ],
+            );
+
+            DB::insertOrUpdate('invites', [
+                'event_id' => $_GET['event_id'],
+                'receiver_email' => $email,
+                'token' => $token,
+            ]);
+            $return = '✅ An invitation link was sent to your e-mail address.';
+        }
+
+        echo $return;
+        exit;
     }
 
     public static function delete() {

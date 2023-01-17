@@ -42,7 +42,7 @@
                 <div class="form-group">
                     <label for="selected_wishlist_item" class="form-label">I will bring:</label>
                     <select name="selected_wishlist_item" id="selected_wishlist_item" class="form-select js-wishlist js-input">
-                        <option selected disabled>Choose...</option>
+                        <option selected>Choose...</option>
                         @foreach ($event['wishlist'] as $item)
                             <option value="{{ $item['name'] }}" @if($event['selected_wishlist_item'] === $item['name']) selected @endif @if(!empty($item['taken'])) disabled @endif data-url="{{ $item['url'] }}">{{ $item['name'] }}</option>
                         @endforeach
@@ -58,9 +58,9 @@
                 <label for="response" class="form-label">My attendance</label>
                 <select id="response" name="response" class="form-select js-input">
                     <option selected disabled>Choose...</option>
-                    <option value="yes">✅ I will be there</option>
-                    <option value="no">❌ I can't go</option>
-                    <option value="undecided">❓ I'm not sure yet</option>
+                    <option @if($event['response'] === 'yes') selected @endif value="yes">✅ I will be there</option>
+                    <option @if($event['response'] === 'no') selected @endif value="no">❌ I can't go</option>
+                    <option @if($event['response'] === 'undecided') selected @endif value="undecided">❓ I'm not sure yet</option>
                 </select>
             </div>
         </div>
@@ -69,7 +69,7 @@
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
           <div class="toast-body">✅ Your response was saved successfully.</div>
         </div>
-      </div>
+    </div>
 @endsection
 
 @push('scripts')

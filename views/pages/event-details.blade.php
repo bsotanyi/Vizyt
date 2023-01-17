@@ -15,17 +15,22 @@
             @if (!empty($event['wishlist_visible']))
                 <div class="parent wishlist">
                     @foreach ($event['wishlist'] as $item)
-                        <a href="{{ $item['url'] }}" target="_blank" class="wl-content">{{ $item['name'] }}</a>
+                        @if ($item['taken'] ?? false)
+                            <a href="{{ $item['url'] }}" target="_blank" class="wl-content" data-bs-toggle="tooltip" data-bs-title="Someone already brings this item" data-bs-placement="bottom"><s>{{ $item['name'] }}</s></a>
+                        @else
+                            <a href="{{ $item['url'] }}" target="_blank" class="wl-content">{{ $item['name'] }}</a>
+                        @endif
+                            
                     @endforeach
                 </div>
             @else
-                <p>Wishilst is not visible at this event.</p>
+                <p>Wishlist is not visible at this event.</p>
             @endif
         </div>
     </div>
     @if (!empty($event['is_public']))
         <div class="parent grid">
-            <a href="" class="btn bg-primary">I want to participate</a>
+            <a class="btn bg-primary js-participate">I want to participate</a>
         </div>    
     @endif
     <div class="parent grid-xl-fill">
@@ -34,15 +39,17 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>E-mail</th>
                         <th>Response</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($event['invites'] as $item)
+                    @foreach ($invites as $invite)
                         <tr>
-                            <td>{{ $item['name'] }}</td>
+                            <td>{{ !empty($event['invites'][$invite['receiver_email']]) ? $event['invites'][$invite['receiver_email']]['name'] : 'Guest'  }}</td>
+                            <td>{{ $invite['receiver_email'] }}</td>
                             <td style="text-transform: capitalize;">
-                                {!! $invites[$item['email']]['response'] ?? '<i>No answer yet</i>' !!}
+                                {!! $invite['response'] ?? '<i>No answer yet</i>' !!}
                             </td>
                         </tr>
                     @endforeach
@@ -75,10 +82,25 @@
             </form>
         </div>
     </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-body js-toast-text"></div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
+        qs('.js-participate').onclick = () => {
+            let email = prompt('Please enter your email:');
+            if (email) {
+                fetch(`/events/self-invite?event_id={{ $event['id'] }}&email=${email}`).then(data => data.text()).then(txt => {
+                    qs('.js-toast-text').innerText = txt;
+                    const toast = new bootstrap.Toast(qs('#liveToast'));
+                    toast.show();
+                });
+            }
+        }
         const users_table = new simpleDatatables.DataTable('#invitees_table', {
             layout: {
                 top: '',

@@ -34,6 +34,7 @@ RewriteRule ^events/delete/([0-9]+)$ index.php?route=EventController:delete&id=$
 RewriteRule ^events/nearby/([0-9.]+)/([0-9.]+)$ index.php?route=EventController:nearby&latitude=$1&longitude=$2 [QSA]
 RewriteRule ^events/invite-link/([a-zA-Z0-9]+)$ index.php?route=EventController:inviteLink&token=$1 [QSA]
 RewriteRule ^events/invite-save$ index.php?route=EventController:inviteSave [QSA]
+RewriteRule ^events/self-invite$ index.php?route=EventController:selfInvite [QSA]
 
 RewriteRule ^admin/dashboard$ index.php?route=AdminController:dashboard [QSA]
 RewriteRule ^admin/dashboard$ index.php?route=AdminController:dashboard [QSA]
