@@ -1,5 +1,6 @@
 <?php
 
+use Dompdf\Dompdf;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -465,9 +466,64 @@ function time_until($datetime) {
     return $interval->format("%a days"); //TODO write hours or mintues if its in less than a day
 }
 
-function exportPDF($view_name, $view_data) {
+function exportPDF($data) {
+    require_once('class/FPDF/fpdf.php');
+    // dd($data);
 
-    view($view_name, $view_data);
+    $fpdf = new FPDF();
 
-    // todo
+    $fpdf->AddPage();
+    
+    // construct PDF
+    $fpdf->SetFont('Arial', '', 10);
+    $fpdf->MultiCell(0, 10, 'Copyright ' . date('Y') . ' Vizyt - Adminers team', 0, 'R');
+
+    $fpdf->SetFont('Arial', '', 25);
+    $fpdf->MultiCell(0, 10, $data['event']['name']);
+    $fpdf->Ln();
+
+    $fpdf->SetFont('Arial', 'B', 15);
+    $fpdf->Cell(0, 10, 'Hosted by:');
+    $fpdf->Ln();
+    $fpdf->SetFont('Arial', '', 15);
+    $fpdf->Cell(0, 10, $data['event']['creator']);
+    $fpdf->Ln();
+
+    $fpdf->SetFont('Arial', 'B', 15);
+    $fpdf->Cell(0, 10, 'Event date and time:');
+    $fpdf->Ln();
+    $fpdf->SetFont('Arial', '', 15);
+    $fpdf->Cell(0, 10, $data['event']['datetime']);
+    $fpdf->Ln();
+
+    $fpdf->SetFont('Arial', 'B', 15);
+    $fpdf->Cell(0, 10, 'Description:');
+    $fpdf->Ln();
+    $fpdf->SetFont('Arial', '', 15);
+    $fpdf->MultiCell(0, 10, $data['event']['description']);
+    $fpdf->Ln();
+    
+    $fpdf->Ln();
+    $fpdf->SetFont('Arial', 'B', 20);
+    $fpdf->Cell(0, 10, 'Invites');
+    $fpdf->Ln();
+
+    $fpdf->SetFont('Arial', 'B', 15);
+    $fpdf->Cell(60, 10, 'Name');
+    $fpdf->Cell(90, 10, 'E-mail address');
+    $fpdf->Cell(30, 10, 'Response');
+    $fpdf->Ln();
+
+    $fpdf->SetFont('Arial', '', 15);
+
+    foreach ($data['invites'] as $invite) {
+        $fpdf->Cell(60, 10, !empty($data['event']['invites'][$invite['receiver_email']]) ? $data['event']['invites'][$invite['receiver_email']]['name'] : 'Guest');
+        $fpdf->Cell(90, 10, $invite['receiver_email']);
+        $fpdf->Cell(30, 10, ucfirst($invite['response'] ?? 'No answer yet'));
+        $fpdf->Ln();
+    }
+
+
+
+    $fpdf->Output();
 }

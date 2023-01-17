@@ -189,7 +189,7 @@ class EventController {
     }
 
     public static function pdf() {
-        $event = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname', u.wishlist, e.* FROM events e INNER JOIN users u ON u.id = e.user_id WHERE e.id = :id", [
+        $event = DB::fetchRow("SELECT CONCAT(u.firstname, ' ', u.lastname) AS creator, u.wishlist, e.* FROM events e INNER JOIN users u ON u.id = e.user_id WHERE e.id = :id", [
             'id' => $_GET['id'],
         ]);
 
@@ -209,7 +209,7 @@ class EventController {
             }
         }
 
-        exportPDF('event-pdf-export', [
+        exportPDF([
             'event' => $event,
             'invites' => $invites,
         ]);
