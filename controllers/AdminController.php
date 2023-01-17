@@ -16,6 +16,8 @@ class AdminController {
         $data = [];
         // $data = $invitesJson ? json_decode($invitesJson, true) : '';
 
+        $attended_count = DB::fetchKeyPair("SELECT u.id, COUNT(i.id) FROM users u LEFT JOIN invites i ON i.receiver_email = u.email GROUP BY u.id");
+
         foreach ($invitesJson as $item) {
             if (!empty($item['invites']))
                 array_push($data, json_decode($item['invites']));
@@ -28,7 +30,8 @@ class AdminController {
             'title' => 'Users',
             'active_page' => 'admin-users',
             'users' => $users,
-            'created_count' => $created_count
+            'created_count' => $created_count,
+            'attended_count' => $attended_count,
         ]);
     }
 }

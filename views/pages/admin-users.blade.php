@@ -21,11 +21,11 @@
                     <td>{{ $user['firstname'] . ' ' . $user['lastname'] }}</td>
                     <td>{{ $user['email'] }}</td>
                     @if (array_key_exists($user['id'], $created_count))
-                    <td>{{ $created_count[$user['id']] }}</td>
+                        <td>{{ $created_count[$user['id']] }}</td>
                     @else
-                    <td>0</td>
+                        <td>0</td>
                     @endif
-                    <td></td>
+                    <td>{{ $attended_count[$user['id']] ?? 0 }}</td>
                     <td class="nowrap">
                         @if ($user['active'] == 1)
                             <a href="" class="btn bg-primary">
@@ -48,5 +48,8 @@
     <script>
         const users_table = new simpleDatatables.DataTable('#users_table', {
         });
+        users_table.on('datatable.page', () => {
+            lucide.createIcons();
+        })
     </script>
 @endpush
