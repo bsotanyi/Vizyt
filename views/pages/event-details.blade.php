@@ -48,7 +48,7 @@
     @endif
     
     @if (!empty($_SESSION['user']) && $_SESSION['user']['id'] == $event['user_id'])
-        <h3>Responses</h3>
+        <h3>Invitations</h3>
         <p>Only you, the creator can see these</p>
         <div class="parent grid-xl-fill">
             <div>
