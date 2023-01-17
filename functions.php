@@ -465,3 +465,9 @@ function time_until($datetime) {
     return $interval->format("%a days"); //TODO write hours or mintues if its in less than a day
 }
 
+function exportPDF($view_name, $view_data) {
+
+    view($view_name, $view_data);
+
+    // todo
+}

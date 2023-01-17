@@ -188,6 +188,33 @@ class EventController {
         header('Location: /events/edit/' . ($insert_id ?? 'new'));
     }
 
+    public static function pdf() {
+        $event = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname', u.wishlist, e.* FROM events e INNER JOIN users u ON u.id = e.user_id WHERE e.id = :id", [
+            'id' => $_GET['id'],
+        ]);
+
+        $invites = DB::query("SELECT CONCAT(u.firstname, ' ', u.lastname) AS name, i.* FROM invites AS i LEFT JOIN users AS u ON u.email = i.receiver_email WHERE event_id=:event_id", [
+            'event_id' => $event['id'],
+        ]);
+
+        $event['invites'] = json_decode($event['invites'], true);
+        $event['wishlist'] = json_decode($event['wishlist'], true);
+        $event['invites'] = array_combine(array_column($event['invites'], 'email'), $event['invites']);
+
+        foreach ($invites as $invite) {
+            foreach ($event['wishlist'] as $key => $item) {
+                if ($item['name'] === $invite['selected_wishlist_item']) {
+                    $event['wishlist'][$key]['taken'] = true;
+                }
+            }
+        }
+
+        exportPDF('event-pdf-export', [
+            'event' => $event,
+            'invites' => $invites,
+        ]);
+    }
+
     public static function selfInvite() {
         $email = $_GET['email'];
         $return = 'ok';

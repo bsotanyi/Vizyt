@@ -32,7 +32,7 @@
                                 <a href="/events/{{ $item['id'] }}" class="btn btn-warning" role="button">
                                     <i icon-name="eye"></i> Details
                                 </a>
-                                <a href="#" class="btn btn-secondary" role="button">
+                                <a href="/events/pdf/{{ $item['id'] }}" class="btn btn-secondary" role="button">
                                     <i icon-name="printer"></i> PDF
                                 </a>
                                 <a href="/events/edit/{{ $item['id'] }}" class="btn btn-light" role="button">
