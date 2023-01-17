@@ -26,8 +26,12 @@ class EventController {
             $errors[] = "The field 'id' is required";
         }
 
-        $data = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname', e.* FROM events e INNER JOIN users u ON u.id = e.user_id WHERE u.id = :id", [ 'id' => $_GET['id'] ]);
-        $comments = DB::query("SELECT u.firstname AS 'fname', u.lastname AS 'lname', c.comment AS 'comment', c.datetime AS 'datetime' FROM comments c INNER JOIN users u ON c.user_id = u.id WHERE c.event_id = :id", [ 'id' => $_GET['id'] ]);
+        $data = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname', e.* FROM events e LEFT JOIN users u ON u.id = e.user_id WHERE e.id = :id", [
+            'id' => $_GET['id'],
+        ]);
+        $comments = DB::query("SELECT u.firstname AS 'fname', u.lastname AS 'lname', c.comment AS 'comment', c.datetime AS 'datetime' FROM comments c LEFT JOIN users u ON c.user_id = u.id WHERE c.event_id = :id", [
+            'id' => $_GET['id'],
+        ]);
 
         view('pages/event-details', [
             'title' => 'Details',
