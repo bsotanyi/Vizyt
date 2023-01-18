@@ -314,7 +314,7 @@ class EventController {
                     $distance = haversineGreatCircleDistance($_GET['latitude'], $_GET['longitude'], $item['latitude'], $item['longitude']) / 1000;
 
                     if ($distance <= 50) {
-                        $data[] = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname', e.* FROM events e INNER JOIN users u ON e.user_id = u.id WHERE e.id=:id AND e.is_public = 1 AND e.is_active = 1 AND e.datetime > CURRENT_TIMESTAMP", [ 'id' => $item['id'] ]);
+                        $data[] = DB::fetchRow("SELECT u.firstname AS 'fname', u.lastname AS 'lname', COUNT(i.id) as invite_count, e.* FROM events e INNER JOIN users u ON e.user_id = u.id INNER JOIN invites i ON i.event_id = e.id WHERE e.id=:id AND e.is_public = 1 AND e.is_active = 1 AND e.datetime > CURRENT_TIMESTAMP GROUP BY e.id", [ 'id' => $item['id'] ]);
                     }
                 }
             }
