@@ -76,33 +76,34 @@
         </div>
     @endif
 
-    
+    @if ($event['datetime'] < NOW && $event['is_commentable'])
+        <h3>Comments</h3>
+        @forelse ($comments as $comment)
+            <div class="parent grid-xl-fill">
+                <div>
+                    <p><b>{{ $comment['fname'] . ' ' . $comment['lname'] }}</b></p>
+                    <p>{{ $comment['comment'] }}</p>
+                    <small>{{ time_elapsed($comment['datetime']) }}</small>
+                </div>
+            </div>
+        @empty
+            <p>There are no comments for this event.</p>
+        @endforelse
 
-    <h3>Comments</h3>
-    @forelse ($comments as $comment)
-        <div class="parent grid-xl-fill">
-            <div>
-                <p><b>{{ $comment['fname'] . ' ' . $comment['lname'] }}</b></p>
-                <p>{{ $comment['comment'] }}</p>
-                <small>{{ time_elapsed($comment['datetime']) }}</small>
+        <div class="parent grid-xxl-fill">
+            <div id="newComment">
+                <form action="/events/comment" method="post">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="comment" spellcheck="false"></textarea>
+                        <input type="hidden" name="id" value="{{ $_GET['id'] }}">
+                        <label for="floatingTextarea">Comment</label>
+                    </div>
+                    <input type="submit" value="Post" class="btn btn-primary">
+                </form>
             </div>
         </div>
-    @empty
-        <p>There are no comments for this event.</p>
-    @endforelse
+    @endif
     
-    <div class="parent grid-xxl-fill">
-        <div id="newComment">
-            <form action="/events/comment" method="post">
-                <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="comment" spellcheck="false"></textarea>
-                    <input type="hidden" name="id" value="{{ $_GET['id'] }}">
-                    <label for="floatingTextarea">Comment</label>
-                </div>
-                <input type="submit" value="Post" class="btn btn-primary">
-            </form>
-        </div>
-    </div>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
