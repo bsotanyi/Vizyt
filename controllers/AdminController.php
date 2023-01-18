@@ -4,13 +4,17 @@ use FontLib\Table\Type\head;
 
 class AdminController {
     public static function dashboard() {
+        checkLogin();
+
         view('pages/admin-dashboard', [
             'title' => 'Admin',
             'active_page' => 'admin-dashboard',
         ]);
     }
 
-    public static function users() {        
+    public static function users() {      
+        checkLogin();
+  
         $users = DB::query("SELECT * FROM users");
         $created_count = DB::fetchKeyPair("SELECT u.id, COUNT(e.user_id) AS 'created' FROM events e INNER JOIN users u 
         ON u.id = e.user_id GROUP BY u.id");

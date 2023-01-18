@@ -37,13 +37,17 @@ class EventController {
             'event_id' => $event['id'],
         ]);
 
+        $taken_items = DB::fetchColumn("SELECT i.selected_wishlist_item FROM users u INNER JOIN events e ON e.user_id = u.id LEFT JOIN invites i ON i.event_id = e.id WHERE u.id=:creator_id AND selected_wishlist_item IS NOT NULL", [
+            'creator_id' => $event['user_id'],
+        ]);
+
         $event['invites'] = json_decode($event['invites'] ?? '[]', true);
         $event['wishlist'] = json_decode($event['wishlist'] ?? '[]', true);
         $event['invites'] = array_combine(array_column($event['invites'], 'email'), $event['invites']);
 
-        foreach ($invites as $invite) {
+        foreach ($taken_items as $taken_item) {
             foreach ($event['wishlist'] as $key => $item) {
-                if ($item['name'] === $invite['selected_wishlist_item']) {
+                if ($item['name'] === $taken_item) {
                     $event['wishlist'][$key]['taken'] = true;
                 }
             }
@@ -385,6 +389,10 @@ class EventController {
         $wishlist = json_decode($event['wishlist'] ?? '[]', true);
         $taken_items = DB::fetchColumn("SELECT selected_wishlist_item FROM invites WHERE event_id=:event_id AND selected_wishlist_item IS NOT NULL AND receiver_email<>:email", [
             'event_id' => $event['id'],
+            'email' => $event['receiver_email'],
+        ]);
+        $taken_items = DB::fetchColumn("SELECT i.selected_wishlist_item FROM users u INNER JOIN events e ON e.user_id = u.id LEFT JOIN invites i ON i.event_id = e.id WHERE u.id=:creator_id AND selected_wishlist_item IS NOT NULL AND receiver_email<>:email", [
+            'creator_id' => $event['user_id'],
             'email' => $event['receiver_email'],
         ]);
 
