@@ -21,6 +21,7 @@ class ApiController
         if ($parts[2] == 'users') {
             $id = $parts[3] ?? '';
             $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
+
         } elseif (str_contains($parts[2], 'login')) {
             $email = $_GET['email'] ?? '';
             $password = $_GET['password'] ?? '';
@@ -33,6 +34,7 @@ class ApiController
                 http_response_code(404);
                 die;
             }
+
         } elseif (str_contains($parts[2], 'join')) {
             $token = $_GET['token'] ?? '';
             $id = $_GET['id'] ?? '';
@@ -48,11 +50,11 @@ class ApiController
         }
     }
 
-    public function processRequest(string $method, $options): void
+    public function processRequest($method, $options)
     {
+        // $options = (int) $options;
         if ($options) {
-            if (is_int($options[0])) {
-                // if options is int -> request user by id
+            if (preg_match("([0-9]+)", $options[0])) {
                 $this->processResourceRequestUser($method, $options);
             } elseif (filter_var($options[0], FILTER_VALIDATE_EMAIL)) {
                 $this->processResourceRequestLogin($method, $options);
@@ -64,7 +66,7 @@ class ApiController
         }
     }
 
-    private function processResourceRequestUser(string $method, string $id): void
+    private function processResourceRequestUser($method,  $id)
     {
         $user = DB::fetchRow("SELECT * FROM users WHERE id = :id", ['id' => $id]);
 
@@ -106,6 +108,7 @@ class ApiController
                     echo json_encode([
                         "message" => "Failed to update user!"
                     ]);
+                    break;
                 }
 
             case "DELETE":
@@ -122,7 +125,6 @@ class ApiController
                         "message" => "Failed to delete user!"
                     ]);
                 }
-
                 break;
 
             default:
@@ -131,7 +133,7 @@ class ApiController
         }
     }
 
-    private function processCollectionRequestUser(string $method): void
+    private function processCollectionRequestUser($method)
     {
         switch ($method) {
             case "GET":
@@ -168,7 +170,7 @@ class ApiController
         }
     }
 
-    private function processResourceRequestLogin(string $method, array $data): void
+    private function processResourceRequestLogin($method, $data)
     {
         $user = DB::fetchRow("SELECT * FROM users WHERE email = :email", ['email' => $data[0]]);
 
@@ -195,7 +197,7 @@ class ApiController
         }
     }
 
-    private function processResourceRequestJoin(string $method, array $data): void
+    private function processResourceRequestJoin($method, $data)
     {
         $email = DB::fetchValue("SELECT email FROM users WHERE id = :id", ['id' => $data[1]]);
         $event = DB::fetchRow("SELECT * FROM events WHERE qr_token = :qr", ['qr' => $data[0]]);
