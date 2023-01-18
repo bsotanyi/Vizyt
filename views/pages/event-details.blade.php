@@ -34,7 +34,7 @@
                     @endforeach
                 </div>
             @else
-                <p>Wishlist is not visible at this event.</p>
+                <p>Wishlist is not provided for this event.</p>
             @endif
         </div>
     </div>

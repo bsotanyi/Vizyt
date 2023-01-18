@@ -78,7 +78,7 @@ class EventController {
             $event['invites'] = json_decode($event['invites'] ?? '[]', true);
         }
 
-        if ($event['user_id'] !== $_SESSION['user']['id']) {
+        if (!empty($event) && $event['user_id'] !== $_SESSION['user']['id']) {
             $_SESSION['messages'] = ['You don\'t have access to this event.'];
             header('Location: /');
             exit;

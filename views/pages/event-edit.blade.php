@@ -69,12 +69,12 @@
                 </div>
                 <div class="grid-md-fill mt-3">
                     <div class="form-group">
-                        <label class="form-label" for="datetime">Event date *</label>
-                        <input type="datetime-local" class="form-control" id="datetime" name="datetime" required value="{{ date('Y-m-d\TH:i:s', strtotime($model['datetime'] ?? date('Y-m-d H:i:s'))) }}">
+                        <label class="form-label" for="datetime">Event date and time *</label>
+                        <input type="datetime-local" class="form-control" id="datetime" name="datetime" required value="{{ date('Y-m-d\TH:i:s', strtotime($model['datetime'] ?? NOW)) }}">
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="reminder">Reminder email date *</label>
-                        <input type="datetime-local" class="form-control" id="reminder" name="reminder" required value="{{ date('Y-m-d\TH:i:s', strtotime($model['reminder'] ?? date('Y-m-d H:i:s'))) }}">
+                        <input type="date" class="form-control" id="reminder" name="reminder" required value="{{ date('Y-m-d', strtotime($model['reminder'] ?? NOW)) }}">
                     </div>
                 </div>
                 <div id="map" style="height: 40vw" class="mt-3"></div>

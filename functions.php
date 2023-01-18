@@ -37,7 +37,7 @@ function view($view_path = '', $data = [])
     }
 
     $__all_vars = $__all_vars ?: [];
-    $__all_vars += $data;
+    $__all_vars = array_merge($__all_vars, $data);
     extract($__all_vars);
 
     require($compiled_fullpath);
