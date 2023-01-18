@@ -5,7 +5,7 @@ RewriteRule "^(.*/)?\.git/" - [F,L]
 
 # -- Disable directory browsing
 
-Options All -Indexes
+Options -Indexes
 
 # -- Removing trailing slash --
 
