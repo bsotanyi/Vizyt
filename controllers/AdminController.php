@@ -12,7 +12,9 @@ class AdminController {
             return date('M d', strtotime($date));
         }, $dates);
 
-        $page_views = DB::fetchKeyPair("SELECT DATE_FORMAT(created_at, '%Y-%m-%d') as day, COUNT(*) FROM page_views GROUP BY day");
+        $page_views = DB::fetchKeyPair("SELECT DATE_FORMAT(created_at, '%Y-%m-%d') as day, COUNT(*) FROM page_views WHERE created_at > :from GROUP BY day", [
+            'from' => $dates[0],
+        ]);
         $page_views = array_combine($date_labels, array_merge(array_fill_keys($dates, 0),$page_views));
 
         $page_views_device = DB::fetchKeyPair("SELECT device, COUNT(*) FROM page_views WHERE created_at > :from GROUP BY device", [
