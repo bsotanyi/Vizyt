@@ -1,6 +1,8 @@
 env.php
+deploy.php
 
 views_compiled/*
 logs/
 vendor/
 mobile_app/node_modules
+adminer/
