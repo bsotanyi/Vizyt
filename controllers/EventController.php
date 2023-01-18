@@ -427,4 +427,36 @@ class EventController {
 
         echo 'ok';
     }
+
+    public static function qr() {
+        checkLogin();
+
+        $event = DB::fetchRow("SELECT name, qr_token FROM events WHERE id=:id", [
+            'id' => $_GET['id'],
+        ]);
+
+        $qr_token = $event['qr_token'];
+
+        if (empty($qr_token)) {
+            $qr_token = md5('Vizyt-' . $_GET['id'] . '-' . microtime(true));
+
+            DB::insertOrUpdate('events', [
+                'id' => $_GET['id'],
+            ], [
+                'qr_token' => $qr_token,
+            ]);
+        }
+
+        $qr_url = 'https://chart.googleapis.com/chart?chs=500x500&cht=qr&choe=UTF-8&chl=' . $qr_token;
+        $qr = imagecreatefrompng($qr_url);
+
+        imagestring($qr, 5, 60, 30, $event['name'], 0);
+
+        header("Content-Type: image/png");
+
+        imagepng($qr);
+        imagedestroy($qr);
+
+        exit;
+    }
 }

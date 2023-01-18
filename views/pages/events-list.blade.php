@@ -35,6 +35,9 @@
                                 <a href="/events/pdf/{{ $item['id'] }}" class="btn btn-secondary" role="button" target="_blank">
                                     <i icon-name="printer"></i> PDF
                                 </a>
+                                <a href="/events/qr/{{ $item['id'] }}" class="btn btn-dark" role="button" target="_blank">
+                                    <i icon-name="qr-code"></i> QR
+                                </a>
                                 <a href="/events/edit/{{ $item['id'] }}" class="btn btn-light" role="button">
                                     <i icon-name="edit"></i> Edit
                                 </a>
