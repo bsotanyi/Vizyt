@@ -10,7 +10,7 @@ class ApiController
         header('Content-type: application/json; CHARSET=UTF-8');
 
         $parts = explode("/", $_SERVER['REQUEST_URI']);
-        
+
         if ($parts[1] !== 'api') {
             http_response_code(404);
             die;
@@ -22,31 +22,42 @@ class ApiController
             $id = $parts[3] ?? '';
             $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
         } elseif (str_contains($parts[2], 'login')) {
-                $email = $_GET['email'] ?? '';
-                $password = $_GET['password'] ?? '';
-                if (empty($email) || empty($password)) {
-                    http_response_code(404);
-                    die;
-                } elseif (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $controller->processRequest($_SERVER['REQUEST_METHOD'], [$email, $password]);
-                } else {
-                    http_response_code(404);
-                    die;
-                }
+            $email = $_GET['email'] ?? '';
+            $password = $_GET['password'] ?? '';
+            if (empty($email) || empty($password)) {
+                http_response_code(404);
+                die;
+            } elseif (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $controller->processRequest($_SERVER['REQUEST_METHOD'], [$email, $password]);
+            } else {
+                http_response_code(404);
+                die;
+            }
+        } elseif (str_contains($parts[2], 'join')) {
+            $token = $_GET['token'] ?? '';
+            $id = $_GET['id'] ?? '';
+            if (!empty($token) && !empty($id)) {
+                $controller->processRequest($_SERVER['REQUEST_METHOD'], [$token, $id]);
+            } else {
+                http_response_code(404);
+                die;
+            }
         } else {
             http_response_code(404);
             die;
         }
     }
 
-    public function processRequest(string $method, $options):void
+    public function processRequest(string $method, $options): void
     {
         if ($options) {
-            if (filter_var($options[0], FILTER_VALIDATE_INT)) {
+            if (is_int($options[0])) {
                 // if options is int -> request user by id
                 $this->processResourceRequestUser($method, $options);
             } elseif (filter_var($options[0], FILTER_VALIDATE_EMAIL)) {
                 $this->processResourceRequestLogin($method, $options);
+            } elseif (preg_match('([a-z0-9]+)', $options[0])) {
+                $this->processResourceRequestJoin($method, $options);
             }
         } else {
             $this->processCollectionRequestUser($method);
@@ -175,12 +186,43 @@ class ApiController
                     http_response_code(400);
                     echo json_encode(["message" => "Incorrect password!"]);
                     die;
-                }                
+                }
                 break;
 
             default:
                 http_response_code(405);
                 header("Allow: GET");
+        }
+    }
+
+    private function processResourceRequestJoin(string $method, array $data): void
+    {
+        $email = DB::fetchValue("SELECT email FROM users WHERE id = :id", ['id' => $data[1]]);
+        $event = DB::fetchRow("SELECT * FROM events WHERE qr_token = :qr", ['qr' => $data[0]]);
+        $invites = json_decode($event['invites'], true);
+
+        if (empty($event) || empty($email)) {
+            http_response_code(404);
+            echo json_encode(["message" => "Not found!"]);
+            return;
+        }
+        
+        foreach ($invites as $item) {
+            if ($item['email'] == $email) {
+                switch ($method) {
+                    case "PATCH":
+                        DB::query("UPDATE invites SET arrived = 1 WHERE receiver_email = :email", [ 'email' => $email ]);
+                        echo json_encode(["message" => "User {$data['1']} successfully updated!"]);
+                        http_response_code(200);
+                        break;
+
+                    default:
+                        http_response_code(405);
+                        header("Allow: PATCH");
+                }
+            } else {
+                http_response_code(400);
+            }
         }
     }
 }
