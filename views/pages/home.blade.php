@@ -34,7 +34,7 @@
                         <small class="e-owner">Created {{ time_elapsed($item['created_date']) }} by <span>{{ $item['fname'] . ' ' . $item['lname'] }}</span></small>
                         <h3 class="e-name">{{ $item['name'] }}</h3>
                         <div id="e-links">
-                            <i icon-name="users"></i><small>{{ $item['invite_count'] ?? 0 }} participants</small>
+                            <i icon-name="users"></i><small>{{ $item['invite_count'] ?? 0 }} participant{{ $item['invite_count'] > 1 ? 's' : '' }}</small>
                             <i icon-name="calendar"></i><small class="e-comments">{{ $item['datetime'] }}</small>
                         </div>
                     </div>
