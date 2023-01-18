@@ -352,6 +352,15 @@ class EventController {
             }
         }
 
+        $comment_exists = DB::fetchValue("SELECT COUNT(*) FROM comments WHERE user_id=:user_id AND event_id=:event_id", [
+            'user_id' => $_SESSION['user']['id'],
+            'event_id' => $_POST['id'],
+        ]);
+
+        if (!empty($comment_exists)) {
+            $errors[] = "You already posted a comment on this event.";
+        }
+
         if (empty($errors)) {
             $start = DB::fetchValue("SELECT datetime FROM events WHERE id = :id", [ 'id' => $_POST['id']]);
             date_create($start);

@@ -18,7 +18,13 @@
         <div>
             <small class="e-owner">Created {{ time_elapsed($event['created_date']) }} by <span>{{ $event['fname'] . ' ' . $event['lname'] }}</span></small>
             <p>{{ $event['description'] }}</p> 
-            <small>{{ time_until($event['datetime']) }} until the start of the event</small>
+            @if (strtotime($event['datetime']) > strtotime(TODAY))
+                <small>{{ time_until($event['datetime']) }} until the start of the event</small>
+            @else
+                <small>
+                    This event is archived.
+                </small>
+            @endif
         </div>
         <div>
             <small>Wishlist</small>
