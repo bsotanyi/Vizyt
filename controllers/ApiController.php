@@ -1,41 +1,61 @@
 <?php
 
-declare(strict_types=1);    
+declare(strict_types=1);
 
-class ApiController {
-    public static function api () {
+class ApiController
+{
+    public static function api()
+    {
         require_once 'config.php';
         header('Content-type: application/json; CHARSET=UTF-8');
 
         $parts = explode("/", $_SERVER['REQUEST_URI']);
-
+        
         if ($parts[1] !== 'api') {
             http_response_code(404);
             die;
         }
 
-        if ($parts[2] !== 'users') {
+        $controller = new ApiController;
+
+        if ($parts[2] == 'users') {
+            $id = $parts[3] ?? '';
+            $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
+        } elseif (str_contains($parts[2], 'login')) {
+                $email = $_GET['email'] ?? '';
+                $password = $_GET['password'] ?? '';
+                if (empty($email) || empty($password)) {
+                    http_response_code(404);
+                    die;
+                } elseif (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $controller->processRequest($_SERVER['REQUEST_METHOD'], [$email, $password]);
+                } else {
+                    http_response_code(404);
+                    die;
+                }
+        } else {
             http_response_code(404);
             die;
         }
-
-        $id = $parts[3] ?? '';
-
-        $controller = new ApiController;
-        $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
-
     }
 
-    public function processRequest (string $method, ?string $id): void {
-        if ($id) {
-            $this->processResourceRequest($method, $id);
+    public function processRequest(string $method, $options):void
+    {
+        if ($options) {
+            if (filter_var($options[0], FILTER_VALIDATE_INT)) {
+                // if options is int -> request user by id
+                $this->processResourceRequestUser($method, $options);
+            } elseif (filter_var($options[0], FILTER_VALIDATE_EMAIL)) {
+                $this->processResourceRequestLogin($method, $options);
+            }
         } else {
-            $this->processCollectionRequest($method);
+            $this->processCollectionRequestUser($method);
         }
     }
 
-    private function processResourceRequest (string $method, string $id):void {
-        $user = DB::fetchRow("SELECT * FROM users WHERE id = :id", [ 'id' => $id ]);
+    private function processResourceRequestUser(string $method, string $id): void
+    {
+        $user = DB::fetchRow("SELECT * FROM users WHERE id = :id", ['id' => $id]);
 
         if (empty($user)) {
             http_response_code(404);
@@ -78,7 +98,7 @@ class ApiController {
                 }
 
             case "DELETE":
-                DB::query("DELETE FROM users WHERE id = :id", [ 'id' => $id ]);
+                DB::query("DELETE FROM users WHERE id = :id", ['id' => $id]);
 
                 if (DB::$affected_rows > 0) {
                     echo json_encode([
@@ -96,12 +116,12 @@ class ApiController {
 
             default:
                 http_response_code(405);
-                header("Allow: GET, PATCH, DELETE"); 
+                header("Allow: GET, PATCH, DELETE");
         }
-
     }
 
-    private function processCollectionRequest (string $method):void {
+    private function processCollectionRequestUser(string $method): void
+    {
         switch ($method) {
             case "GET":
                 $items = DB::query("SELECT * FROM users");
@@ -133,7 +153,34 @@ class ApiController {
 
             default:
                 http_response_code(405);
-                header("Allow: GET, POST"); 
+                header("Allow: GET, POST");
+        }
+    }
+
+    private function processResourceRequestLogin(string $method, array $data): void
+    {
+        $user = DB::fetchRow("SELECT * FROM users WHERE email = :email", ['email' => $data[0]]);
+
+        if (empty($user)) {
+            http_response_code(404);
+            echo json_encode(["message" => "User not found!"]);
+            return;
+        }
+
+        switch ($method) {
+            case "GET":
+                if ($user['email'] == $data[0] && password_verify($data[1], $user['password'])) {
+                    echo json_encode($user);
+                } else {
+                    http_response_code(400);
+                    echo json_encode(["message" => "Incorrect password!"]);
+                    die;
+                }                
+                break;
+
+            default:
+                http_response_code(405);
+                header("Allow: GET");
         }
     }
 }
