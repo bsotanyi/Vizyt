@@ -385,7 +385,7 @@ function logPageView() {
 
     if (!in_array($ip, ['127.0.0.1', '::1'])) {
         $geo_data = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$_SERVER['REMOTE_ADDR']));
-        $country = $geo_data['geoplugin_countryCode'];
+        $country = $geo_data['geoplugin_countryName'];
     }
 
     DB::query("INSERT INTO page_views SET url=:url, device=:device, country=:country, ip=:ip", [
