@@ -90,10 +90,13 @@
             }).addTo(map_instance);
 
             var nearby = @json($_SESSION['nearby']);
+            let bounds = [];
             for (item of nearby) {
                 var marker = L.marker([item.latitude, item.longitude]).addTo(map_instance);
                 marker.bindPopup(`<p>${item.name}</p>`);
+                bounds.push([item.latitude, item.longitude]);
             }
+            map_instance.flyToBounds(bounds);
 
         @endif
     </script>
