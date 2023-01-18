@@ -78,6 +78,12 @@ class EventController {
             $event['invites'] = json_decode($event['invites'] ?? '[]', true);
         }
 
+        if ($event['user_id'] !== $_SESSION['user']['id']) {
+            $_SESSION['messages'] = ['You don\'t have access to this event.'];
+            header('Location: /');
+            exit;
+        }
+
         $templates = DB::fetchByKey("SELECT * FROM events WHERE is_template=1 AND user_id=:user_id", [
             'user_id' => $_SESSION['user']['id'],
         ], 'id');
