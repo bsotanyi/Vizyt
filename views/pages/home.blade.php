@@ -2,6 +2,16 @@
 
 @section('title', $title)
 
+@push('styles')
+    <link rel="stylesheet" href="/assets/lib/leaflet/leaflet.min.css">
+    <style>
+        #map {
+            border-radius: .375rem;
+            min-height: 300px;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="parent headline">
         <div>
@@ -15,20 +25,6 @@
             <button class="btn bg-primary" onclick="getLocation()">See nearby events</button>
         </div>
         @else
-        <div id="geoloc">
-            <button class="btn bg-primary">Nearby events are being shown</button>
-        </div>
-        @endif
-        <div>
-            <h3>Do you have an upcoming party?</h3>
-            <p>Vizyt is <u>the</u> event management tool that enables users to organize events online without much hassle.<br>It is designed for people who want to see nearby events based on their location and get reminders for upcoming events. Vizyt also allows users to add a custom wishlist to their events.</p>
-            <p class="text-center">
-                <a href="#" class="color-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register now</a> and start organizing!
-            </p>
-        </div>
-    </div>
-    @if (!empty($_SESSION['nearby']))
-    <div class="parent grid-xl-fill">
         <div id="event-thumbnail">
             <small>There are {{ count($_SESSION['nearby']) }} public events near your location</small>
             <h3>Public events</h3>
@@ -45,12 +41,24 @@
                 </a>
             @endforeach
         </div>
+        @endif
+        <div>
+            <h3>Do you have an upcoming party?</h3>
+            <p>Vizyt is <u>the</u> event management tool that enables users to organize events online without much hassle.<br>It is designed for people who want to see nearby events based on their location and get reminders for upcoming events. Vizyt also allows users to add a custom wishlist to their events.</p>
+            <p class="text-center">
+                <a href="#" class="color-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register now</a> and start organizing!
+            </p>
+        </div>
     </div>
-        
+    @if (!empty($_SESSION['nearby']))
+        <div class="parent grid">
+            <div id="map"></div>
+        </div>
     @endif
     
 @endsection
 @push('scripts')
+    <script src="/assets/lib/leaflet/leaflet.js"></script>
     <script>
         function getLocation() {
             if (navigator.geolocation) {
@@ -66,7 +74,27 @@
             console.log(latitude);
             console.log(longitude);
             window.location.href = "/events/nearby/" + position.coords.latitude + "/" + position.coords.longitude;
-
         }
+
+        @if (!empty($_SESSION['nearby']))
+
+            var map_instance;
+            var latitude = {{ $_CONFIG['latitude'] }};
+            var longitude = {{ $_CONFIG['longitude'] }};
+
+            map_instance = L.map('map').setView([latitude, longitude], 14);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map_instance);
+
+            var nearby = @json($_SESSION['nearby']);
+            for (item of nearby) {
+                var marker = L.marker([item.latitude, item.longitude]).addTo(map_instance);
+                marker.bindPopup(`<p>${item.name}</p>`);
+            }
+
+        @endif
     </script>
 @endpush
