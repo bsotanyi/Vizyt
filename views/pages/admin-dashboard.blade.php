@@ -8,19 +8,19 @@
     <div class="parent grid">
         <div>
             <h3>Page views</h3>
-            <small>by day</small>
+            <small>by day (last 30 days)</small>
             <canvas id="page_views_count"></canvas>
         </div>
     </div>
     <div class="parent grid-xxl-fill">
         <div>
             <h3>Page views</h3>
-            <small>by device</small>
+            <small>by device (last 30 days)</small>
             <canvas id="page_views_device"></canvas>
         </div>
         <div>
             <h3>Page views</h3>
-            <small>by country</small>
+            <small>by country (last 30 days)</small>
             <canvas id="page_views_country"></canvas>
         </div>
     </div>
@@ -28,35 +28,19 @@
 
 @push('scripts')
 <script>
-    let c = new Chart(qs('#page_views_device'), {
-        type: 'pie',
-        data: {
-            labels: ['Mobile', 'PC', 'Smart fridge'],
-            datasets: [
-                {
-                    label: 'Page views',
-                    data: [60, 35, 5],
-                    backgroundColor: ['red', 'blue', 'green'],
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'right',
-                },
-            }
-        },
-    });
+
+    let page_views = @json($page_views);
+    let page_views_device = @json($page_views_device);
+    let page_views_country = @json($page_views_country);
+
     let c2 = new Chart(qs('#page_views_count'), {
         type: 'line',
         data: {
-            labels: ['May 1','May 2','May 3','May 4','May 5','May 1','May 2','May 3','May 4','May 5'],
+            labels: Object.keys(page_views),
             datasets: [
                 {
-                    label: 'Idk',
-                    data: [50,60,70,50,60,71,88,57,59,57],
+                    label: 'Page view count',
+                    data: Object.values(page_views),
                     borderColor: 'red',
                     fill: false,
                     cubicInterpolationMode: 'monotone',
@@ -88,14 +72,35 @@
             }
         },
     });
+    let c = new Chart(qs('#page_views_device'), {
+        type: 'pie',
+        data: {
+            labels: Object.keys(page_views_device),
+            datasets: [
+                {
+                    label: 'Page view count',
+                    data: Object.values(page_views_device),
+                    backgroundColor: ['red', 'blue', 'green'],
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',
+                },
+            }
+        },
+    });
     let c3 = new Chart(qs('#page_views_country'), {
         type: 'pie',
         data: {
-            labels: ['Serbia', 'Hungary', 'Kosovo'],
+            labels: Object.keys(page_views_country),
             datasets: [
                 {
                     label: 'Page views',
-                    data: [150, 35, 4],
+                    data: Object.values(page_views_country),
                     backgroundColor: ['maroon', 'yellow', 'gray'],
                 }
             ]
