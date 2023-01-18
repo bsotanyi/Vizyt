@@ -11,11 +11,19 @@ define('SITE_URL', 'https://school.adminers.test');
 /* Mailtrap
 * tadan61778@usharer.com
 * adminers
+
+xajid80203@moneyzon.com
+cicamica
 */
 // define('PHPMAILER_HOST', 'smtp.mailtrap.io');
 // define('PHPMAILER_PORT', 2525);
+
 // define('PHPMAILER_USERNAME', '60207f43b807fe');
 // define('PHPMAILER_PASSWORD', '44e126b58a7d64');
+
+// define('PHPMAILER_USERNAME', 'a7a58ddcffb642'); // 2nd
+// define('PHPMAILER_PASSWORD', '917fe88895f0bb'); // 2nd
+
 // define('MAIL_FROM', 'admin@site.adminers.test');
 
 define('PHPMAILER_HOST', 'adminers.stud.vts.su.ac.rs');
