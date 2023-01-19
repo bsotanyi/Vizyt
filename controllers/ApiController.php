@@ -39,7 +39,7 @@ class ApiController
             $token = $_GET['token'] ?? '';
             $id = $_GET['id'] ?? '';
             if (!empty($token) && !empty($id)) {
-                $controller->processRequest($_SERVER['REQUEST_METHOD'], [$token, $id]);
+                $controller->processResourceRequestJoin($_SERVER['REQUEST_METHOD'], [$token, $id]);
             } else {
                 http_response_code(404);
                 die;
@@ -66,12 +66,9 @@ class ApiController
 
     public function processRequest($method, $options, $table = null)
     {
-        // $options = (int) $options;
         if ($options) {
-            if (preg_match_all("([0-9]+)", $options[0])) {
+            if (preg_match_all('([a-z0-9]+)', $options[0])) {
                 $this->processResourceRequest($method, $options, $table);
-            } elseif (preg_match_all('([a-z0-9]+)', $options[0])) {
-                $this->processResourceRequestJoin($method, $options);
             }
         } else {
             $this->processCollectionRequestUser($method, $table);
@@ -225,13 +222,14 @@ class ApiController
     {
         $email = DB::fetchValue("SELECT email FROM users WHERE id = :id", ['id' => $data[1]]);
         $event = DB::fetchRow("SELECT * FROM events WHERE qr_token = :qr", ['qr' => $data[0]]);
-        $invites = json_decode($event['invites'], true);
 
         if (empty($event) || empty($email)) {
             http_response_code(404);
             echo json_encode(["message" => "Not found!"]);
             return;
         }
+
+        $invites = json_decode($event['invites'], true);
         
         foreach ($invites as $item) {
             if ($item['email'] == $email) {
