@@ -29,7 +29,7 @@ class ApiController
                 http_response_code(404);
                 die;
             } elseif (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $controller->processRequest($_SERVER['REQUEST_METHOD'], [$email, $password]);
+                $controller->processResourceRequestLogin($_SERVER['REQUEST_METHOD'], [$email, $password]);
             } else {
                 http_response_code(404);
                 die;
@@ -70,8 +70,6 @@ class ApiController
         if ($options) {
             if (preg_match_all("([0-9]+)", $options[0])) {
                 $this->processResourceRequest($method, $options, $table);
-            } elseif (filter_var($options[0], FILTER_VALIDATE_EMAIL)) {
-                $this->processResourceRequestLogin($method, $options);
             } elseif (preg_match_all('([a-z0-9]+)', $options[0])) {
                 $this->processResourceRequestJoin($method, $options);
             }
