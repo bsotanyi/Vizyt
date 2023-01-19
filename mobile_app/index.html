@@ -154,7 +154,7 @@
         var events = {};
         var last_response = '';
 
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('load', () => {
             let __login = JSON.parse(localStorage.getItem('__login'));
             if (__login) {
                 loginBtn.disabled = true;
@@ -171,8 +171,11 @@
 
         logout.onclick = () => {
             localStorage.removeItem('__login');
-            home.classList.add('invisible');
-            login.classList.remove('invisible');
+            if (window.Android) {
+                Android.refreshPLS();
+            } else {
+                location.reload();
+            }
         }
 
         loginBtn.onclick = function () {
