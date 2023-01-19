@@ -96,6 +96,7 @@
     </div>
 
     <div id="home" class="invisible">
+        <p class="mb-0" style="font-weight: 100;">Welcome</p>
         <h2 id="user-welcome"></h2>
         <button class="btn btn-primary" id="listBtn">List my events</button>
         <button class="btn btn-primary" id="scanBtn">Scan QR</button>
@@ -155,7 +156,7 @@
                     autologin.classList.add('invisible');
                     home.classList.remove('invisible');
                     user = __login;
-                    userWelcome.innerText = "Welcome, " + user.firstname + ' ' + user.lastname + '!';
+                    userWelcome.innerText = user.firstname + ' ' + user.lastname + '!';
                 }, 1500 + Math.random() * 500);
             }
         });
