@@ -128,10 +128,18 @@
     <script type="module">
         import QrScanner from '/mobile_app/node_modules/qr-scanner/qr-scanner.min.js';
 
+        function msg(text) {
+            if (window.Android) {
+                Android.toast(text);
+            } else {
+                alert(text);
+            }
+        }
+
         const loginBtn = document.getElementById("login-btn");
         const email = document.getElementById("email-mobile");
         const password = document.getElementById("password-mobile");
-        const SITE_URL = document.location.origin;
+        const SITE_URL = 'https://adminers.stud.vts.su.ac.rs';
         const login = document.getElementById("login");
         const autologin = document.getElementById("auto-login");
         const scan = document.getElementById("scan");
@@ -173,7 +181,7 @@
                 })
                     .then(response => {
                         if (response.status !== 200) {
-                            alert('Invalid credentials');
+                            msg('Invalid credentials');
                         } else {
                             return response.json();
                         }
@@ -207,7 +215,7 @@
                 })
                     .then(response => {
                         if (!response.ok) {
-                            alert('Invalid QR code - event is not recognized');
+                            msg('Invalid QR code - event is not recognized');
                         }
                         return response.json();
                     })
@@ -262,7 +270,7 @@
             })
                 .then(response => {
                     if (!response.ok) {
-                        alert('An error occured while listing events');
+                        msg('An error occured while listing events');
                     }
                     return response.json();
                 })
@@ -294,7 +302,7 @@
                                     })
                                         .then(response => {
                                             if (!response.ok) {
-                                                alert('An error occured while refreshing arrivals table');
+                                                msg('An error occured while refreshing arrivals table');
                                             }
                                             return response.json();
                                         })

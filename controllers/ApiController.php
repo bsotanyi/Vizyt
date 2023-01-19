@@ -6,6 +6,7 @@ class ApiController
 {
     public static function api()
     {
+        header("Access-Control-Allow-Origin: *");
         require_once 'config.php';
         header('Content-type: application/json; CHARSET=UTF-8');
 
