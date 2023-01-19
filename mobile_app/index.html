@@ -48,6 +48,15 @@
         .invisible {
             display: none;
         }
+
+        .arrived {
+            background-color: #AAFF00;
+        }
+
+        #inviteesTable tr:not(.arrived) {
+            background-color: red;
+            color: white
+        }
     </style>
 </head>
 
@@ -71,7 +80,11 @@
         <button class="btn btn-primary" id="scanBtn">Scan</button>
     </div>
 
-    <div id="list" class="invisible">
+    <div id="list">
+
+    </div>
+
+    <div id="view-event">
 
     </div>
 
@@ -96,8 +109,9 @@
         const success = document.getElementById("success");
         const userWelcome = document.getElementById("user-welcome");
         const list = document.getElementById("list");
-        // const usersSelect = document.getElementById("users-list");
+        const viewEvent = document.getElementById("view-event");
         var user = {};
+        var events = {};
 
         loginBtn.onclick = function () {
             if (email.value.length != 0 && password.value.length != 0) {
@@ -178,6 +192,8 @@
         }
 
         document.getElementById('scanBtn').addEventListener('click', () => {
+            scan.innerHTML = "";
+            list.innerHTML = "";
             qrScan(user.id);
             console.log(user);
         });
@@ -186,7 +202,7 @@
             scan.innerHTML = "";
             list.innerHTML = "";
 
-            fetch(SITE_URL + '/api/users', {
+            fetch(SITE_URL + '/api/events', {
                 method: 'GET'
             })
                 .then(response => {
@@ -196,18 +212,55 @@
                     return response.json();
                 })
                 .then(json => {
-                    list.classList.remove("invisible");
-                    list.innerHTML = "<div id='usersList'></div>";
+                    list.innerHTML = "<table id='eventsTable'>";
                     json.forEach(element => {
-                        usersList.innerHTML += "<p>" + element.firstname + ' ' + element.lastname +"</p>";
+                        if (element.user_id == user.id) {
+                            events = json;
+                            console.log(events);
+                            eventsTable.innerHTML += "<tr><td>" + element.name + "</td><td><button id='event-" + element.id + "' class='event btn btn-primary'>Invitees</button></td></tr>";
+                        }
                     });
-                    
+                    list.innerHTML += "</table>";
+                    setEventButtons();
                 })
         });
 
-        document.getElementById('usersSelect').addEventListener('change', () => {
-            
-        });
+        function setEventButtons() {
+            var btns = document.querySelectorAll(".event");
+            console.log(btns);
+            for (const btn of btns) {
+                btn.addEventListener('click', () => {
+                    let eventId = btn.id.split('-')[1];
+                    scan.innerHTML = "";
+                    list.innerHTML = "";
+                    viewEvent.innerHTML = "<table id='inviteesTable'>";
+                    events.forEach(element => {
+                        if (element.id == eventId) {
+                            fetch(SITE_URL + '/api/invites?eventId=' + eventId, {
+                                method: 'GET'
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error("HTTP status " + response.status);
+                                    }
+                                    return response.json();
+                                })
+                                .then(json => {
+                                    json.forEach(element, () => {
+                                        if (element.arrived == 1) {
+                                            inviteesTable.innerHTML += "<tr class='arrived'><td>" + json.firstname + " " + json.lastname + "</td><td>" + json.email + "</td></tr>";
+                                        } else {
+                                            inviteesTable.innerHTML += "<tr><td>" + json.firstname + " " + json.lastname + "</td><td>" + json.email + "</td></tr>";
+                                        }
+                                    })
+                                })
+                        }
+                    })
+                    list.innerHTML += "</table>";
+                });
+            }
+        }
+
 
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

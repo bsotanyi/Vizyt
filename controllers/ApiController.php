@@ -20,7 +20,7 @@ class ApiController
 
         if ($parts[2] == 'users') {
             $id = $parts[3] ?? '';
-            $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
+            $controller->processRequest($_SERVER['REQUEST_METHOD'], $id, $parts[2]);
 
         } elseif (str_contains($parts[2], 'login')) {
             $email = $_GET['email'] ?? '';
@@ -44,85 +44,105 @@ class ApiController
                 http_response_code(404);
                 die;
             }
+
+        } elseif (str_contains($parts[2], 'invites')) {
+            $id = $_GET['eventId'] ?? '';
+            if (!empty($id)) {
+                $controller->processResourceRequestInvites($_SERVER['REQUEST_METHOD'], $id, $parts[2]);
+            } else {
+                http_response_code(404);
+                die;
+            }
+
+        } elseif (str_contains($parts[2], 'events')) {
+            $id = $parts[3] ?? '';
+            $controller->processRequest($_SERVER['REQUEST_METHOD'], $id, $parts[2]);
+
         } else {
             http_response_code(404);
             die;
         }
     }
 
-    public function processRequest($method, $options)
+    public function processRequest($method, $options, $table = null)
     {
         // $options = (int) $options;
         if ($options) {
-            if (preg_match("([0-9]+)", $options[0])) {
-                $this->processResourceRequestUser($method, $options);
+            if (preg_match_all("([0-9]+)", $options[0])) {
+                $this->processResourceRequest($method, $options, $table);
             } elseif (filter_var($options[0], FILTER_VALIDATE_EMAIL)) {
                 $this->processResourceRequestLogin($method, $options);
-            } elseif (preg_match('([a-z0-9]+)', $options[0])) {
+            } elseif (preg_match_all('([a-z0-9]+)', $options[0])) {
                 $this->processResourceRequestJoin($method, $options);
             }
         } else {
-            $this->processCollectionRequestUser($method);
+            $this->processCollectionRequestUser($method, $table);
         }
     }
 
-    private function processResourceRequestUser($method,  $id)
+    private function processResourceRequest ($method, $id, $table)
     {
-        $user = DB::fetchRow("SELECT * FROM users WHERE id = :id", ['id' => $id]);
+        $row = DB::fetchRow("SELECT * FROM $table WHERE id = :id", ['id' => $id]);
 
-        if (empty($user)) {
+        if (empty($row)) {
             http_response_code(404);
-            echo json_encode(["message" => "User not found!"]);
+            echo json_encode(["message" => ucfirst($table) . " not found!"]);
             return;
         }
 
         switch ($method) {
             case "GET":
-                echo json_encode($user);
+                echo json_encode($row);
                 break;
 
             case "PATCH":
-                $data = (array) json_decode(file_get_contents("php://input"), true);
-                $password = $data['password'] ?? '';
-                if (!empty($password)) {
-                    $password = password_hash($data['password'], PASSWORD_BCRYPT);
-                } else {
-                    $password = $user['password'];
-                }
-
-                DB::query("UPDATE users SET firstname = :firstname, lastname = :lastname, email = :email, password = :password WHERE id = :id", [
-                    'firstname' => $data['firstname'] ?? $user['firstname'],
-                    'lastname' => $data['lastname'] ?? $user['lastname'],
-                    'email' => $data['email'] ?? $user['email'],
-                    'password' =>  $password,
-                    'id' => $user['id']
-                ]);
-
-                if (DB::$affected_rows > 0) {
-                    echo json_encode([
-                        "message" => "User $id updated!",
-                        "rows" => DB::$affected_rows
+                if ($table == 'users') {
+                    $data = (array) json_decode(file_get_contents("php://input"), true);
+                    $password = $data['password'] ?? '';
+                    if (!empty($password)) {
+                        $password = password_hash($data['password'], PASSWORD_BCRYPT);
+                    } else {
+                        $password = $row['password'];
+                    }
+    
+                    DB::query("UPDATE users SET firstname = :firstname, lastname = :lastname, email = :email, password = :password WHERE id = :id", [
+                        'firstname' => $data['firstname'] ?? $row['firstname'],
+                        'lastname' => $data['lastname'] ?? $row['lastname'],
+                        'email' => $data['email'] ?? $row['email'],
+                        'password' =>  $password,
+                        'id' => $row['id']
                     ]);
+    
+                    if (DB::$affected_rows > 0) {
+                        echo json_encode([
+                            "message" => "User $id updated!",
+                            "rows" => DB::$affected_rows
+                        ]);
+                    } else {
+                        http_response_code(422);
+                        echo json_encode([
+                            "message" => "Failed to update user!"
+                        ]);
+                    }
                 } else {
-                    http_response_code(422);
-                    echo json_encode([
-                        "message" => "Failed to update user!"
-                    ]);
-                    break;
+                    http_response_code(405);
+                    header("Allow: GET, DELETE");
                 }
+                
+                break;
 
             case "DELETE":
-                DB::query("DELETE FROM users WHERE id = :id", ['id' => $id]);
+                DB::query("DELETE FROM $table WHERE id = :id", ['id' => $id]);
 
                 if (DB::$affected_rows > 0) {
                     echo json_encode([
-                        "message" => "User $id deleted!",
+                        "message" => ucfirst($table) . " $id deleted!",
                         "rows" => DB::$affected_rows
                     ]);
                 } else {
                     http_response_code(422);
                     echo json_encode([
-                        "message" => "Failed to delete user!"
+                        "message" => "Failed to delete!"
                     ]);
                 }
                 break;
@@ -133,35 +153,41 @@ class ApiController
         }
     }
 
-    private function processCollectionRequestUser($method)
+    private function processCollectionRequestUser($method, $table)
     {
         switch ($method) {
             case "GET":
-                $items = DB::query("SELECT * FROM users");
+                $items = DB::query("SELECT * FROM $table");
                 echo json_encode($items);
                 break;
 
             case "POST":
-                $data = (array) json_decode(file_get_contents("php://input"), true);
+                if ($table == 'users') {
+                    $data = (array) json_decode(file_get_contents("php://input"), true);
 
-                if (empty($data['firstname']) || empty($data['lastname']) || empty($data['email']) || empty($data['password'])) {
-                    http_response_code(400);
-                    echo json_encode(["message" => "Missing parameter."]);
-                    return;
+                    if (empty($data['firstname']) || empty($data['lastname']) || empty($data['email']) || empty($data['password'])) {
+                        http_response_code(400);
+                        echo json_encode(["message" => "Missing parameter."]);
+                        return;
+                    }
+    
+                    DB::query("INSERT INTO users (firstname, lastname, email, password) VALUES (:firstname, :lastname, :email, :password)", [
+                        'firstname' => $data['firstname'],
+                        'lastname' => $data['lastname'],
+                        'email' => $data['email'],
+                        'password' => password_hash($data['password'], PASSWORD_BCRYPT)
+                    ]);
+    
+                    http_response_code(201);
+                    echo json_encode([
+                        "message" => "User created!",
+                        "id" => DB::lastId(),
+                    ]);
+                } else {
+                    http_response_code(405);
+                    header("Allow: GET");
                 }
-
-                DB::query("INSERT INTO users (firstname, lastname, email, password) VALUES (:firstname, :lastname, :email, :password)", [
-                    'firstname' => $data['firstname'],
-                    'lastname' => $data['lastname'],
-                    'email' => $data['email'],
-                    'password' => password_hash($data['password'], PASSWORD_BCRYPT)
-                ]);
-
-                http_response_code(201);
-                echo json_encode([
-                    "message" => "User created!",
-                    "id" => DB::lastId(),
-                ]);
+                
                 break;
 
             default:
@@ -226,5 +252,18 @@ class ApiController
                 http_response_code(400);
             }
         }
+    }
+
+    private function processResourceRequestInvites ($method, $options) 
+    {
+        $invites = DB::query("SELECT u.firstname, u.lastname, u.email, i.event_id, i.arrived FROM invites i INNER JOIN users u ON u.email = i.receiver_email WHERE i.event_id = :id", [ 'id' => $options ]);
+        switch ($method) {
+            case "GET":
+                echo json_encode($invites);
+                break;
+            default:
+                http_response_code(405);
+                header("Allow: GET");
+            }
     }
 }
