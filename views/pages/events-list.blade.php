@@ -79,7 +79,7 @@
                                 <a href="/events/{{ $item['id'] }}" class="btn btn-warning" role="button">
                                     <i icon-name="eye"></i> Details
                                 </a>
-                                <a href="#" class="btn btn-secondary" role="button">
+                                <a href="/events/pdf/{{ $item['id'] }}" class="btn btn-secondary" role="button" target="_blank">
                                     <i icon-name="printer"></i> PDF
                                 </a>
                             </td>
