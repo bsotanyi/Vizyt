@@ -249,7 +249,14 @@
             });
 
             document.getElementById('start-button').addEventListener('click', () => {
-                scanner.start();
+                navigator.permissions.query({name: 'camera'})
+                    .then((obj) => {
+                        if (obj.state === 'granted') {
+                            scanner.start();
+                        } else {
+                            msg('Camera permission is needed');
+                        }
+                    })
             });
 
             document.getElementById('stop-button').addEventListener('click', () => {
