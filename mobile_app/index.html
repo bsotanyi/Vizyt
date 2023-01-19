@@ -171,7 +171,8 @@
 
         logout.onclick = () => {
             localStorage.removeItem('__login');
-            location.reload();
+            home.classList.add('invisible');
+            login.classList.remove('invisible');
         }
 
         loginBtn.onclick = function () {
@@ -190,6 +191,7 @@
                         if (!json || json.id === undefined) {
                             return;
                         }
+                        email.value = password.value = '';
                         login.classList.add("invisible");
                         home.classList.remove("invisible");
                         user = json;
