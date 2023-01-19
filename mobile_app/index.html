@@ -172,7 +172,9 @@
         logout.onclick = () => {
             localStorage.removeItem('__login');
             if (window.Android) {
-                Android.refreshPLS();
+                setTimeout(() => {
+                    Android.refreshPLS();
+                }, 1000);
             } else {
                 location.reload();
             }
