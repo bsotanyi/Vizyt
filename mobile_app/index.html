@@ -49,6 +49,10 @@
             display: none;
         }
 
+        .black * {
+            color: black !important;
+        }
+
         .arrived {
             background-color: #AAFF00;
         }
@@ -231,36 +235,40 @@
             for (const btn of btns) {
                 btn.addEventListener('click', () => {
                     let eventId = btn.id.split('-')[1];
-                    scan.innerHTML = "";
-                    list.innerHTML = "";
-                    viewEvent.innerHTML = "<table id='inviteesTable'>";
-                    events.forEach(element => {
-                        if (element.id == eventId) {
-                            fetch(SITE_URL + '/api/invites?eventId=' + eventId, {
-                                method: 'GET'
-                            })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw new Error("HTTP status " + response.status);
-                                    }
-                                    return response.json();
-                                })
-                                .then(json => {
-                                    json.forEach(element, () => {
-                                        if (element.arrived == 1) {
-                                            inviteesTable.innerHTML += "<tr class='arrived'><td>" + json.firstname + " " + json.lastname + "</td><td>" + json.email + "</td></tr>";
-                                        } else {
-                                            inviteesTable.innerHTML += "<tr><td>" + json.firstname + " " + json.lastname + "</td><td>" + json.email + "</td></tr>";
-                                        }
+                    ((eventId) => {
+                        setInterval(() => {
+                            scan.innerHTML = "";
+                            list.innerHTML = "";
+                            viewEvent.innerHTML = "<table id='inviteesTable'>";
+                            events.forEach(element => {
+                                if (element.id == eventId) {
+                                    fetch(SITE_URL + '/api/invites?eventId=' + eventId, {
+                                        method: 'GET'
                                     })
-                                })
-                        }
-                    })
-                    list.innerHTML += "</table>";
+                                        .then(response => {
+                                            if (!response.ok) {
+                                                throw new Error("HTTP status " + response.status);
+                                            }
+                                            return response.json();
+                                        })
+                                        .then(json => {
+                                            console.log(json);
+                                            for (element of json) {
+                                                if (element.arrived == 1) {
+                                                    inviteesTable.innerHTML += "<tr class='black arrived'><td>" + (element.name || 'Guest') + "</td><td>" + element.receiver_email + "</td></tr>";
+                                                } else {
+                                                    inviteesTable.innerHTML += "<tr class='black'><td>" + (element.name || 'Guest') + "</td><td>" + element.receiver_email + "</td></tr>";
+                                                }
+                                            }
+                                        })
+                                }
+                            })
+                            list.innerHTML += "</table>";
+                        }, 1000);
+                    })(eventId);
                 });
             }
         }
-
 
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

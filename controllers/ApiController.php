@@ -254,7 +254,10 @@ class ApiController
 
     private function processResourceRequestInvites ($method, $options) 
     {
-        $invites = DB::query("SELECT u.firstname, u.lastname, u.email, i.event_id, i.arrived FROM invites i INNER JOIN users u ON u.email = i.receiver_email WHERE i.event_id = :id", [ 'id' => $options ]);
+        $invites = DB::query("SELECT CONCAT(u.firstname, ' ', u.lastname) AS name, i.* FROM invites AS i LEFT JOIN users AS u ON u.email = i.receiver_email WHERE event_id=:event_id", [
+            'event_id' => $_GET['eventId'],
+        ]);
+
         switch ($method) {
             case "GET":
                 echo json_encode($invites);
