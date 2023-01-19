@@ -129,7 +129,6 @@
                         return response.json();
                     })
                     .then(json => {
-                        console.log(json);
                         login.classList.add("invisible");
                         home.classList.remove("invisible");
                         user = json;
@@ -146,7 +145,6 @@
 
             function setResult(label, result) {
                 let token = result.data;
-                console.log(token);
 
                 fetch(SITE_URL + '/api/join?token=' + token + '&id=' + id, {
                     method: 'PATCH'
@@ -158,10 +156,8 @@
                         return response.json();
                     })
                     .then(json => {
-                        console.log(json);
                         scan.innerHTML = "";
                         success.innerHTML = "<center><p>Your arrival has been saved.</p><p>Enjoy your stay!</p></center>";
-                        //untested - api 100% works, not sure about JS
                     })
             }
 
@@ -199,7 +195,6 @@
             scan.innerHTML = "";
             list.innerHTML = "";
             qrScan(user.id);
-            console.log(user);
         });
 
         document.getElementById('listBtn').addEventListener('click', () => {
@@ -220,7 +215,6 @@
                     json.forEach(element => {
                         if (element.user_id == user.id) {
                             events = json;
-                            console.log(events);
                             eventsTable.innerHTML += "<tr><td>" + element.name + "</td><td><button id='event-" + element.id + "' class='event btn btn-primary'>Invitees</button></td></tr>";
                         }
                     });
@@ -231,7 +225,6 @@
 
         function setEventButtons() {
             var btns = document.querySelectorAll(".event");
-            console.log(btns);
             for (const btn of btns) {
                 btn.addEventListener('click', () => {
                     let eventId = btn.id.split('-')[1];
@@ -252,7 +245,6 @@
                                             return response.json();
                                         })
                                         .then(json => {
-                                            console.log(json);
                                             for (element of json) {
                                                 if (element.arrived == 1) {
                                                     inviteesTable.innerHTML += "<tr class='black arrived'><td>" + (element.name || 'Guest') + "</td><td>" + element.receiver_email + "</td></tr>";
