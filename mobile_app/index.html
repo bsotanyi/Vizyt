@@ -59,13 +59,25 @@
 
         #inviteesTable tr:not(.arrived) {
             background-color: red;
-            color: white
+            color: white;
+        }
+        #inviteesTable td {
+            width: 100%;
+            padding: .5rem;
+            font-weight: bold;
+            border: 2px solid #180200;
+        }
+        #main-logo {
+            font-weight: bold;
+            text-align: center;
+            margin: 3rem 0;
         }
     </style>
 </head>
 
 <body>
     <div id="login">
+        <h1 id="main-logo">Vizyt</h1>
         <div class="form-group">
             <label for="email-mobile">Email address</label>
             <input type="email" class="form-control" id="email-mobile" name="emailText" aria-describedby="emailHelp"
@@ -75,13 +87,25 @@
             <label for="password-mobile">Password</label>
             <input type="password" class="form-control" id="password-mobile" name="passwordText" placeholder="Password">
         </div>
-        <button id="login-btn" class="btn btn-primary">Login</button>
+        <div class="form-check">
+            <label><input type="checkbox" class="form-check-input" name="remember-me" id="rememberme"> Remember me</label>
+        </div>
+        <div class="text-center">
+            <button id="login-btn" class="btn btn-primary w-100 mt-4" style="font-size: 22px;">Login</button>
+        </div>
     </div>
 
     <div id="home" class="invisible">
         <h2 id="user-welcome"></h2>
-        <button class="btn btn-primary" id="listBtn">List</button>
-        <button class="btn btn-primary" id="scanBtn">Scan</button>
+        <button class="btn btn-primary" id="listBtn">List my events</button>
+        <button class="btn btn-primary" id="scanBtn">Scan QR</button>
+        <button class="btn btn-secondary" id="logoutBtn">Log out</button>
+    </div>
+
+    <div id="auto-login" class="invisible">
+        <h2>
+            Logging you in automatically...
+        </h2>
     </div>
 
     <div id="list">
@@ -108,7 +132,10 @@
         const password = document.getElementById("password-mobile");
         const SITE_URL = document.location.origin;
         const login = document.getElementById("login");
+        const autologin = document.getElementById("auto-login");
         const scan = document.getElementById("scan");
+        const rememberme = document.getElementById("rememberme");
+        const logout = document.getElementById("logoutBtn");
         const home = document.getElementById("home");
         const success = document.getElementById("success");
         const userWelcome = document.getElementById("user-welcome");
@@ -116,6 +143,27 @@
         const viewEvent = document.getElementById("view-event");
         var user = {};
         var events = {};
+        var last_response = '';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            let __login = JSON.parse(localStorage.getItem('__login'));
+            if (__login) {
+                loginBtn.disabled = true;
+                login.classList.add('invisible');
+                autologin.classList.remove('invisible');
+                setTimeout(() => {
+                    autologin.classList.add('invisible');
+                    home.classList.remove('invisible');
+                    user = __login;
+                    userWelcome.innerText = "Welcome, " + user.firstname + ' ' + user.lastname + '!';
+                }, 1500 + Math.random() * 500);
+            }
+        });
+
+        logout.onclick = () => {
+            localStorage.removeItem('__login');
+            location.reload();
+        }
 
         loginBtn.onclick = function () {
             if (email.value.length != 0 && password.value.length != 0) {
@@ -123,16 +171,23 @@
                     method: 'GET'
                 })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error("HTTP status " + response.status);
+                        if (response.status !== 200) {
+                            alert('Invalid credentials');
+                        } else {
+                            return response.json();
                         }
-                        return response.json();
                     })
                     .then(json => {
+                        if (!json || json.id === undefined) {
+                            return;
+                        }
                         login.classList.add("invisible");
                         home.classList.remove("invisible");
                         user = json;
                         userWelcome.innerText = "Welcome, " + user.firstname + ' ' + user.lastname + '!';
+                        if (rememberme.checked) {
+                            localStorage.setItem('__login', JSON.stringify(user));
+                        }
                     })
             };
         }
@@ -151,7 +206,7 @@
                 })
                     .then(response => {
                         if (!response.ok) {
-                            throw new Error("HTTP status " + response.status);
+                            alert('Invalid QR code - event is not recognized');
                         }
                         return response.json();
                     })
@@ -206,7 +261,7 @@
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("HTTP status " + response.status);
+                        alert('An error occured while listing events');
                     }
                     return response.json();
                 })
@@ -231,8 +286,6 @@
                     ((eventId) => {
                         setInterval(() => {
                             scan.innerHTML = "";
-                            list.innerHTML = "";
-                            viewEvent.innerHTML = "<table id='inviteesTable'>";
                             events.forEach(element => {
                                 if (element.id == eventId) {
                                     fetch(SITE_URL + '/api/invites?eventId=' + eventId, {
@@ -240,16 +293,26 @@
                                     })
                                         .then(response => {
                                             if (!response.ok) {
-                                                throw new Error("HTTP status " + response.status);
+                                                alert('An error occured while refreshing arrivals table');
                                             }
                                             return response.json();
                                         })
                                         .then(json => {
-                                            for (element of json) {
-                                                if (element.arrived == 1) {
-                                                    inviteesTable.innerHTML += "<tr class='black arrived'><td>" + (element.name || 'Guest') + "</td><td>" + element.receiver_email + "</td></tr>";
-                                                } else {
-                                                    inviteesTable.innerHTML += "<tr class='black'><td>" + (element.name || 'Guest') + "</td><td>" + element.receiver_email + "</td></tr>";
+                                            if (last_response !== JSON.stringify(json)) {
+                                                list.innerHTML = "";
+                                                viewEvent.innerHTML = `
+                                                    <p class="mb-0">
+                                                        <span class='live-icon'>🔴</span> Live participant headcount
+                                                    </p>
+                                                    <p><small class='text-muted'>(green = arrived)</small></p>
+                                                    <table id='inviteesTable'>`;
+                                                last_response = JSON.stringify(json);
+                                                for (element of json) {
+                                                    if (element.arrived == 1) {
+                                                        inviteesTable.innerHTML += "<tr class='black arrived'><td>" + (element.name || 'Guest') + "</td><td>" + element.receiver_email + "</td></tr>";
+                                                    } else {
+                                                        inviteesTable.innerHTML += "<tr class='black'><td>" + (element.name || 'Guest') + "</td><td>" + element.receiver_email + "</td></tr>";
+                                                    }
                                                 }
                                             }
                                         })
@@ -274,8 +337,20 @@
         crossorigin="anonymous"></script>
 
     <style>
+        .live-icon {
+            transform: scale(.8);
+            animation: tunes 1s ease-in-out infinite alternate;
+        }
+        @keyframes tunes {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
         div {
             margin-bottom: 16px;
+        }
+
+        button.event {
+            margin-left: .5rem;
         }
 
         #video-container {
