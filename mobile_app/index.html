@@ -200,7 +200,7 @@
                         login.classList.add("invisible");
                         home.classList.remove("invisible");
                         user = json;
-                        userWelcome.innerText = "Welcome, " + user.firstname + ' ' + user.lastname + '!';
+                        userWelcome.innerText = user.firstname + ' ' + user.lastname + '!';
                         if (rememberme.checked) {
                             localStorage.setItem('__login', JSON.stringify(user));
                         }
