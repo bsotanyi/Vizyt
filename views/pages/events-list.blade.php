@@ -77,7 +77,8 @@
                             <td>{{ count(json_decode($item['invites'] ?? '[]', true)) }}</td>
                             <td class="nowrap">
                                 <a href="/events/{{ $item['id'] }}" class="btn btn-warning" role="button">
-                                    <i icon-name="eye"></i> Details
+                                    <i icon-name="eye"></i>
+                                    Details
                                 </a>
                                 <a href="/events/pdf/{{ $item['id'] }}" class="btn btn-secondary" role="button" target="_blank">
                                     <i icon-name="printer"></i> PDF
